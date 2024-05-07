@@ -25,6 +25,10 @@ function App() {
             />
             <Route path="recuperarPassword" element={<RecuperarPassword />} />
             <Route path="cambiarPassword" element={<CambiarPassword />} />
+            <Route
+              path="cambiarPassword/:user_id/:resetString"
+              element={<CambiarPassword />}
+            />
           </Route>
 
           <Route

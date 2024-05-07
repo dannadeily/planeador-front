@@ -26,8 +26,7 @@ const RecuperarPassword = () => {
     try {
       const res = await conexionAxios.post("auth/requestPasswordReset", {
         correo_institucional,
-        "redirectURL": "http://localhost:3000/cambiarPassword"
-
+        redirectURL: `http://localhost:5173/cambiarPassword`,
       });
 
       if (res.status === 200) {

@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import AlertaError from "../components/AlertaError";
 import AlertaExitoso from "../components/AlertaExitoso";
 import conexionAxios from "../axios/Axios";
-import { Link } from "react-router-dom";
+import { Link,useParams } from "react-router-dom";
 
 function CambiarPassword() {
-    const [newPassword, setNewPassword] = useState("");
-    const [repeatPassword, setRepeatPassword] = useState("");
+  const { user_id, resetString } = useParams();
+  const [newPassword, setNewPassword] = useState("");
+  const [repeatPassword, setRepeatPassword] = useState("");
   const [alertaError, setAlertaError] = useState({ error: false, message: "" });
   const [alertaExitoso, setAlertaExitoso] = useState({
     error: false,
@@ -16,7 +17,7 @@ function CambiarPassword() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (newPasswordassword.trim() === "" || repeatPassword.trim() === "" ){
+    if (newPassword.trim() === "" || repeatPassword.trim() === "") {
       setAlertaError({
         error: true,
         message: "Todos los campos son obligatorios",
@@ -24,18 +25,23 @@ function CambiarPassword() {
       setTimeout(() => setAlertaError({ error: false, message: "" }), 7000); // limpiar la alerta después de 5 segundos
     }
     if (newPassword !== repeatPassword) {
-        setAlertaError({
-            error: true,
-            message: "Las contraseñas no coinciden",
-          });
-          setTimeout(() => setAlertaError({ error: false, message: "" }), 7000); // limpiar la alerta después de 5 segundos
-        return;
-      }
+      setAlertaError({
+        error: true,
+        message: "Las contraseñas no coinciden",
+      });
+      setTimeout(() => setAlertaError({ error: false, message: "" }), 7000); // limpiar la alerta después de 5 segundos
+      return;
+    }
 
     try {
-      const res = await conexionAxios.post("auth/requestPasswordReset?password=", {
-        newPassword,
-      });
+      const res = await conexionAxios.post(
+        "auth/resetPassword",
+        {
+          user_id,
+          resetString,
+          newPassword,
+        }
+      );
 
       if (res.status === 200) {
         setAlertaExitoso({ error: true, message: res.data.message });
@@ -77,7 +83,7 @@ function CambiarPassword() {
                 name="password"
                 type="password"
               >
-                Nueva Contraseña 
+                Nueva Contraseña
               </label>
 
               <input
