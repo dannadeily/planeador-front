@@ -51,13 +51,13 @@ const IniciarSesion = ({ handleLogin }) => {
       }
     } catch (error) {
       // Manejar el error de la solicitud
-      console.log("error", error);
+      console.log( error);
       if (
         error.response &&
         error.response.data &&
-        error.response.data.message
+        error.response.data.error 
       ) {
-        setAlertaError({ error: true, message: error.response.data.message });
+        setAlertaError({ error: true, message: error.response.data.error});
       }
       setTimeout(() => setAlertaError({ error: false, message: "" }), 10000);
     }

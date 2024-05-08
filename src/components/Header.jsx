@@ -12,7 +12,7 @@ const Header = () => {
          
         </nav>
       </header>
-      <main className="z-50 mt-24">
+      <main className="z-50 mt-10">
         <Outlet />
       </main>
     </div>
