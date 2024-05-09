@@ -6,6 +6,7 @@ import IniciarSesion from "./pages/IniciarSesion";
 import RecuperarPassword from "./pages/RecuperarPassword";
 import RutaPrivadaDirector from "./layout/RutaPrivadaDirector";
 import CambiarPassword from "./pages/CambiarPassword";
+import ModificarPerfil from "./pages/ModificarPerfil";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -34,7 +35,9 @@ function App() {
           <Route
             path="/director"
             element={<RutaPrivadaDirector isAuthenticated={isAuthenticated} />}
-          ></Route>
+          >
+            <Route path="modificarperfil" element={<ModificarPerfil />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </>

@@ -39,8 +39,9 @@ const IniciarSesion = ({ handleLogin }) => {
       });
 
       if (res.status === 200) {
-        const token = res.data.token; // Obtener el token de la respuesta del servidor
-        localStorage.setItem("token", res.data.token); // Guardar el token en el almacenamiento local
+        console.log(res);
+        const token = res.data.accessToken; // Obtener el token de la respuesta del servidor
+        localStorage.setItem("token", res.data.accessToken); // Guardar el token en el almacenamiento local
 
         handleLogin(token);
         if (res.data.role === "Director") {
@@ -51,13 +52,9 @@ const IniciarSesion = ({ handleLogin }) => {
       }
     } catch (error) {
       // Manejar el error de la solicitud
-      console.log( error);
-      if (
-        error.response &&
-        error.response.data &&
-        error.response.data.error 
-      ) {
-        setAlertaError({ error: true, message: error.response.data.error});
+      console.log(error);
+      if (error.response && error.response.data && error.response.data.error) {
+        setAlertaError({ error: true, message: error.response.data.error });
       }
       setTimeout(() => setAlertaError({ error: false, message: "" }), 10000);
     }
