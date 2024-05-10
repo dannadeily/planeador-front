@@ -105,20 +105,22 @@ function HeaderDirector() {
                 </a>
               </div>
             </button>
-          </div>
+          </div >
           <div className="m-4 border-b border-gray-200 p-4">
-            <button className="flex w-52 text-white ">
-              <div className="flex items-center">
-                <FaUserFriends />
-                <a
-                  className={`${
-                    !sidebarOpen && "hidden"
-                  } origin-left duration-200 ml-2`}
-                >
-                  Docente
-                </a>
-              </div>
-            </button>
+            <Link to="listadocente">
+              <button className="flex w-52 text-white ">
+                <div className="flex items-center">
+                  <FaUserFriends />
+                  <a
+                    className={`${
+                      !sidebarOpen && "hidden"
+                    } origin-left duration-200 ml-2`}
+                  >
+                    Docente
+                  </a>
+                </div>
+              </button>
+            </Link>
           </div>
           <div className="m-4 border-b border-gray-200 p-4">
             <button className="flex w-52 text-white ">
@@ -251,7 +253,11 @@ function HeaderDirector() {
 
         {/* Main */}
         <main
-          className={`flex-grow bg-gray-100 ${sidebarOpen ? "ml-64 md:ml-64 lg:ml-auto" : "ml-20 md:ml-20 lg:ml-auto "}`}
+          className={`flex-grow bg-gray-100 ${
+            sidebarOpen
+              ? "ml-64 md:ml-64 lg:ml-auto"
+              : "ml-20 md:ml-20 lg:ml-auto "
+          }`}
         >
           <div className="container lg:mx-20 md:mx-10  mt-10 z-40">
             <Outlet />

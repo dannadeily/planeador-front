@@ -1,12 +1,19 @@
 import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
+//Prinipales
 import Header from "./components/Header";
 import IniciarSesion from "./pages/IniciarSesion";
 import RecuperarPassword from "./pages/RecuperarPassword";
 import RutaPrivadaDirector from "./layout/RutaPrivadaDirector";
 import CambiarPassword from "./pages/CambiarPassword";
+//Rutas Director
 import ModificarPerfil from "./pages/ModificarPerfil";
+import ListaDocente from "./pages/director/ListaDocente";
+import AgregarDocente from "./pages/director/AgregarDocente"
+import AgregarDocentes from "./pages/director/AgregarDocentes"
+import VisualizarDatosDocente from "./pages/director/VisualizarDatosDocente"
+import ModificarDocente from "./pages/director/ModificarDocente"
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -37,6 +44,12 @@ function App() {
             element={<RutaPrivadaDirector isAuthenticated={isAuthenticated} />}
           >
             <Route path="modificarperfil" element={<ModificarPerfil />} />
+            <Route path="listadocente" element={<ListaDocente />} />
+            <Route path="listadocente/agregardocente" element={<AgregarDocente />} />
+            <Route path="agregardocentes" element={<AgregarDocentes />} />
+            <Route path="visualizardocente" element={<VisualizarDatosDocente/>} />
+            <Route path="modificardocente" element={<ModificarDocente />} />
+
           </Route>
         </Routes>
       </BrowserRouter>
