@@ -47,8 +47,8 @@ function App() {
             <Route path="listadocente" element={<ListaDocente />} />
             <Route path="listadocente/agregardocente" element={<AgregarDocente />} />
             <Route path="agregardocentes" element={<AgregarDocentes />} />
-            <Route path="visualizardocente" element={<VisualizarDatosDocente/>} />
-            <Route path="modificardocente" element={<ModificarDocente />} />
+            <Route path="listadocente/visualizardocente/:id" element={<VisualizarDatosDocente/>} />
+            <Route path="listadocente/modificardocente/:id" element={<ModificarDocente />} />
 
           </Route>
         </Routes>

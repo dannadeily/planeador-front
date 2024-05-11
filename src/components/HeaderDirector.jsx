@@ -96,13 +96,13 @@ function HeaderDirector() {
               <div className="flex items-center">
                 <TbNumber123 />
 
-                <a
+                <span
                   className={`${
                     !sidebarOpen && "hidden"
                   } origin-left duration-200 ml-2`}
                 >
                   Semestre
-                </a>
+                </span>
               </div>
             </button>
           </div >
@@ -111,13 +111,13 @@ function HeaderDirector() {
               <button className="flex w-52 text-white ">
                 <div className="flex items-center">
                   <FaUserFriends />
-                  <a
+                  <span
                     className={`${
                       !sidebarOpen && "hidden"
                     } origin-left duration-200 ml-2`}
                   >
                     Docente
-                  </a>
+                  </span>
                 </div>
               </button>
             </Link>
@@ -127,13 +127,13 @@ function HeaderDirector() {
               <div className="flex items-center">
                 <FaListAlt />
 
-                <a
+                <span
                   className={`${
                     !sidebarOpen && "hidden"
                   } origin-left duration-200 ml-2`}
                 >
                   Materias
-                </a>
+                </span>
               </div>
             </button>
           </div>
@@ -141,13 +141,13 @@ function HeaderDirector() {
             <button className="flex w-52 text-white ">
               <div className="flex items-center">
                 <FaFlag />
-                <a
+                <span
                   className={`${
                     !sidebarOpen && "hidden"
                   } origin-left duration-200 ml-2`}
                 >
                   Competencias
-                </a>
+                </span>
               </div>
             </button>
           </div>
@@ -155,13 +155,13 @@ function HeaderDirector() {
             <button className="flex w-52 text-white ">
               <div className="flex items-center">
                 <BiCircleThreeQuarter />
-                <a
+                <span
                   className={`${
                     !sidebarOpen && "hidden"
                   } origin-left duration-200 ml-2`}
                 >
                   Categorias
-                </a>
+                </span>
               </div>
             </button>
           </div>
@@ -169,13 +169,13 @@ function HeaderDirector() {
             <button className="flex w-52 text-white ">
               <div className="flex items-center">
                 <FaSearch />
-                <a
+                <span
                   className={`${
                     !sidebarOpen && "hidden"
                   } origin-left duration-200 ml-2`}
                 >
                   Resultados Aprendizaje
-                </a>
+                </span>
               </div>
             </button>
           </div>
@@ -183,13 +183,13 @@ function HeaderDirector() {
             <button className="flex w-52 text-white ">
               <div className="flex items-center">
                 <FaListUl />
-                <a
+                <span
                   className={`${
                     !sidebarOpen && "hidden"
                   } origin-left duration-200 ml-2`}
                 >
                   Listado RA Curso
-                </a>
+                </span>
               </div>
             </button>
           </div>
@@ -197,13 +197,13 @@ function HeaderDirector() {
             <button className="flex w-52 text-white ">
               <div className="flex items-center">
                 <IoStatsChartSharp />
-                <a
+                <span
                   className={`${
                     !sidebarOpen && "hidden"
                   } origin-left duration-200 ml-2`}
                 >
                   Instrumentos Evaluacion
-                </a>
+                </span>
               </div>
             </button>
           </div>
@@ -211,13 +211,13 @@ function HeaderDirector() {
             <button className="flex w-52 text-white ">
               <div className="flex items-center">
                 <FaFileAlt />
-                <a
+                <span
                   className={`${
                     !sidebarOpen && "hidden"
                   } origin-left duration-200 ml-2`}
                 >
                   Unidades Tematicas
-                </a>
+                </span>
               </div>
             </button>
           </div>
@@ -225,13 +225,13 @@ function HeaderDirector() {
             <button className="flex w-52 text-white ">
               <div className="flex items-center">
                 <FaBookmark />
-                <a
+                <span
                   className={`${
                     !sidebarOpen && "hidden"
                   } origin-left duration-200 ml-2`}
                 >
                   Subsistemas
-                </a>
+                </span>
               </div>
             </button>
           </div>
@@ -239,13 +239,13 @@ function HeaderDirector() {
             <button className="flex w-52 text-white ">
               <div className="flex items-center">
                 <FaIdCardAlt />
-                <a
+                <span
                   className={`${
                     !sidebarOpen && "hidden"
                   } origin-left duration-200 ml-2`}
                 >
                   Planeadores Docente
-                </a>
+                </span>
               </div>
             </button>
           </div>

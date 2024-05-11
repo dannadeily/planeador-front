@@ -6,13 +6,14 @@ import conexionAxios from "../../axios/Axios";
 import AgregarDocentes from "./AgregarDocentes";
 
 const AgregarDocente = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [emailInstitucional, setEmailInstitucional] = useState("");
-  const [tipoVinculacion, setTipoVinculacion] = useState("");
+  const [nombre, setNombre] = useState("");
+  const [correo_personal, setCorreo_personal] = useState("");
+  const [correo_institucional, setCorreo_institucional] = useState("");
+  const [area_formacion, setArea_formacion] = useState("");
+  const [tipo_vinculacion, setTipo_vinculacion] = useState("");
   const [departamento,setDepartamento] = useState("")
   const [celular,setCelular] =useState("")
-  const [code, setCode] = useState("");
+  const [codigo, setCodigo] = useState("");
   const [alertaError, setAlertaError] = useState({ error: false, message: "" });
   const [alertaExitoso, setAlertaExitoso] = useState({
     error: false,
@@ -23,10 +24,11 @@ const AgregarDocente = () => {
     e.preventDefault();
 
     if (
-      name.trim() === "" ||
-      email.trim() === "" ||
-      emailInstitucional.trim() === "" ||
-      tipoVinculacion.trim() === ""
+      nombre.trim() === "" ||
+      correo_personal.trim() === "" ||
+      correo_institucional.trim() === "" ||
+      area_formacion.trim() === "" ||
+      tipo_vinculacion.trim() === "" || codigo.trim() === ""
     ) {
       setAlertaError({
         error: true,
@@ -35,44 +37,45 @@ const AgregarDocente = () => {
       setTimeout(() => setAlertaError({ error: false, message: "" }), 7000); // limpiar la alerta después de 5 segundos
     }
 
-    // Verificar que la contraseña tenga al menos 8 caracteres
-    else if (password.length < 8) {
-      setAlertaError({
-        error: true,
-        message: "La contraseña debe tener al menos 8 caracteres",
-      });
-      setTimeout(() => setAlertaError({ error: false, message: "" }), 7000); // limpiar la alerta después de 5 segundos
-    }
-
     try {
-      const res = await conexionAxios.post("/user/registerTeacher", {
-        name,
-        email,
-        emailInstitucional,
-        tipoVinculacion,
-        code,
+      const res = await conexionAxios.post("user/createTeacher", {
+        nombre,
+        correo_personal,  
+        correo_institucional,
+        area_formacion,
+        tipo_vinculacion,
+        departamento,
+        celular,
+        codigo,
+
       });
 
-      if (res.status === 201) {
+      console.log(res);
+
+      if (res.status === 200) {
         setAlertaExitoso({ error: true, message: res.data.message });
         setTimeout(
           () => setAlertaExitoso({ error: false, message: "" }),
           10000
         );
         // Reiniciar los valores de los campos
-        setCode("");
-        setName("");
-
-        setEmail("");
+        setNombre("");
+        setCorreo_personal("");
+        setCorreo_institucional("");
+        setArea_formacion("");
+        setTipo_vinculacion("");
+        setDepartamento("");
+        setCelular("");
+        setCodigo("");
       }
     } catch (error) {
       // Manejar el error de la solicitud
       if (
         error.response &&
         error.response.data &&
-        error.response.data.message
+        error.response.data.error
       ) {
-        setAlertaError({ error: true, message: error.response.data.message });
+        setAlertaError({ error: true, message: error.response.data.error });
       }
       setTimeout(() => setAlertaError({ error: false, message: "" }), 10000);
     }
@@ -111,47 +114,66 @@ const AgregarDocente = () => {
               type="text"
               placeholder="nombre"
               className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={nombre}
+              onChange={(e) => setNombre(e.target.value)}
             />
           </div>
 
           <div className="my-5">
             <label
               className="uppercase text-gray-600 block  font-bold"
-              htmlFor="email"
-              name="email"
+              htmlFor="Correo_Personal"
+              name="Correo_Personal"
               type="email"
             >
-              Email
+              Correo Personal
             </label>
 
             <input
-              id="email"
+              id="Correo_Personal"
               type="email"
-              placeholder="Email"
+              placeholder="Correo Personal"
               className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={correo_personal}
+              onChange={(e) => setCorreo_personal(e.target.value)}
             />
           </div>
           <div className="my-5">
             <label
               className="uppercase text-gray-600 block  font-bold"
-              htmlFor="email"
-              name="email"
+              htmlFor="correoInstitucional"
+              name="correoInstitucional"
               type="email"
             >
               Email Institucional
             </label>
 
             <input
-              id="emailInstitucional"
+              id="correoInstitucional"
               type="email"
-              placeholder="email Institucional"
+              placeholder="Correo Institucional"
               className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
-              value={emailInstitucional}
-              onChange={(e) => setEmailInstitucional(e.target.value)}
+              value={correo_institucional}
+              onChange={(e) => setCorreo_institucional(e.target.value)}
+            />
+          </div>
+          <div className="my-5">
+            <label
+              className="uppercase text-gray-600 block  font-bold"
+              htmlFor="areaFormacion"
+              name="areaFormacion"
+              type="text"
+            >
+              Area Formacion
+            </label>
+
+            <input
+              id="areaFormacion"
+              type="text"
+              placeholder="tipo Vinculacion"
+              className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
+              value={area_formacion}
+              onChange={(e) => setArea_formacion(e.target.value)}
             />
           </div>
           <div className="my-5">
@@ -169,8 +191,8 @@ const AgregarDocente = () => {
               type="text"
               placeholder="tipo Vinculacion"
               className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
-              value={tipoVinculacion}
-              onChange={(e) => setTipoVinculacion(e.target.value)}
+              value={tipo_vinculacion}
+              onChange={(e) => setTipo_vinculacion(e.target.value)}
             />
           </div>
           <div className="my-5">
@@ -233,8 +255,8 @@ const AgregarDocente = () => {
                   type="number"
                   placeholder="codigo"
                   className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
-                  value={code}
-                  onChange={(e) => setCode(e.target.value)}
+                  value={codigo}
+                  onChange={(e) => setCodigo(e.target.value)}
                 />
               </div>
             </div>
