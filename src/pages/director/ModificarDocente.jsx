@@ -4,7 +4,6 @@ import conexionAxios from "../../axios/Axios";
 import AlertaError from "../../components/AlertaError";
 import AlertaExitoso from "../../components/AlertaExitoso";
 
-
 const ModificarDocente = () => {
   const [docente, setDocente] = useState({});
   const [editing, setEditing] = useState(true); // Establecer como true para que se cargue en modo de edición
@@ -220,29 +219,32 @@ const ModificarDocente = () => {
           )}
         </div>
       </div>
-      <div>
+      <div className="flex justify-center mb-5"> {/* Contenedor para centrar el botón de editar */}
         {editing ? (
           <button
             onClick={handleSubmit}
-            className="mb-5 w-full py-2 text-blue-600 text-center hover:cursor-pointer hover:text-blue-900 transition-colors block"
+            className="py-2 px-6 bg-blue-700 hover:bg-blue-900 text-white font-bold  border border-black rounded-md hover:cursor-pointer transition-colors"
           >
             Guardar cambios
           </button>
         ) : (
           <button
             onClick={() => setEditing(true)}
-            className="mb-5 w-full py-2 text-blue-600 text-center hover:cursor-pointer hover:text-blue-900 transition-colors block"
+            className="py-2 px-6 bg-blue-700 hover:bg-blue-900 text-white font-bold  border border-black rounded-md hover:cursor-pointer transition-colors"
           >
             Editar
           </button>
         )}
+      </div>
+      <div className="flex justify-center"> {/* Contenedor para centrar el botón de volver */}
         <Link
           to="/director/listadocente"
-          className="w-full py-2 text-blue-600 text-center hover:cursor-pointer hover:text-blue-900 transition-colors block"
+          className="mb-5 w-full py-2 text-blue-700 text-center hover:cursor-pointer hover:text-blue-900 transition-colors block"
         >
           Volver
         </Link>
       </div>
+      
     </>
   );
 };

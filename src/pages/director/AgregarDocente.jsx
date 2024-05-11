@@ -265,7 +265,7 @@ const AgregarDocente = () => {
           <input
             type="submit"
             value="registrar"
-            className="bg-red-500 mb-5 w-full py-2 text-white uppercase font-bold rounded hover:cursor-pointer hover:bg-sky-800 transition-colors"
+            className="bg-blue-700 mb-5 w-full py-2 text-white uppercase font-bold rounded hover:cursor-pointer hover:bg-sky-800 transition-colors"
           />
         </form>
         <div className="border-t border-gray-600 p-2">

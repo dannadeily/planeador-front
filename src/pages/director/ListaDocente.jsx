@@ -44,7 +44,7 @@ const ListaDocente = () => {
       <div className="lg:w-3/5 md:h-screen mx-auto">
         <div>
           <Link to="agregardocente">
-            <button className="border border-black rounded p-2 text-white bg-blue-700">
+            <button className="border border-black rounded p-2 text-white bg-blue-700 hover:bg-blue-900">
               Agregar Docente
             </button>
           </Link>
