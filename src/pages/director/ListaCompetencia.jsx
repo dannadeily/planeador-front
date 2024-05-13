@@ -58,14 +58,14 @@ const ListaCompetencia = () => {
                     <thead className="text-xs uppercase bg-blue-700">
                       <tr>
                         <th scope="col" className="px-6 py-3">
-                          Id
+                          Codigo
                         </th>
                         <th scope="col" className="px-6 py-3">
                           Nombre
                         </th>
                        
                         <th scope="col" className="px-6 py-3">
-                          Categorías
+                          Estado
                         </th>
                         <th scope="col" className="px-6 py-3">
                           Editar
@@ -77,22 +77,22 @@ const ListaCompetencia = () => {
                         <tr key={competenciaItem.id}>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="text-sm text-gray-900">
-                              {competenciaItem.id}
-                            </div>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="text-sm text-gray-900">
                               {competenciaItem.codigo}
                             </div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="text-sm text-gray-900">
-                              {competenciaItem.categoria}
+                              {competenciaItem.nombre}
+                            </div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="text-sm text-gray-900">
+                            {competenciaItem.estado ? "Activo" : "Inactivo"}
                             </div>
                           </td>
 
                           <td className="px-6 py-4 whitespace-nowrap">
-                            <Link to={`modificarcompetencia/${competenciaItem.codigo}`}>
+                            <Link to={`modificarcompetencia/${competenciaItem.id}`}>
                               <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                                 <FaEdit />
                               </button>

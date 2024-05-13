@@ -4,8 +4,8 @@ import conexionAxios from "../../axios/Axios";
 import AlertaError from "../../components/AlertaError";
 import AlertaExitoso from "../../components/AlertaExitoso";
 
-const ModificarDocente = () => {
-  const [docente, setDocente] = useState({});
+const PerfilDocente = () => {
+    const [docente, setDocente] = useState({});
   const [editing, setEditing] = useState(false); // Establecer como true para que se cargue en modo de edición
   const [alertaError, setAlertaError] = useState({ error: false, message: "" });
   const [alertaExitoso, setAlertaExitoso] = useState({
@@ -17,7 +17,7 @@ const ModificarDocente = () => {
   useEffect(() => {
     const getDocente = async () => {
       try {
-        const response = await conexionAxios.get("user/teacher/" + id);
+        const response = await conexionAxios.get("user/teacher/" + localStorage.getItem("id") );
         setDocente(response.data);
       } catch (error) {
         console.error(error);
@@ -37,7 +37,7 @@ const ModificarDocente = () => {
   const handleSubmit = async () => {
     try {
       const res = await conexionAxios.put(
-        "/user/teacher/update/" + id,
+        "user/teacher/update",
         docente
       );
       console.log(res);
@@ -248,6 +248,6 @@ const ModificarDocente = () => {
       </div>
     </>
   );
-};
+}
 
-export default ModificarDocente;
+export default PerfilDocente

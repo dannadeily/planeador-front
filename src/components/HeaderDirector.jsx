@@ -1,5 +1,4 @@
 import React, { useState, useCallback, useEffect } from "react";
-import conexionAxios from "../axios/Axios";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import {
     FaUser,

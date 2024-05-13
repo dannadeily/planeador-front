@@ -39,6 +39,10 @@ import ListaSubtema from "./pages/director/ListaSubtema";
 import CrearSubtema from "./pages/director/CrearSubtema";
 import ModificarSubtema from "./pages/director/ModificarSubtema";
 
+//Rutas Docente
+import HeaderDocente from "./components/HeaderDocente";
+import PerfilDocente from "./pages/Docente/PerfilDocente";
+
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -178,10 +182,7 @@ function App() {
                             path="listaunidadestematicas/modificarunidadestematicas/:id"
                             element={<ModificarUnidadesTematicas />}
                         />
-                        <Route
-                            path="listasubtema"
-                            element={<ListaSubtema />}
-                        />
+                        <Route path="listasubtema" element={<ListaSubtema />} />
                         <Route
                             path="listasubtema/crearsubtema"
                             element={<CrearSubtema />}
@@ -189,6 +190,12 @@ function App() {
                         <Route
                             path="listasubtema/modificarsubtema/:id"
                             element={<ModificarSubtema />}
+                        />
+                    </Route>
+                    <Route path="/docente" element={<HeaderDocente />}>
+                        <Route
+                            path="perfildocente"
+                            element={<PerfilDocente />}
                         />
                     </Route>
                 </Routes>
