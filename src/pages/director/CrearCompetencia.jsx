@@ -1,17 +1,36 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState,useEffect } from "react";
 import AlertaError from "../../components/AlertaError";
 import AlertaExitoso from "../../components/AlertaExitoso";
 import conexionAxios from "../../axios/Axios";
-import CrearMaterias from "./CrearMaterias";
+
 const CrearCompetencia = () => {
   const [nombre, setNombre] = useState("");
   const [descripcion, setDescripcion] = useState("");
+  const [categorias, setCategorias] = useState([]);
+  const [categoriaId, setCategoriaId] = useState("");
   const [alertaError, setAlertaError] = useState({ error: false, message: "" });
   const [alertaExitoso, setAlertaExitoso] = useState({
     error: false,
     message: "",
   });
+  useEffect(() => {
+    const fetchData = async () => {
+        try {
+            const response = await conexionAxios.get("categoria/");
+            setCategorias(response.data);
+            setCategoriaId(response.data[0].id);
+            console.log(response.data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    fetchData();
+}, []);
+
+const handleChange = (categoriaId) => {
+    setCategoriaId(categoriaId);
+};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -105,6 +124,37 @@ const CrearCompetencia = () => {
               onChange={(e) => setDescripcion(e.target.value)}
             />
           </div>
+          <div className="my-5">
+                        <label
+                            className="uppercase text-gray-600 block font-bold"
+                            htmlFor="categoriaId"
+                        >
+                            Categoria
+                        </label>
+
+                        <div className="relative">
+                            <select
+                                className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                onChange={(e) => handleChange(e.target.value)}
+                                value={categoriaId}
+                            >
+                                {categorias.map((categoria) => (
+                                    <option key={categoria.id} value={categoria.id}>
+                                        {categoria.nombre}
+                                    </option>
+                                ))}
+                            </select>
+                            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                <svg
+                                    className="fill-current h-4 w-4"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20"
+                                >
+                                    <path fillRule="evenodd" d="M6 8l4 4 4-4H6z" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
 
           
 

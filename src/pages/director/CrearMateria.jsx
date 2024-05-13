@@ -141,14 +141,15 @@ const CrearMateria = () => {
                   Tipo
                 </label>
 
-                <input
-                  id="tipo"
-                  type="number"
-                  placeholder="Tipo"
-                  className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
-                  value={tipo}
-                  onChange={(e) => setTipo(e.target.value)}
-                />
+                <select
+                name="estado"
+                value={tipo}
+                onChange={(e) => setTipo(e.target.value)}
+                className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
+              >
+                <option value={true}>Obligatoria</option>
+                <option value={false}>Electiva</option>
+              </select>
               </div>
             </div>
           </div>
