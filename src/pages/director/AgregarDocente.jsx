@@ -11,8 +11,8 @@ const AgregarDocente = () => {
   const [correo_institucional, setCorreo_institucional] = useState("");
   const [area_formacion, setArea_formacion] = useState("");
   const [tipo_vinculacion, setTipo_vinculacion] = useState("");
-  const [departamento,setDepartamento] = useState("")
-  const [celular,setCelular] =useState("")
+  const [departamento, setDepartamento] = useState("");
+  const [celular, setCelular] = useState("");
   const [codigo, setCodigo] = useState("");
   const [alertaError, setAlertaError] = useState({ error: false, message: "" });
   const [alertaExitoso, setAlertaExitoso] = useState({
@@ -28,7 +28,8 @@ const AgregarDocente = () => {
       correo_personal.trim() === "" ||
       correo_institucional.trim() === "" ||
       area_formacion.trim() === "" ||
-      tipo_vinculacion.trim() === "" || codigo.trim() === ""
+      tipo_vinculacion.trim() === "" ||
+      codigo.trim() === ""
     ) {
       setAlertaError({
         error: true,
@@ -36,18 +37,17 @@ const AgregarDocente = () => {
       });
       setTimeout(() => setAlertaError({ error: false, message: "" }), 7000); // limpiar la alerta después de 5 segundos
     }
-
+     const tipoVinculacion = tipo_vinculacion.toUpperCase();
     try {
       const res = await conexionAxios.post("user/createTeacher", {
         nombre,
-        correo_personal,  
+        correo_personal,
         correo_institucional,
         area_formacion,
-        tipo_vinculacion,
+        tipo_vinculacion: tipoVinculacion,
         departamento,
         celular,
         codigo,
-
       });
 
       console.log(res);
@@ -70,11 +70,7 @@ const AgregarDocente = () => {
       }
     } catch (error) {
       // Manejar el error de la solicitud
-      if (
-        error.response &&
-        error.response.data &&
-        error.response.data.error
-      ) {
+      if (error.response && error.response.data && error.response.data.error) {
         setAlertaError({ error: true, message: error.response.data.error });
       }
       setTimeout(() => setAlertaError({ error: false, message: "" }), 10000);
@@ -83,9 +79,7 @@ const AgregarDocente = () => {
 
   return (
     <div>
-      <div className=" px-10 py-5 ">
-        
-      </div>
+      <div className=" px-10 py-5 "></div>
       <div className=" xl:mx-96 lg:mx-60 md:mx-40 sm:mx-20  bg-white shadow rounded-lg p-10">
         <form onSubmit={handleSubmit}>
           <h1 className=" font-bold text-2xl text-center text-gray-900 dark:text-red-600 ">
@@ -190,7 +184,7 @@ const AgregarDocente = () => {
               id="tipoVinculacion"
               type="text"
               placeholder="tipo Vinculacion"
-              className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
+              className="w-full mt-3 p-3 border rounded-xl bg-gray-50 uppercase"
               value={tipo_vinculacion}
               onChange={(e) => setTipo_vinculacion(e.target.value)}
             />
@@ -217,7 +211,7 @@ const AgregarDocente = () => {
           <div className="flex">
             {/* Primera columna */}
             <div className="w-1/2">
-              <div className="my-5">
+              <div className="my-5  mx-2">
                 <label
                   className="uppercase text-gray-600 block font-bold"
                   htmlFor="celular"
@@ -240,7 +234,7 @@ const AgregarDocente = () => {
 
             {/* Segunda columna */}
             <div className="w-1/2">
-              <div className="my-5">
+              <div className="my-5  mx-2">
                 <label
                   className="uppercase text-gray-600 block font-bold"
                   htmlFor="codigo"

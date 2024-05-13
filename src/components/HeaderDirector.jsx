@@ -123,6 +123,7 @@ function HeaderDirector() {
             </Link>
           </div>
           <div className="m-4 border-b border-gray-200 p-4">
+            <Link to="listamateria">
             <button className="flex w-52 text-white ">
               <div className="flex items-center">
                 <FaListAlt />
@@ -136,8 +137,10 @@ function HeaderDirector() {
                 </span>
               </div>
             </button>
+            </Link>
           </div>
           <div className="m-4 border-b border-gray-200 p-4">
+            <Link to="listacompetencia">
             <button className="flex w-52 text-white ">
               <div className="flex items-center">
                 <FaFlag />
@@ -150,8 +153,10 @@ function HeaderDirector() {
                 </span>
               </div>
             </button>
+            </Link>
           </div>
           <div className="m-4 border-b border-gray-200 p-4">
+            <Link to="listacategoria">
             <button className="flex w-52 text-white ">
               <div className="flex items-center">
                 <BiCircleThreeQuarter />
@@ -164,6 +169,7 @@ function HeaderDirector() {
                 </span>
               </div>
             </button>
+            </Link>
           </div>
           <div className="m-4 border-b border-gray-200 p-4">
             <button className="flex w-52 text-white ">

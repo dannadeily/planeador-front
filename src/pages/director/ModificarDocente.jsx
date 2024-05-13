@@ -219,7 +219,9 @@ const ModificarDocente = () => {
           )}
         </div>
       </div>
-      <div className="flex justify-center mb-5"> {/* Contenedor para centrar el botón de editar */}
+      <div className="flex justify-center mb-5">
+        {" "}
+        {/* Contenedor para centrar el botón de editar */}
         {editing ? (
           <button
             onClick={handleSubmit}
@@ -236,15 +238,14 @@ const ModificarDocente = () => {
           </button>
         )}
       </div>
-      <div className="flex justify-center"> {/* Contenedor para centrar el botón de volver */}
+      <div className="flex justify-center mb-5">
         <Link
           to="/director/listadocente"
-          className="mb-5 w-full py-2 text-blue-700 text-center hover:cursor-pointer hover:text-blue-900 transition-colors block"
+          className="mb-5 w- py-2 text-blue-600 text-center hover:cursor-pointer hover:text-blue-900 transition-colors block "
         >
           Volver
         </Link>
       </div>
-      
     </>
   );
 };

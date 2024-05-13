@@ -94,10 +94,10 @@ const VisualizarDatosDocente = () => {
           </label>
         </div>
       </div>
-      <div>
+      <div className="flex justify-center mb-5">
         <Link
           to="/director/listadocente"
-          className="mb-5 w-full py-2 text-blue-600 text-center hover:cursor-pointer hover:text-blue-900 transition-colors block"
+          className="mb-5 w- py-2 text-blue-600 text-center hover:cursor-pointer hover:text-blue-900 transition-colors block "
         >
           Volver
         </Link>
