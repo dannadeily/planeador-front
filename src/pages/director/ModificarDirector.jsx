@@ -4,48 +4,43 @@ import conexionAxios from "../../axios/Axios";
 import AlertaError from "../../components/AlertaError";
 import AlertaExitoso from "../../components/AlertaExitoso";
 
-const ModificarCompetencia = () => {
-  const [competencia, setCompetencia] = useState({});
+const ModificarDirector = () => {
+  const [director, setDirector] = useState({});
   const [editing, setEditing] = useState(false); // Establecer como true para que se cargue en modo de edición
-  const [alertaError, setAlertaError] = useState({
-    error: false,
-    message: "",
-  });
+  const [alertaError, setAlertaError] = useState({ error: false, message: "" });
   const [alertaExitoso, setAlertaExitoso] = useState({
     error: false,
     message: "",
   });
-  const [resultadoAprendizaje, setResultadoAprendizaje] = useState([]);
   const { id } = useParams();
 
   useEffect(() => {
-    const getCompetencia = async () => {
+    const getDirector = async () => {
       try {
-        const response = await conexionAxios.get("competencia/" + id);
-        setCompetencia(response.data);
-        console.log(response.data);
+        const response = await conexionAxios.get("user/admin/" + id);
+        setDirector(response.data);
       } catch (error) {
         console.error(error);
       }
     };
-    getCompetencia();
+    getDirector();
   }, [id]);
 
-  // Función para manejar el cambio en los datos del docente
+  // Función para manejar el cambio en los datos del director
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setCompetencia({ ...competencia, [name]: value });
+    setDirector({ ...director, [name]: value });
     setEditing(true); // Establecer editing como true al cambiar cualquier campo del formulario
   };
 
-  // Función para enviar los datos actualizados del docente
+  // Función para enviar los datos actualizados del director
   const handleSubmit = async () => {
     try {
       const res = await conexionAxios.put(
-        "competencia/update/" + id,
-        competencia
+        "user/admin/update/" + id,
+        director
       );
-      console.log("actualizar" + res);
+      console.log(res);
 
       if (res.status === 200) {
         setAlertaExitoso({ error: true, message: res.data.message });
@@ -64,7 +59,7 @@ const ModificarCompetencia = () => {
     <>
       <div className="px-4 md:px-10 py-5">
         <div className="mb-4">
-          <h1 className="text-2xl">Datos de Competencia</h1>
+          <h1 className="text-2xl">Datos del Director</h1>
         </div>
         {alertaError.error && !alertaExitoso.error && (
           <AlertaError message={alertaError.message} />
@@ -82,58 +77,125 @@ const ModificarCompetencia = () => {
             <input
               type="text"
               name="nombre"
-              value={competencia.nombre}
+              value={director.nombre}
               onChange={handleChange}
               className="block w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
             />
           ) : (
-            <span className="block text-gray-600">{competencia.nombre}</span>
+            <span className="block text-gray-600">{director.nombre}</span>
           )}
         </div>
         <div>
-          <label className="uppercase block font-bold" htmlFor="descripcion">
-            Descripción:
+          <label
+            className="uppercase block font-bold"
+            htmlFor="tipo_vinculacion"
+          >
+            Tipo Vinculacion:
           </label>
           {editing ? (
             <input
               type="text"
-              name="descripcion"
-              value={competencia.descripcion}
+              name="tipo_vinculacion"
+              value={director.tipo_vinculacion}
               onChange={handleChange}
               className="block w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
             />
           ) : (
             <span className="block text-gray-600">
-              {competencia.descripcion}
+              {director.tipo_vinculacion}
             </span>
           )}
         </div>
         <div>
-          <label className="uppercase block font-bold" htmlFor="descripcion">
-            Resultados de Aprendizaje:
+          <label className="uppercase block font-bold" htmlFor="departamento">
+            Departamento:
           </label>
           {editing ? (
-            <select
-              name="resultado_aprendizaje"
-              value={competencia.resultado_aprendizaje || ""}
+            <input
+              type="text"
+              name="departamento"
+              value={director.departamento}
               onChange={handleChange}
               className="block w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
-            >
-              <option value="">Seleccionar Resultado de Aprendizaje</option>
-              {resultadoAprendizaje.map((resultado) => (
-                <option key={resultado.id} value={resultado.id}>
-                  {resultado.codigo}
-                </option>
-              ))}
-            </select>
+            />
           ) : (
-            <div>
-              {resultadoAprendizaje.map((resultado) => (
-                <span key={resultado.id} className="block text-gray-600">
-                  {resultado.codigo}
-                </span>
-              ))}
-            </div>
+            <span className="block text-gray-600">{director.departamento}</span>
+          )}
+        </div>
+        <div>
+          <label className="uppercase block font-bold" htmlFor="area_formacion">
+            Área de Formación:
+          </label>
+          {editing ? (
+            <input
+              type="text"
+              name="area_formacion"
+              value={director.area_formacion}
+              onChange={handleChange}
+              className="block w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
+            />
+          ) : (
+            <span className="block text-gray-600">
+              {director.area_formacion}
+            </span>
+          )}
+        </div>
+        <div>
+          <label
+            className="uppercase block font-bold"
+            htmlFor="correo_personal"
+          >
+            Correo Personal:
+          </label>
+          {editing ? (
+            <input
+              type="email"
+              name="correo_personal"
+              value={director.correo_personal}
+              onChange={handleChange}
+              className="block w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
+            />
+          ) : (
+            <span className="block text-gray-600">
+              {director.correo_personal}
+            </span>
+          )}
+        </div>
+        <div>
+          <label
+            className="uppercase block font-bold"
+            htmlFor="correo_institucional"
+          >
+            Correo Institucional:
+          </label>
+          {editing ? (
+            <input
+              type="email"
+              name="correo_institucional"
+              value={director.correo_institucional}
+              onChange={handleChange}
+              className="block w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
+            />
+          ) : (
+            <span className="block text-gray-600">
+              {director.correo_institucional}
+            </span>
+          )}
+        </div>
+        <div>
+          <label className="uppercase block font-bold" htmlFor="celular">
+            Celular:
+          </label>
+          {editing ? (
+            <input
+              type="tel"
+              name="celular"
+              value={director.celular}
+              onChange={handleChange}
+              className="block w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
+            />
+          ) : (
+            <span className="block text-gray-600">{director.celular}</span>
           )}
         </div>
         <div>
@@ -143,7 +205,7 @@ const ModificarCompetencia = () => {
           {editing ? (
             <select
               name="estado"
-              value={competencia.estado}
+              value={director.estado}
               onChange={handleChange}
               className="block w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
             >
@@ -152,27 +214,7 @@ const ModificarCompetencia = () => {
             </select>
           ) : (
             <span className="block text-gray-600">
-              {competencia.estado ? "Activo" : "Inactivo"}
-            </span>
-          )}
-        </div>
-        <div>
-          <label className="uppercase block font-bold" htmlFor="estado">
-            Categoria:
-          </label>
-          {editing ? (
-            <select
-              name="estado"
-              value={competencia.categoria_id}
-              onChange={handleChange}
-              className="block w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
-            >
-              <option value={1}>{competencia.categoria_id}</option>
-              <option value={2}>{competencia.categoria_id}</option>
-            </select>
-          ) : (
-            <span className="block text-gray-600">
-              {competencia.categoria_id ? 1 : 2}
+              {director.estado ? "Activo" : "Inactivo"}
             </span>
           )}
         </div>
@@ -198,7 +240,7 @@ const ModificarCompetencia = () => {
       </div>
       <div className="flex justify-center mb-5">
         <Link
-          to="/director/listacompetencia"
+          to="/director/listadirector"
           className="mb-5 w- py-2 text-blue-600 text-center hover:cursor-pointer hover:text-blue-900 transition-colors block "
         >
           Volver
@@ -206,6 +248,6 @@ const ModificarCompetencia = () => {
       </div>
     </>
   );
-};
+}
 
-export default ModificarCompetencia;
+export default ModificarDirector

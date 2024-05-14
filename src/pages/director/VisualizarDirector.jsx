@@ -2,27 +2,27 @@ import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import conexionAxios from "../../axios/Axios";
 
-const VisualizarDatosDocente = () => {
-  const [docente, setDocente] = useState({});
+const VisualizarDirector = () => {
+  const [director, setDirector] = useState({});
   const { id } = useParams();
 
   useEffect(() => {
-    const getDocente = async () => {
+    const getDirector = async () => {
       try {
-        const response = await conexionAxios.get("user/teacher/" + id);
-        setDocente(response.data);
+        const response = await conexionAxios.get("user/admin/" + id);
+        setDirector(response.data);
       } catch (error) {
         console.error(error);
       }
     };
-    getDocente();
+    getDirector();
   }, [id]);
 
   return (
     <>
       <div className="px-4 md:px-10 py-5">
         <div className="mb-4">
-          <h1 className="text-2xl">Datos del Docente</h1>
+          <h1 className="text-2xl">Datos del director</h1>
         </div>
       </div>
       <div className=" lg:mx- md:mx-40 sm:mx-20 my-2 bg-white shadow rounded-lg p-6 grid lg:grid-cols-2 gap-4">
@@ -30,7 +30,7 @@ const VisualizarDatosDocente = () => {
           <label className="uppercase block font-bold" htmlFor="nombre">
             Nombre:
           </label>
-          <label className="block text-gray-600">{docente.nombre}</label>
+          <label className="block text-gray-600">{director.nombre}</label>
         </div>
         <div>
           <label
@@ -40,21 +40,21 @@ const VisualizarDatosDocente = () => {
             Tipo Vinculacion:
           </label>
           <label className="block text-gray-600">
-            {docente.tipo_vinculacion}
+            {director.tipo_vinculacion}
           </label>
         </div>
         <div>
           <label className="uppercase block font-bold" htmlFor="departamento">
             Departamento:
           </label>
-          <label className="block text-gray-600">{docente.departamento}</label>
+          <label className="block text-gray-600">{director.departamento}</label>
         </div>
         <div>
           <label className="uppercase block font-bold" htmlFor="area_formacion">
             Área de Formación:
           </label>
           <label className="block text-gray-600">
-            {docente.area_formacion}
+            {director.area_formacion}
           </label>
         </div>
         <div>
@@ -65,7 +65,7 @@ const VisualizarDatosDocente = () => {
             Correo Personal:
           </label>
           <label className="block text-gray-600">
-            {docente.correo_personal}
+            {director.correo_personal}
           </label>
         </div>
         <div>
@@ -76,27 +76,27 @@ const VisualizarDatosDocente = () => {
             Correo Institucional:
           </label>
           <label className="block text-gray-600">
-            {docente.correo_institucional}
+            {director.correo_institucional}
           </label>
         </div>
         <div>
           <label className="uppercase block font-bold" htmlFor="celular">
             Celular:
           </label>
-          <label className="block text-gray-600">{docente.celular}</label>
+          <label className="block text-gray-600">{director.celular}</label>
         </div>
         <div>
           <label className="uppercase block font-bold" htmlFor="estado">
             Estado:
           </label>
           <label className="block text-gray-600">
-            {docente.estado ? "Activo" : "Inactivo"}
+            {director.estado ? "Activo" : "Inactivo"}
           </label>
         </div>
       </div>
       <div className="flex justify-center mb-5">
         <Link
-          to="/director/listadocente"
+          to="/director/listadirector"
           className="mb-5 w- py-2 text-blue-600 text-center hover:cursor-pointer hover:text-blue-900 transition-colors block "
         >
           Volver
@@ -104,6 +104,6 @@ const VisualizarDatosDocente = () => {
       </div>
     </>
   );
-};
+}
 
-export default VisualizarDatosDocente;
+export default VisualizarDirector

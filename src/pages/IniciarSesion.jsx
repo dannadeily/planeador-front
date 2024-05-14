@@ -3,8 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import AlertaError from "../components/AlertaError";
 import AlertaExitoso from "../components/AlertaExitoso";
 import conexionAxios from "../axios/Axios";
-import { useJwt } from "react-jwt";
-
 
 const IniciarSesion = ({ handleLogin }) => {
   const navigate = useNavigate();
@@ -34,27 +32,27 @@ const IniciarSesion = ({ handleLogin }) => {
       setTimeout(() => setAlertaError({ error: false, message: "" }), 5000); // limpiar la alerta después de 5 segundos
       return; // Añade un return para salir de la función si hay campos vacíos
     }
-  
+
     try {
       const res = await conexionAxios.post("auth/login", {
         correo_institucional,
         password,
       });
-  
+
       if (res.status === 200) {
         console.log(res);
         const token = res.data.accessToken; // Obtener el token de la respuesta del servidor
-  
-        // Decodificar el token JWT para obtener los datos del usuario
-        const { decodedToken, isExpired } = useJwt(token);
 
-        console.log(decodedToken);
-  
+        // Decodificar el token JWT para obtener los datos del usuario
+        // const { decodedToken, isExpired } = useJwt(token);
+
+        // console.log(decodedToken);
+
         // Extraer el ID del usuario del token decodificado
-        const userId = decodedToken.id;
-  
+        // const userId = decodedToken.id;
+
         localStorage.setItem("token", token); // Guardar el token en el almacenamiento local
-        localStorage.setItem("id", userId); // Guardar el ID del usuario en el almacenamiento local
+        // localStorage.setItem("id", userId); // Guardar el ID del usuario en el almacenamiento local
         handleLogin(token);
         if (res.data.role === "Director") {
           navigate("/director");

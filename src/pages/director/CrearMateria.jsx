@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import AlertaError from "../../components/AlertaError";
 import AlertaExitoso from "../../components/AlertaExitoso";
@@ -9,13 +9,33 @@ const CrearMateria = () => {
   const [codigo, setCodigo] = useState("");
   const [nombre, setNombre] = useState("");
   const [tipo, setTipo] = useState("");
-  const [creditos, setCreditos] = useState("");
+  const [creditos, setCreditos] = useState(true);
   const [semestre, setSemestre] = useState("");
+  const [competencias, setCompetencias] = useState([]);
+  const [competencia_id, setCompetencia_id] = useState("");
   const [alertaError, setAlertaError] = useState({ error: false, message: "" });
   const [alertaExitoso, setAlertaExitoso] = useState({
     error: false,
     message: "",
   });
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await conexionAxios.get("competencia/");
+        setCompetencias(response.data);
+        setCompetencia_id(response.data[0].id);
+        console.log(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleChange = (competencia_id) => {
+    setCompetencia_id(competencia_id);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,8 +44,8 @@ const CrearMateria = () => {
       nombre.trim() === "" ||
       codigo.trim() === "" ||
       tipo.trim() === "" ||
-      creditos.trim() === "" ||
-      semestre.trim() === ""
+      semestre.trim() === "" ||
+      isNaN(Number(competencia_id))
     ) {
       setAlertaError({
         error: true,
@@ -34,7 +54,7 @@ const CrearMateria = () => {
       setTimeout(() => setAlertaError({ error: false, message: "" }), 7000); // limpiar la alerta después de 5 segundos
     }
     let tipoMateria = false;
-    if(tipo === "1" ){
+    if (tipo === "1") {
       tipoMateria = true;
     }
     try {
@@ -44,6 +64,7 @@ const CrearMateria = () => {
         tipo: tipoMateria,
         creditos,
         semestre,
+        competencia_id: Number(competencia_id),
       });
 
       console.log(res);
@@ -142,14 +163,14 @@ const CrearMateria = () => {
                 </label>
 
                 <select
-                name="estado"
-                value={tipo}
-                onChange={(e) => setTipo(e.target.value)}
-                className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
-              >
-                <option value={true}>Obligatoria</option>
-                <option value={false}>Electiva</option>
-              </select>
+                  name="estado"
+                  value={tipo}
+                  onChange={(e) => setTipo(e.target.value === "true" ? 1 : 0)}
+                  className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
+                >
+                  <option value={true}>Obligatoria</option>
+                  <option value={false}>Electiva</option>
+                </select>
               </div>
             </div>
           </div>
@@ -198,6 +219,37 @@ const CrearMateria = () => {
                   value={semestre}
                   onChange={(e) => setSemestre(e.target.value)}
                 />
+              </div>
+            </div>
+          </div>
+          <div className="my-5">
+            <label
+              className="uppercase text-gray-600 block font-bold"
+              htmlFor="categoriaId"
+            >
+              Competencia
+            </label>
+
+            <div className="relative">
+              <select
+                className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                onChange={(e) => handleChange(e.target.value)}
+                value={competencia_id}
+              >
+                {competencias.map((competencia) => (
+                  <option key={competencia.id} value={competencia.id}>
+                    {competencia.nombre}
+                  </option>
+                ))}
+              </select>
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                <svg
+                  className="fill-current h-4 w-4"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                >
+                  <path fillRule="evenodd" d="M6 8l4 4 4-4H6z" />
+                </svg>
               </div>
             </div>
           </div>

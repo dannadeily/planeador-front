@@ -107,7 +107,7 @@ const ListaSubtema = () => {
 
                                                 <td className="px-6 py-4 whitespace-nowrap">
                                                     <Link
-                                                        to={`modificarcategoria/${subtemaItem.codigo}`}
+                                                        to={`modificarsubtema/${subtemaItem.id}`}
                                                     >
                                                         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                                                             <FaEdit />
@@ -116,7 +116,7 @@ const ListaSubtema = () => {
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap">
                                                     <Link
-                                                        to={`modificarcategoria/${subtemaItem.codigo}`}
+                                                        to={`modificarsubtema/${subtemaItem.id}`}
                                                     >
                                                         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                                                         <MdDeleteForever />

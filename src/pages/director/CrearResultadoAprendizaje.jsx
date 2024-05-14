@@ -6,7 +6,7 @@ import conexionAxios from "../../axios/Axios";
 const CrearResultadoAprendizaje = () => {
     const [descripcion, setDescripcion] = useState("");
     const [competencias, setCompetencias] = useState([]);
-    const [competenciaId, setCompetenciaId] = useState("");
+    const [competencia_id, setCompetencia_id] = useState("");
     const [alertaError, setAlertaError] = useState({
         error: false,
         message: "",
@@ -21,7 +21,7 @@ const CrearResultadoAprendizaje = () => {
             try {
                 const response = await conexionAxios.get("competencia/");
                 setCompetencias(response.data);
-                setCompetenciaId(response.data[0].id);
+                setCompetencia_id(response.data[0].id);
                 console.log(response.data);
             } catch (error) {
                 console.error(error);
@@ -31,14 +31,14 @@ const CrearResultadoAprendizaje = () => {
         fetchData();
     }, []);
 
-    const handleChange = (categoriaId) => {
-        setCompetenciaId(categoriaId);
+    const handleChange = (competencia_id) => {
+        setCompetencia_id(competencia_id);
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (descripcion.trim() === "" ) {
+        if (descripcion.trim() === "" || isNaN(Number(competencia_id)) ) {
             setAlertaError({
                 error: true,
                 message: "Todos los campos son obligatorios",
@@ -50,7 +50,7 @@ const CrearResultadoAprendizaje = () => {
         try {
             const res = await conexionAxios.post("ra/create", {
                 descripcion,
-                competenciaId,
+                competencia_id: Number(competencia_id),
             });
             console.log(res);
 
@@ -61,7 +61,7 @@ const CrearResultadoAprendizaje = () => {
                 });
                 setTimeout(() => setAlertaExitoso({ error: false, message: "" }), 5000);
                 setDescripcion("");
-                setCompetenciaId("");
+                setCompetencia_id("");
             }
         } catch (error) {
             if (
@@ -121,7 +121,7 @@ const CrearResultadoAprendizaje = () => {
                             <select
                                 className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                 onChange={(e) => handleChange(e.target.value)}
-                                value={competenciaId}
+                                value={competencia_id}
                             >
                                 {competencias.map((competencia) => (
                                     <option key={competencia.id} value={competencia.id}>

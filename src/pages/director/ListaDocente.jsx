@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import conexionAxios from "../../axios/Axios";
 import { Link } from "react-router-dom";
-import { FaEdit, FaEye } from "react-icons/fa";
+import { FaEdit, FaEye, FaUnlink } from "react-icons/fa";
 
 const ListaDocente = () => {
   const [docente, setDocente] = useState([]);
@@ -20,6 +20,20 @@ const ListaDocente = () => {
     };
     getDocente();
   }, []);
+
+  //desvincular docente
+
+  const handleDelete = async (id) => {
+    try {
+      await conexionAxios.delete(`user/deleteTeacher/${id}`);
+      // Actualizar la lista después de eliminar
+      const updatedDocentes = docente.filter((doc) => doc.id !== id);
+      setDocente(updatedDocentes);
+      setFilteredData(updatedDocentes);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const search = (event) => {
     const term = event.target.value.toLowerCase();
@@ -74,6 +88,9 @@ const ListaDocente = () => {
                       <th scope="col" className="px-6 py-3">
                         Editar
                       </th>
+                      <th scope="col" className="px-6 py-3">
+                        Desvincular Docente
+                      </th>
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-400">
@@ -112,6 +129,14 @@ const ListaDocente = () => {
                               <FaEdit />
                             </button>
                           </Link>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <button
+                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                            onClick={() => handleDelete(docenteItem.id)}
+                          >
+                            <FaUnlink />
+                          </button>
                         </td>
                       </tr>
                     ))}
