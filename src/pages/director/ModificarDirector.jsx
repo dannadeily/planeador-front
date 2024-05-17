@@ -6,6 +6,15 @@ import AlertaExitoso from "../../components/AlertaExitoso";
 
 const ModificarDirector = () => {
   const [director, setDirector] = useState({});
+  const [codigo, setCodigo] = useState("");
+  const [nombre, setNombre] = useState("");
+  const [tipo_vinculacion, setTipoVinculacion] = useState("");
+  const [departamento, setDepartamento] = useState("");
+  const [area_formacion, setAreaFormacion] = useState("");
+  const [correo_personal, setCorreoPersonal] = useState("");
+  const [correo_institucional, setCorreoInstitucional] = useState("");
+  const [celular, setCelular] = useState("");
+
   const [editing, setEditing] = useState(false); // Establecer como true para que se cargue en modo de edición
   const [alertaError, setAlertaError] = useState({ error: false, message: "" });
   const [alertaExitoso, setAlertaExitoso] = useState({
@@ -36,11 +45,20 @@ const ModificarDirector = () => {
   // Función para enviar los datos actualizados del director
   const handleSubmit = async () => {
     try {
-      const res = await conexionAxios.put(
-        "user/admin/update/" + id,
-        director
-      );
-      console.log(res);
+      
+      const res = await conexionAxios.put("user/admin/update", {
+        id: localStorage.getItem("userId"),
+        codigo: director.codigo,
+        nombre: director.nombre,
+        tipo_vinculacion: director.tipo_vinculacion,
+        departamento: director.departamento,
+        area_formacion: director.area_formacion,
+        correo_personal: director.correo_personal,
+        correo_institucional: director.correo_institucional,
+        celular: director.celular,
+        estado: director.estado,
+        
+      });
 
       if (res.status === 200) {
         setAlertaExitoso({ error: true, message: res.data.message });
@@ -59,7 +77,7 @@ const ModificarDirector = () => {
     <>
       <div className="px-4 md:px-10 py-5">
         <div className="mb-4">
-          <h1 className="text-2xl">Datos del Director</h1>
+          <h1 className="text-2xl  border-b-4 border-blue-700 text-left font-bold">Director</h1>
         </div>
         {alertaError.error && !alertaExitoso.error && (
           <AlertaError message={alertaError.message} />
@@ -239,15 +257,14 @@ const ModificarDirector = () => {
         )}
       </div>
       <div className="flex justify-center mb-5">
-        <Link
-          to="/director/listadirector"
-          className="mb-5 w- py-2 text-blue-600 text-center hover:cursor-pointer hover:text-blue-900 transition-colors block "
-        >
-          Volver
+        <Link to="modificarperfil">
+          <button className="py-2 px-6 bg-blue-700 hover:bg-blue-900 text-white font-bold  border border-black rounded-md hover:cursor-pointer transition-colors">
+            Cambiar Contraseña
+          </button>
         </Link>
       </div>
     </>
   );
-}
+};
 
-export default ModificarDirector
+export default ModificarDirector;

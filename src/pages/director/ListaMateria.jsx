@@ -41,7 +41,7 @@ const ListaMateria = () => {
         <div>
             <div className="px-10 py-5">
                 <div className="">
-                    <h1 className="text-2xl ">Lista de Materias</h1>
+                <h1 className="text-2xl  border-b-4 border-blue-700 text-left font-bold">Materias</h1>
                 </div>
             </div>
             <div className="lg:w-4/5 md:w-3/5 sm:w-2/3 mx-auto">
@@ -119,7 +119,7 @@ const ListaMateria = () => {
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap">
                                                     <div className="text-sm text-gray-900">
-                                                        {materiaItem.tipo}
+                                                    {materiaItem.tipo ? 'Obligatorio' : 'Electiva'}
                                                     </div>
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap">
@@ -135,7 +135,7 @@ const ListaMateria = () => {
 
                                                 <td className="px-6 py-4 whitespace-nowrap">
                                                     <Link
-                                                        to={`modificarmateria/${materiaItem.codigo}`}
+                                                        to={`modificarmateria/${materiaItem.id}`}
                                                     >
                                                         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                                                             <FaEdit />

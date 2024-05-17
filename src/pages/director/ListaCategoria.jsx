@@ -41,7 +41,7 @@ const ListaCategoria = () => {
         <div>
             <div className="px-10 py-5">
                 <div className="">
-                    <h1 className="text-2xl ">Lista de Categorias</h1>
+                     <h1 className="text-2xl  border-b-4 border-blue-700 text-left font-bold">Categorías</h1>
                 </div>
             </div>
             <div className="lg:w-4/5 md:w-3/5 sm:w-2/3 mx-auto">

@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
+import conexionAxios from "../axios/Axios";
 import {
   FaUser,
   FaUserFriends,
@@ -12,14 +13,15 @@ import {
   FaIdCardAlt,
   FaAlignJustify,
   FaUserTie,
+  FaHouseUser,
 } from "react-icons/fa";
 import { TbNumber123 } from "react-icons/tb";
 import { BiCircleThreeQuarter } from "react-icons/bi";
-import { IoStatsChartSharp } from "react-icons/io5";
+import { IoExit, IoStatsChartSharp } from "react-icons/io5";
 
 function HeaderDirector() {
   const [openIcon, setOpenIcon] = useState(true);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
   const [openMenu2, setOpenMenu2] = useState("");
   const navigate = useNavigate();
@@ -54,6 +56,37 @@ function HeaderDirector() {
     localStorage.removeItem("token");
     navigate("/");
   };
+
+  // para el id del director
+  const [director, setDirector] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
+
+  useEffect(() => {
+    const getDirector = async () => {
+      try {
+        const response = await conexionAxios.get("user/admin");
+        setDirector(response.data);
+        setFilteredData(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getDirector();
+  }, []);
+
+  const search = (event) => {
+    const term = event.target.value.toLowerCase();
+    setSearchTerm(term);
+
+    const filtered = docente.filter((item) =>
+      Object.values(item).some(
+        (value) => value && value.toString().toLowerCase().includes(term)
+      )
+    );
+
+    setFilteredData(filtered);
+  };
   return (
     <div className="flex flex-col h-screen">
       {/* Header */}
@@ -69,26 +102,6 @@ function HeaderDirector() {
           </div>
         </div>
         <h1 className="text-white font-bold">Director</h1>
-        <div className="flex items-center">
-          {menuOpen && (
-            <div className="absolute top-10 right-2 bg-white border border-gray-300 p-2 rounded">
-              <Link>
-                <button className="block mb-2">Perfil</button>{" "}
-              </Link>
-              <Link to="modificarperfil">
-                <button className="block mb-2">Cambiar Contraseña</button>
-              </Link>
-              <Link>
-                <button className="block mb-2" onClick={handleLogout}>
-                  Cerrar Sesión
-                </button>
-              </Link>
-            </div>
-          )}
-          <button onClick={toggleMenu} className="text-white ml-2">
-            <FaUser />
-          </button>
-        </div>
       </header>
 
       <div className="flex h-screen ">
@@ -99,37 +112,27 @@ function HeaderDirector() {
           } fixed top-16 left-0  bg-red-500 overflow-y-scroll z-50`}
         >
           <div className="m-4 border-b border-gray-200 p-4">
-            <button className="flex w-52 text-white ">
-              <div className="flex items-center">
-                <TbNumber123 />
+            {filteredData.map((directorItem) => (
+              <div key={directorItem.id}>
+                <Link to={`modificardirector/${directorItem.id}`}>
+                  <button className="flex w-52 text-white ">
+                    <div className="flex items-center">
+                      <FaHouseUser />
 
-                <span
-                  className={`${
-                    !sidebarOpen && "hidden"
-                  } origin-left duration-200 ml-2`}
-                >
-                  Semestre
-                </span>
+                      <span
+                        className={`${
+                          !sidebarOpen && "hidden"
+                        } origin-left duration-200 ml-2`}
+                      >
+                        Menú Principal
+                      </span>
+                    </div>
+                  </button>
+                </Link>
               </div>
-            </button>
+            ))}
           </div>
-          <div className="m-4 border-b border-gray-200 p-4">
-            <Link to="listadirector">
-              <button className="flex w-52 text-white ">
-                <div className="flex items-center">
-                  <FaUserTie />
 
-                  <span
-                    className={`${
-                      !sidebarOpen && "hidden"
-                    } origin-left duration-200 ml-2`}
-                  >
-                    Director
-                  </span>
-                </div>
-              </button>
-            </Link>
-          </div>
           <div className="m-4 border-b border-gray-200 p-4">
             <Link to="listadocente">
               <button className="flex w-52 text-white ">
@@ -148,7 +151,7 @@ function HeaderDirector() {
           </div>
 
           <div className="m-4 border-b border-gray-200 p-4">
-            <Link to="listamateria">
+            <Link to="">
               <button className="flex w-52 text-white ">
                 <div className="flex items-center">
                   <FaListAlt />
@@ -244,38 +247,7 @@ function HeaderDirector() {
               </button>
             </Link>
           </div>
-          <div className="m-4 border-b border-gray-200 p-4">
-            <Link to="listaunidadestematicas">
-              <button className="flex w-52 text-white ">
-                <div className="flex items-center">
-                  <FaFileAlt />
-                  <span
-                    className={`${
-                      !sidebarOpen && "hidden"
-                    } origin-left duration-200 ml-2`}
-                  >
-                    Unidades Tematicas
-                  </span>
-                </div>
-              </button>
-            </Link>
-          </div>
-          <div className="m-4 border-b border-gray-200 p-4">
-            <Link to="listasubtema">
-              <button className="flex w-52 text-white ">
-                <div className="flex items-center">
-                  <FaBookmark />
-                  <span
-                    className={`${
-                      !sidebarOpen && "hidden"
-                    } origin-left duration-200 ml-2`}
-                  >
-                    Subsistemas
-                  </span>
-                </div>
-              </button>
-            </Link>
-          </div>
+
           <div className="m-4 border-b border-gray-200 p-4">
             <button className="flex w-52 text-white ">
               <div className="flex items-center">
@@ -286,6 +258,20 @@ function HeaderDirector() {
                   } origin-left duration-200 ml-2`}
                 >
                   Planeadores Docente
+                </span>
+              </div>
+            </button>
+          </div>
+          <div className="m-4 border-b border-gray-200 p-4">
+            <button className="flex w-52 text-white " onClick={handleLogout}>
+              <div className="flex items-center">
+                <IoExit />
+                <span
+                  className={`${
+                    !sidebarOpen && "hidden"
+                  } origin-left duration-200 ml-2`}
+                >
+                  Cerrar Sesión
                 </span>
               </div>
             </button>
@@ -307,9 +293,7 @@ function HeaderDirector() {
         {/* Main */}
         <main
           className={`flex-grow bg-gray-100 ${
-            sidebarOpen
-              ? "ml-64 md:ml-64 lg:ml-auto"
-              : "ml-20 md:ml-20 lg:ml-auto "
+            sidebarOpen ? "ml-72 md:ml-64 lg:ml-36" : "ml-20 md:ml-20 lg:ml-20 "
           }`}
         >
           <div className="container lg:mx-20 md:mx-10  mt-10 z-40">

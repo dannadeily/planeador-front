@@ -42,9 +42,7 @@ import ModificarSubtema from "./pages/director/ModificarSubtema";
 //Rutas Docente
 import HeaderDocente from "./components/HeaderDocente";
 import PerfilDocente from "./pages/Docente/PerfilDocente";
-import ListaDirector from "./pages/director/ListaDirector";
 import ModificarDirector from "./pages/director/ModificarDirector";
-import VisualizarDirector from "./pages/director/VisualizarDirector";
 
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -84,21 +82,21 @@ function App() {
                             <RutaPrivadaDirector
                                 isAuthenticated={isAuthenticated}
                             />
-                        }
-                    >
+                        } >
+                       
                         <Route
-                            path="modificarperfil"
-                            element={<ModificarPerfil />}
-                        />
-                        <Route path="listadirector" element={<ListaDirector/>} />
-                        <Route
-                            path="listadirector/visualizardirector/:id"
-                            element={<VisualizarDirector />}
-                        />
-                        <Route
-                            path="listadirector/modificardirector/:id"
+                        index
+                            path="modificardirector/:id"
                             element={<ModificarDirector />}
                         />
+                    
+                        <Route
+                            path="modificardirector/:id/modificarperfil"
+                            element={<ModificarPerfil />}
+                        />
+                        
+                       
+                        
                         <Route path="listadocente" element={<ListaDocente />} />
                         <Route
                             path="listadocente/agregardocente"
@@ -116,13 +114,13 @@ function App() {
                             path="listadocente/modificardocente/:id"
                             element={<ModificarDocente />}
                         />
-                        <Route path="listamateria" element={<ListaMateria />} />
+                        <Route index element={<ListaMateria />} />
                         <Route
-                            path="listamateria/crearmateria"
+                            path="crearmateria"
                             element={<CrearMateria />}
                         />
                         <Route
-                            path="listamateria/modificarmateria/:codigo"
+                            path="modificarmateria/:id"
                             element={<ModificarMateria />}
                         />
                         <Route

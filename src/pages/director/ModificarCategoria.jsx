@@ -61,7 +61,7 @@ const ModificarCategoria = () => {
         <>
             <div className="px-4 md:px-10 py-5">
                 <div className="mb-4">
-                    <h1 className="text-2xl">Datos de Categoria</h1>
+                <h1 className="text-2xl  border-b-4 border-blue-700 text-left font-bold">Datos Categoría</h1>
                 </div>
                 {alertaError.error && !alertaExitoso.error && (
                     <AlertaError message={alertaError.message} />

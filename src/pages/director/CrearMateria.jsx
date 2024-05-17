@@ -8,55 +8,48 @@ import CrearMaterias from "./CrearMaterias";
 const CrearMateria = () => {
   const [codigo, setCodigo] = useState("");
   const [nombre, setNombre] = useState("");
-  const [tipo, setTipo] = useState("");
-  const [creditos, setCreditos] = useState(true);
+  const [tipo, setTipo] = useState(true); // Modificado para almacenar como booleano
+  const [creditos, setCreditos] = useState("");
   const [semestre, setSemestre] = useState("");
   const [competencias, setCompetencias] = useState([]);
-  const [competencia_id, setCompetencia_id] = useState("");
+  const [competencia_id, setCompetencia_Id] = useState([]);
   const [alertaError, setAlertaError] = useState({ error: false, message: "" });
   const [alertaExitoso, setAlertaExitoso] = useState({
     error: false,
     message: "",
   });
+
   useEffect(() => {
-    const fetchData = async () => {
+    const getCompetencias = async () => {
       try {
         const response = await conexionAxios.get("competencia/");
         setCompetencias(response.data);
-        setCompetencia_id(response.data[0].id);
-        console.log(response.data);
       } catch (error) {
         console.error(error);
       }
     };
 
-    fetchData();
+    getCompetencias();
   }, []);
 
-  const handleChange = (competencia_id) => {
-    setCompetencia_id(competencia_id);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    if (name === "tipo") {
+      const tipoValue = value === "1" ? true : false;
+      setTipo(tipoValue);
+    } else if (name === "competencia_id") {
+      const values = Array.from(e.target.selectedOptions, (option) =>
+        parseInt(option.value)
+      );
+      setCompetencia_Id(values);
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (
-      nombre.trim() === "" ||
-      codigo.trim() === "" ||
-      tipo.trim() === "" ||
-      semestre.trim() === "" ||
-      isNaN(Number(competencia_id))
-    ) {
-      setAlertaError({
-        error: true,
-        message: "Todos los campos son obligatorios",
-      });
-      setTimeout(() => setAlertaError({ error: false, message: "" }), 7000); // limpiar la alerta después de 5 segundos
-    }
-    let tipoMateria = false;
-    if (tipo === "1") {
-      tipoMateria = true;
-    }
+    let tipoMateria = tipo; // Ahora tipo es un booleano directamente
+
     try {
       const res = await conexionAxios.post("materia/create", {
         codigo,
@@ -64,26 +57,19 @@ const CrearMateria = () => {
         tipo: tipoMateria,
         creditos,
         semestre,
-        competencia_id: Number(competencia_id),
+        competencias: competencia_id.map(Number),
       });
-
-      console.log(res);
 
       if (res.status === 200) {
         setAlertaExitoso({ error: true, message: res.data.message });
-        setTimeout(
-          () => setAlertaExitoso({ error: false, message: "" }),
-          10000
-        );
-        // Reiniciar los valores de los campos
+        setTimeout(() => setAlertaExitoso({ error: false, message: "" }), 10000);
         setCodigo("");
         setNombre("");
-        setTipo("");
         setCreditos("");
         setSemestre("");
+        setCompetencia_Id([]);
       }
     } catch (error) {
-      // Manejar el error de la solicitud
       if (error.response && error.response.data && error.response.data.error) {
         setAlertaError({ error: true, message: error.response.data.error });
       }
@@ -127,7 +113,6 @@ const CrearMateria = () => {
             />
           </div>
           <div className="flex">
-            {/* Primera columna */}
             <div className="w-1/2">
               <div className="my-5  mx-2">
                 <label
@@ -149,8 +134,6 @@ const CrearMateria = () => {
                 />
               </div>
             </div>
-
-            {/* Segunda columna */}
             <div className="w-1/2 ">
               <div className="my-5 mx-2">
                 <label
@@ -163,20 +146,18 @@ const CrearMateria = () => {
                 </label>
 
                 <select
-                  name="estado"
-                  value={tipo}
-                  onChange={(e) => setTipo(e.target.value === "true" ? 1 : 0)}
+                  name="tipo"
+                  value={tipo ? "1" : "0"}
+                  onChange={handleChange}
                   className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
                 >
-                  <option value={true}>Obligatoria</option>
-                  <option value={false}>Electiva</option>
+                  <option value="1">Obligatoria</option>
+                  <option value="0">Electiva</option>
                 </select>
               </div>
             </div>
           </div>
-
           <div className="flex">
-            {/* Primera columna */}
             <div className="w-1/2 ">
               <div className="my-5  mx-2 ">
                 <label
@@ -198,8 +179,6 @@ const CrearMateria = () => {
                 />
               </div>
             </div>
-
-            {/* Segunda columna */}
             <div className="w-1/2">
               <div className="my-5  mx-2">
                 <label
@@ -232,9 +211,11 @@ const CrearMateria = () => {
 
             <div className="relative">
               <select
+                multiple
                 className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                onChange={(e) => handleChange(e.target.value)}
+                onChange={(e) => handleChange(e)}
                 value={competencia_id}
+                name="competencia_id"
               >
                 {competencias.map((competencia) => (
                   <option key={competencia.id} value={competencia.id}>
@@ -253,7 +234,6 @@ const CrearMateria = () => {
               </div>
             </div>
           </div>
-
           <input
             type="submit"
             value="registrar"
