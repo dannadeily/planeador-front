@@ -7,7 +7,7 @@ const CrearUnidadesTematicas = () => {
     const [nombre, setNombre] = useState("");
     const [descripcion, setDescripcion] = useState("");
     const [materias, setMaterias] = useState([]);
-    const [materiaId, setMateriaId] = useState("");
+    const [materia_id, setMateria_id] = useState("");
     const [alertaError, setAlertaError] = useState({
         error: false,
         message: "",
@@ -22,7 +22,7 @@ const CrearUnidadesTematicas = () => {
             try {
                 const response = await conexionAxios.get("materia/");
                 setMaterias(response.data);
-                setMateriaId(response.data[0].id);
+                setMateria_id(response.data[0].id);
                 console.log(response.data);
             } catch (error) {
                 console.error(error);
@@ -33,7 +33,7 @@ const CrearUnidadesTematicas = () => {
     }, []);
 
     const handleChange = (categoriaId) => {
-        setMateriaId(categoriaId);
+        setMateria_id(categoriaId);
     };
 
     const handleSubmit = async (e) => {
@@ -50,12 +50,13 @@ const CrearUnidadesTematicas = () => {
             );
             return;
         }
+        
 
         try {
-            const res = await conexionAxios.post("ra/create", {
+            const res = await conexionAxios.post("unidad/create", {
                 nombre,
                 descripcion,
-                materiaId,
+                materia_id: parseInt(materia_id),
             });
             console.log(res);
 
@@ -70,7 +71,7 @@ const CrearUnidadesTematicas = () => {
                 );
                 setNombre("");
                 setDescripcion("");
-                setMateriaId("");
+                setMateria_id("");
             }
         } catch (error) {
             if (
@@ -153,8 +154,9 @@ const CrearUnidadesTematicas = () => {
                             <select
                                 className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                 onChange={(e) => handleChange(e.target.value)}
-                                value={materiaId}
+                                value={materia_id}
                             >
+                               
                                 {materias.map((materia) => (
                                     <option key={materia.id} value={materia.id}>
                                         {materia.nombre}

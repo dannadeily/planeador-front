@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import conexionAxios from "../../axios/Axios";
 import AlertaError from "../../components/AlertaError";
 import AlertaExitoso from "../../components/AlertaExitoso";
 
 const ModificarDocente = () => {
   const [docente, setDocente] = useState({});
-  const [editing, setEditing] = useState(false); // Establecer como true para que se cargue en modo de edición
+  const [editing, setEditing] = useState(true); // Establecer como true para que se cargue en modo de edición
   const [alertaError, setAlertaError] = useState({ error: false, message: "" });
   const [alertaExitoso, setAlertaExitoso] = useState({
     error: false,
     message: "",
   });
   const { id } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getDocente = async () => {
@@ -43,6 +44,7 @@ const ModificarDocente = () => {
       console.log(res);
 
       if (res.status === 200) {
+        navigate("/director/listadocente");
         setAlertaExitoso({ error: true, message: res.data.message });
         setTimeout(
           () => setAlertaExitoso({ error: false, message: "" }),
@@ -52,6 +54,8 @@ const ModificarDocente = () => {
       }
     } catch (error) {
       console.error(error);
+      setAlertaError({ error: true, message: error.response.data.error });
+      setTimeout(() => setAlertaError({ error: false, message: "" }), 10000);
     }
   };
 
@@ -59,7 +63,9 @@ const ModificarDocente = () => {
     <>
       <div className="px-4 md:px-10 py-5">
         <div className="mb-4">
-        <h1 className="text-2xl  border-b-4 border-blue-700 text-left font-bold">Datos Docente</h1>
+          <h1 className="text-2xl  border-b-4 border-blue-700 text-left font-bold">
+            Datos Docente
+          </h1>
         </div>
         {alertaError.error && !alertaExitoso.error && (
           <AlertaError message={alertaError.message} />

@@ -48,6 +48,8 @@ const ListaDocente = () => {
     setFilteredData(filtered);
   };
 
+  
+
   return (
     <div>
       <div className="px-10 py-5">
@@ -132,7 +134,7 @@ const ListaDocente = () => {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <button
-                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
                             onClick={() => handleDelete(docenteItem.id)}
                           >
                             <FaUnlink />

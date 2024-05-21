@@ -181,24 +181,32 @@ function App() {
                             element={<ModificarInstrumentosEvaluacion />}
                         />
                         <Route
-                            path="listaunidadestematicas"
+                            path="listaunidadestematicas/:id"
                             element={<ListaUnidadesTematicas />}
                         />
                         <Route
-                            path="listaunidadestematicas/crearunidadestematicas"
+                            path="crearunidadestematicas"
                             element={<CrearUnidadesTematicas />}
                         />
                         <Route
-                            path="listaunidadestematicas/modificarunidadestematicas/:id"
+                            path="listaunidadestematicas/:id/crearunidadestematicas"
+                            element={<CrearUnidadesTematicas />}
+                        />
+                        <Route
+                            path="listaunidadestematicas/:id/modificarunidadestematicas/:id"
                             element={<ModificarUnidadesTematicas />}
                         />
-                        <Route path="listasubtema" element={<ListaSubtema />} />
+                        <Route path="listaunidadestematicas/:id/listasubtema/:id" element={<ListaSubtema />} />
                         <Route
-                            path="listasubtema/crearsubtema"
+                            path="listaunidadestematicas/:id/crearsubtema"
                             element={<CrearSubtema />}
                         />
                         <Route
-                            path="listasubtema/modificarsubtema/:id"
+                            path="listaunidadestematicas/:id/listasubtema/:id/crearsubtema"
+                            element={<CrearSubtema />}
+                        />
+                        <Route
+                            path="listaunidadestematicas/:id/listasubtema/:id/modificarsubtema/:id"
                             element={<ModificarSubtema />}
                         />
                     </Route>

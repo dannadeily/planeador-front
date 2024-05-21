@@ -105,6 +105,7 @@ const ListaCategoria = () => {
                                                     </Link>
                                                 </td>
                                                
+                                               
                                             </tr>
                                         ))}
                                     </tbody>

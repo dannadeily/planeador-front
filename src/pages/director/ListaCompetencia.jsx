@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import conexionAxios from "../../axios/Axios";
 import { Link } from "react-router-dom";
-import { FaEdit, FaEye } from "react-icons/fa";
+import { FaEdit, FaEye, FaUnlink } from "react-icons/fa";
 
 const ListaCompetencia = () => {
   const [competencia, setCompetencia] = useState([]);
@@ -34,6 +34,7 @@ const ListaCompetencia = () => {
 
     setFilteredData(filtered);
   };
+
 
   return (
     <div>
@@ -73,6 +74,7 @@ const ListaCompetencia = () => {
                       <th scope="col" className="px-6 py-3">
                         Editar
                       </th>
+                     
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-400">
@@ -91,8 +93,8 @@ const ListaCompetencia = () => {
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-900">
                             {competenciaItem.Resultados_Aprendizajes.map(
-                              (resultado) => (
-                                <div key={resultado.codigo}>
+                              (resultado,index) => (
+                                <div key={index}>
                                   {resultado.codigo}
                                 </div>
                               )
@@ -114,6 +116,7 @@ const ListaCompetencia = () => {
                             </button>
                           </Link>
                         </td>
+                      
                       </tr>
                     ))}
                   </tbody>

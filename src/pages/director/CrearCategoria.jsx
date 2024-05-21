@@ -32,7 +32,8 @@ const CrearCategoria = () => {
         });
   
         console.log(res);
-  
+   
+        
         if (res.status === 200) {
           setAlertaExitoso({ error: true, message: res.data.message });
           setTimeout(

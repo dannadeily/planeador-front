@@ -69,7 +69,8 @@ const ModificarDirector = () => {
         setEditing(false); // Establecer editing como false después de guardar los cambios
       }
     } catch (error) {
-      console.error(error);
+      setAlertaError({ error: true, message: error.response.data.error });
+      setTimeout(() => setAlertaError({ error: false, message: "" }), 10000);
     }
   };
 

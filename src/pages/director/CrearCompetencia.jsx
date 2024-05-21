@@ -57,6 +57,7 @@ const CrearCompetencia = () => {
                 categoria_id: categoriaIdNumero,
             });
 
+
             console.log(res);
             console.log(res.data);
             console.log(res.status);

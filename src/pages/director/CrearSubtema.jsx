@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import AlertaError from "../../components/AlertaError";
 import AlertaExitoso from "../../components/AlertaExitoso";
 import conexionAxios from "../../axios/Axios";
@@ -52,10 +53,10 @@ const CrearSubtema = () => {
         }
 
         try {
-            const res = await conexionAxios.post("ra/create", {
+            const res = await conexionAxios.post("subtema/create", {
                 nombre,
                 descripcion,
-                unidad_tematica_id,
+                unidad_tematica_id:parseInt(unidad_tematica_id),
             });
             console.log(res);
 
@@ -182,6 +183,14 @@ const CrearSubtema = () => {
                         className="bg-blue-700 mb-5 w-full py-2 text-white uppercase font-bold rounded hover:cursor-pointer hover:bg-sky-800 transition-colors"
                     />
                 </form>
+            </div>
+            <div className="flex justify-center mb-5">
+                <Link
+                    to="/director/listaunidadestematicas/:id"
+                    className="mb-5 w- py-2 text-blue-600 text-center hover:cursor-pointer hover:text-blue-900 transition-colors block "
+                >
+                    Volver
+                </Link>
             </div>
         </div>
     );

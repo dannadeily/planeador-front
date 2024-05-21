@@ -9,7 +9,6 @@ const AgregarDocente = () => {
   const [nombre, setNombre] = useState("");
   const [correo_personal, setCorreo_personal] = useState("");
   const [correo_institucional, setCorreo_institucional] = useState("");
-  const [area_formacion, setArea_formacion] = useState("");
   const [tipo_vinculacion, setTipo_vinculacion] = useState("");
   const [departamento, setDepartamento] = useState("");
   const [celular, setCelular] = useState("");
@@ -27,7 +26,6 @@ const AgregarDocente = () => {
       nombre.trim() === "" ||
       correo_personal.trim() === "" ||
       correo_institucional.trim() === "" ||
-      area_formacion.trim() === "" ||
       tipo_vinculacion.trim() === "" ||
       codigo.trim() === ""
     ) {
@@ -43,7 +41,6 @@ const AgregarDocente = () => {
         nombre,
         correo_personal,
         correo_institucional,
-        area_formacion,
         tipo_vinculacion: tipoVinculacion,
         departamento,
         celular,
@@ -62,7 +59,6 @@ const AgregarDocente = () => {
         setNombre("");
         setCorreo_personal("");
         setCorreo_institucional("");
-        setArea_formacion("");
         setTipo_vinculacion("");
         setDepartamento("");
         setCelular("");
@@ -151,25 +147,7 @@ const AgregarDocente = () => {
               onChange={(e) => setCorreo_institucional(e.target.value)}
             />
           </div>
-          <div className="my-5">
-            <label
-              className="uppercase text-gray-600 block  font-bold"
-              htmlFor="areaFormacion"
-              name="areaFormacion"
-              type="text"
-            >
-              Area Formacion
-            </label>
-
-            <input
-              id="areaFormacion"
-              type="text"
-              placeholder="tipo Vinculacion"
-              className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
-              value={area_formacion}
-              onChange={(e) => setArea_formacion(e.target.value)}
-            />
-          </div>
+          
           <div className="my-5">
             <label
               className="uppercase text-gray-600 block  font-bold"

@@ -48,6 +48,7 @@ const ListaResultadoAprendizaje = () => {
       )
     );
 
+    
     setFilteredData(filtered);
   };
 

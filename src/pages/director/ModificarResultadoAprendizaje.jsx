@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate} from "react-router-dom";
 import conexionAxios from "../../axios/Axios";
 import AlertaError from "../../components/AlertaError";
 import AlertaExitoso from "../../components/AlertaExitoso";
 
 const ModificarResultadoAprendizaje = () => {
   const [resultadoAprendizaje, setResultadoAprendizaje] = useState({});
-  const [editing, setEditing] = useState(false);
+  const [editing, setEditing] = useState(true);
   const [alertaError, setAlertaError] = useState({ error: false, message: "" });
   const [alertaExitoso, setAlertaExitoso] = useState({
     error: false,
@@ -14,6 +14,7 @@ const ModificarResultadoAprendizaje = () => {
   });
   const [competencias, setCompetencias] = useState([]); // Lista de competencias disponibles
   const { id } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -49,6 +50,7 @@ const ModificarResultadoAprendizaje = () => {
 
       // Verificar si la solicitud fue exitosa
       if (res.status === 200) {
+        navigate("/director/listaresultadoaprendizaje");
         setAlertaExitoso({ error: true, message: res.data.message });
         setTimeout(
           () => setAlertaExitoso({ error: false, message: "" }),
@@ -57,12 +59,10 @@ const ModificarResultadoAprendizaje = () => {
         setEditing(false);
       }
     } catch (error) {
-      console.error(error);
-      // Mostrar mensaje de error si ocurre un error en la solicitud
-      setAlertaError({
-        error: true,
-        message: "Hubo un error al actualizar el resultado de aprendizaje.",
-      });
+      if (error.response) {
+        setAlertaError({ error: true, message: error.response.data.error });
+        setTimeout(() => setAlertaError({ error: false, message: "" }), 10000);
+      }
     }
   };
 
@@ -85,7 +85,7 @@ const ModificarResultadoAprendizaje = () => {
             Descripción:
           </label>
           {editing ? (
-            <input
+            <textarea
               type="text"
               name="descripcion"
               value={resultadoAprendizaje.descripcion}

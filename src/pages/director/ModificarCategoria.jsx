@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams,useNavigate } from "react-router-dom";
 import conexionAxios from "../../axios/Axios";
 import AlertaError from "../../components/AlertaError";
 import AlertaExitoso from "../../components/AlertaExitoso";
 const ModificarCategoria = () => {
     const [categoria, setCategoria] = useState({});
-    const [editing, setEditing] = useState(false); // Establecer como true para que se cargue en modo de edición
+    const [editing, setEditing] = useState(true); // Establecer como true para que se cargue en modo de edición
     const [alertaError, setAlertaError] = useState({
         error: false,
         message: "",
@@ -15,6 +15,7 @@ const ModificarCategoria = () => {
         message: "",
     });
     const { id } = useParams();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const getCategoria = async () => {
@@ -45,6 +46,7 @@ const ModificarCategoria = () => {
             console.log(res);
 
             if (res.status === 200) {
+                navigate("/director/listacategoria");
                 setAlertaExitoso({ error: true, message: res.data.message });
                 setTimeout(
                     () => setAlertaExitoso({ error: false, message: "" }),
@@ -54,6 +56,8 @@ const ModificarCategoria = () => {
             }
         } catch (error) {
             console.error(error);
+            setAlertaError({ error: true, message: error.response.data.error });
+            setTimeout(() => setAlertaError({ error: false, message: "" }), 10000);
         }
     };
 
@@ -100,7 +104,7 @@ const ModificarCategoria = () => {
                         Descripción:
                     </label>
                     {editing ? (
-                        <input
+                        <textarea
                             type="text"
                             name="descripcion"
                             value={categoria.descripcion}
