@@ -5,7 +5,7 @@ import AlertaError from "../../components/AlertaError";
 import AlertaExitoso from "../../components/AlertaExitoso";
 
 const ModificarRACurso = () => {
-  const [materia, setMateria] = useState({});
+  const [raCurso, setRaCurso] = useState({});
   const [materias, setMaterias] = useState([]); // Lista de materias para el selector
   const [editing, setEditing] = useState(true); // Establecer como true para que se cargue en modo de edición
   const [alertaError, setAlertaError] = useState({
@@ -20,10 +20,10 @@ const ModificarRACurso = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const getUnidad = async () => {
+    const getRaCurso = async () => {
       try {
         const response = await conexionAxios.get("racurso/" + id);
-        setMateria(response.data);
+        setRaCurso(response.data);
       } catch (error) {
         console.error(error);
       }
@@ -36,7 +36,7 @@ const ModificarRACurso = () => {
         console.error(error);
       }
     };
-    getUnidad();
+    getRaCurso();
     getMaterias();
   }, [id]);
 
@@ -44,8 +44,8 @@ const ModificarRACurso = () => {
   // Función para manejar el cambio en los datos del formulario
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setMateria({
-      ...materia,
+    setRaCurso({
+      ...raCurso,
       [name]: name === "materia_id" ? Number(value) : value, // Convertir a número si es materia_id
     });
     setEditing(true); // Establecer editing como true al cambiar cualquier campo del formulario
@@ -54,7 +54,7 @@ const ModificarRACurso = () => {
   // Función para enviar los datos actualizados
   const handleSubmit = async () => {
     try {
-      const res = await conexionAxios.put("raCurso/update/" + id, materia);
+      const res = await conexionAxios.put("raCurso/update/" + id, raCurso);
       console.log(res);
 
       if (res.status === 200) {
@@ -95,7 +95,7 @@ const ModificarRACurso = () => {
           <input
             type="text"
             name="nombre"
-            value={materia.nombre || ""}
+            value={raCurso.nombre || ""}
             onChange={handleChange}
             className="block w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
           />
@@ -107,11 +107,11 @@ const ModificarRACurso = () => {
           </label>
           <select
             name="materia_id"
-            value={materia.materia_id}
+            value={raCurso.materia_id}
             onChange={handleChange}
             className="block w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
           >
-            <option value="">Seleccionar Competencia</option>
+            <option value="">Seleccionar la materia</option>
             {materias.map((mat) => (
               <option key={mat.id} value={mat.id}>
                 {mat.nombre}
@@ -139,7 +139,7 @@ const ModificarRACurso = () => {
       </div>
       <div className="flex justify-center mb-5">
         <Link
-          to="/director/listaunidadestematicas/:id"
+          to="/director/listaracurso"
           className="mb-5 w- py-2 text-blue-600 text-center hover:cursor-pointer hover:text-blue-900 transition-colors block "
         >
           Volver

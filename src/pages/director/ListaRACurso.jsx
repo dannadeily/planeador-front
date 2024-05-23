@@ -123,7 +123,7 @@ const ListaRACurso = () => {
                               </div>
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap">
-                              <Link to={`modificarracurso/${raCursoItem.id}`}>
+                              <Link  to={`listatipoevidencia/${raCursoItem.id}`}>
                                 <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
                                 <FaFileArchive />
                                 </button>
@@ -155,14 +155,7 @@ const ListaRACurso = () => {
             </div>
           </div>
         </div>
-        <div className="flex justify-center mb-5">
-          <Link
-            to="/director"
-            className="mb-5 w- py-2 text-blue-600 text-center hover:cursor-pointer hover:text-blue-900 transition-colors block "
-          >
-            Volver
-          </Link>
-        </div>
+        
       </div>
     </div>
   );

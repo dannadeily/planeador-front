@@ -3,7 +3,6 @@ import conexionAxios from "../../axios/Axios";
 import { Link } from "react-router-dom";
 import { FaEdit, FaEye } from "react-icons/fa";
 
-
 const ListaCategoria = () => {
     const [categoria, setCategoria] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
@@ -47,7 +46,7 @@ const ListaCategoria = () => {
             <div className="lg:w-4/5 md:w-3/5 sm:w-2/3 mx-auto">
                 <div>
                     <Link to="crearcategoria">
-                        <button className="border border-black rounded p-2 text-white bg-blue-700 hover:bg-blue-900">
+                        <button className="border border-black rounded p-2 text-white bg-red-700 hover:bg-red-900">
                             Crear Categoria
                         </button>
                     </Link>
@@ -71,6 +70,12 @@ const ListaCategoria = () => {
                                             >
                                                 Nombre
                                             </th>
+                                            <th
+                                                scope="col"
+                                                className="px-6 py-3"
+                                            >
+                                                Competencias
+                                            </th>
 
                                             <th
                                                 scope="col"
@@ -92,6 +97,11 @@ const ListaCategoria = () => {
                                                 <td className="px-6 py-4 whitespace-nowrap">
                                                     <div className="text-sm text-gray-900">
                                                         {categoriaItem.nombre}
+                                                    </div>
+                                                </td>
+                                                <td className="px-6 py-4 whitespace-nowrap">
+                                                    <div className="text-sm text-gray-900">
+                                                        {categoriaItem.Competencias.map(competencia => competencia.nombre).join(", ")}
                                                     </div>
                                                 </td>
 

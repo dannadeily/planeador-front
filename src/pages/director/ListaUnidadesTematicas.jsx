@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import conexionAxios from "../../axios/Axios";
 import { Link } from "react-router-dom";
 import { FaEdit, FaEye, FaPaste } from "react-icons/fa";
@@ -8,11 +9,13 @@ const ListaUnidadesTematicas = () => {
   const [unidad, setUnidad] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredData, setFilteredData] = useState([]);
+  const {id} = useParams()
+
 
   useEffect(() => {
     const getUnidad = async () => {
       try {
-        const response = await conexionAxios.get("unidad/");
+        const response = await conexionAxios.get(`unidad/materia/${id}`);
         console.log(response.data);
         setUnidad(response.data);
         setFilteredData(response.data);

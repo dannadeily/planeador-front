@@ -6,15 +6,6 @@ import AlertaExitoso from "../../components/AlertaExitoso";
 
 const ModificarDirector = () => {
   const [director, setDirector] = useState({});
-  const [codigo, setCodigo] = useState("");
-  const [nombre, setNombre] = useState("");
-  const [tipo_vinculacion, setTipoVinculacion] = useState("");
-  const [departamento, setDepartamento] = useState("");
-  const [area_formacion, setAreaFormacion] = useState("");
-  const [correo_personal, setCorreoPersonal] = useState("");
-  const [correo_institucional, setCorreoInstitucional] = useState("");
-  const [celular, setCelular] = useState("");
-
   const [editing, setEditing] = useState(false); // Establecer como true para que se cargue en modo de edición
   const [alertaError, setAlertaError] = useState({ error: false, message: "" });
   const [alertaExitoso, setAlertaExitoso] = useState({
@@ -52,7 +43,7 @@ const ModificarDirector = () => {
         nombre: director.nombre,
         tipo_vinculacion: director.tipo_vinculacion,
         departamento: director.departamento,
-        area_formacion: director.area_formacion,
+        
         correo_personal: director.correo_personal,
         correo_institucional: director.correo_institucional,
         celular: director.celular,
@@ -141,24 +132,7 @@ const ModificarDirector = () => {
             <span className="block text-gray-600">{director.departamento}</span>
           )}
         </div>
-        <div>
-          <label className="uppercase block font-bold" htmlFor="area_formacion">
-            Área de Formación:
-          </label>
-          {editing ? (
-            <input
-              type="text"
-              name="area_formacion"
-              value={director.area_formacion}
-              onChange={handleChange}
-              className="block w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
-            />
-          ) : (
-            <span className="block text-gray-600">
-              {director.area_formacion}
-            </span>
-          )}
-        </div>
+       
         <div>
           <label
             className="uppercase block font-bold"

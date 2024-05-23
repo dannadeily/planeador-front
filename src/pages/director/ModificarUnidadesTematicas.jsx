@@ -121,7 +121,7 @@ const ModificarUnidadesTematicas = () => {
             onChange={handleChange}
             className="block w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
           >
-            <option value="">Seleccionar Competencia</option>
+            <option value="">Seleccionar la materia</option>
             {materias.map((mat) => (
              
               <option key={mat.id} value={mat.id}>
@@ -151,7 +151,7 @@ const ModificarUnidadesTematicas = () => {
       </div>
       <div className="flex justify-center mb-5">
         <Link
-          to="/director/listaunidadestematicas/:id"
+          to="/director"
           className="mb-5 w- py-2 text-blue-600 text-center hover:cursor-pointer hover:text-blue-900 transition-colors block "
         >
           Volver

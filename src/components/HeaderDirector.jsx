@@ -276,10 +276,10 @@ function HeaderDirector() {
               </div>
             </button>
           </div>
-          <div className="m-4 border-b border-gray-200 p-4">
+          <div className="m-4  p-4">
             <button className="flex w-52 text-white ">
               <div className="flex items-center">
-                <FaIdCardAlt />
+                
                 <span
                   className={`${
                     !sidebarOpen && "hidden"
@@ -293,7 +293,7 @@ function HeaderDirector() {
         {/* Main */}
         <main
           className={`flex-grow bg-gray-100 ${
-            sidebarOpen ? "ml-72 md:ml-64 lg:ml-20" : "ml-20 md:ml-20 lg:ml-1 "
+            sidebarOpen ? "ml-72 md:ml-64 lg:ml-32" : "ml-20 md:ml-20 lg:ml-1 "
           }`}
         >
           <div className="container lg:mx-20 md:mx-10  mt-10 z-40">

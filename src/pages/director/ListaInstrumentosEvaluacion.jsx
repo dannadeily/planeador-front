@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import conexionAxios from "../../axios/Axios";
 import { Link } from "react-router-dom";
 import { FaEdit, FaEye } from "react-icons/fa";
+import { MdDeleteForever } from "react-icons/md";
 
 const ListaInstrumentosEvaluacion = () => {
   const [instrumento, setInstrumento] = useState([]);
@@ -35,12 +36,24 @@ const ListaInstrumentosEvaluacion = () => {
     setFilteredData(filtered);
   };
 
+  const handleDelete = async (id) => {
+    try {
+      await conexionAxios.delete(`instrumento/delete/${id}`);
+      // Actualizar la lista después de eliminar
+      const updatedInstrumento = instrumento.filter((doc) => doc.id !== id);
+      setInstrumento(updatedInstrumento);
+      setFilteredData(updatedInstrumento);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div>
       <div className="px-10 py-5">
         <div className="">
           <h1 className="text-2xl  border-b-4 border-blue-700 text-left font-bold">
-            Categorías
+            Intrumentos de Evaluación
           </h1>
         </div>
       </div>
@@ -60,10 +73,16 @@ const ListaInstrumentosEvaluacion = () => {
                   <thead className="text-xs uppercase bg-blue-700">
                     <tr>
                       <th scope="col" className="px-6 py-3">
-                        Id
+                        Codigo
                       </th>
                       <th scope="col" className="px-6 py-3">
                         Nombre
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        Descripción
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        Tipo de Evidencia
                       </th>
 
                       <th scope="col" className="px-6 py-3">
@@ -75,21 +94,38 @@ const ListaInstrumentosEvaluacion = () => {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-400">
-                    {filteredData.map((categoriaItem) => (
-                      <tr key={categoriaItem.id}>
+                    {filteredData.map((instrumentosItem) => (
+                      <tr key={instrumentosItem.id}>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-900">
-                            {categoriaItem.id}
+                            {instrumentosItem.codigo}
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-900">
-                            {categoriaItem.nombre}
+                            {instrumentosItem.nombre}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-900">
+                            {instrumentosItem.descripcion}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-900">
+                            {instrumentosItem.Tipo_Evidencias &&
+                              instrumentosItem.Tipo_Evidencias.map(
+                                (tipo, index) => (
+                                  <span key={index}>{tipo.nombre}</span>
+                                )
+                              )}
                           </div>
                         </td>
 
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <Link to={`modificarcategoria/${categoriaItem.id}`}>
+                          <Link
+                            to={`modificarinstrumentoevaluacion/${instrumentosItem.id}`}
+                          >
                             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                               <FaEdit />
                             </button>
@@ -97,10 +133,8 @@ const ListaInstrumentosEvaluacion = () => {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <button
-                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                            onClick={() =>
-                              handleDelete(resultadoAprendizajeItem.id)
-                            }
+                            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                            onClick={() => handleDelete(instrumentosItem.id)}
                           >
                             <MdDeleteForever />
                           </button>

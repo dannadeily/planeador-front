@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from "react";
 import conexionAxios from "../../axios/Axios";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { FaEdit, FaEye } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
 
 const ListaSubtema = () => {
   const [subtema, setSubtema] = useState([]);
+  const [unidad, setUnidad] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredData, setFilteredData] = useState([]);
+  const { id, unidadId } = useParams();
 
   useEffect(() => {
     const getSubtema = async () => {
       try {
-        const response = await conexionAxios.get("subtema/");
+        const response = await conexionAxios.get(`subtema/unidad/${id}`);
         console.log(response.data);
         setSubtema(response.data);
         setFilteredData(response.data);
@@ -21,7 +23,19 @@ const ListaSubtema = () => {
       }
     };
     getSubtema();
-  }, []);
+    const getUnidad = async () => {
+      try {
+        const response = await conexionAxios.get(`unidad/materia/${unidadId}`);
+        console.log(response.data);
+        setUnidad(response.data);
+        setFilteredData(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getSubtema();
+    getUnidad();
+  }, [id, unidadId]);
 
   const search = (event) => {
     const term = event.target.value.toLowerCase();
@@ -52,7 +66,7 @@ const ListaSubtema = () => {
     <div>
       <div className="px-10 py-5">
         <div className="">
-          <h1 className="text-2xl  border-b-4 border-blue-700 text-left font-bold">
+          <h1 className="text-2xl border-b-4 border-blue-700 text-left font-bold">
             Subtemas
           </h1>
         </div>
@@ -75,11 +89,9 @@ const ListaSubtema = () => {
                       <th scope="col" className="px-6 py-3">
                         Nombre
                       </th>
-
                       <th scope="col" className="px-6 py-3">
                         Descripción
                       </th>
-
                       <th scope="col" className="px-6 py-3">
                         Editar
                       </th>
@@ -101,7 +113,6 @@ const ListaSubtema = () => {
                             {subtemaItem.descripcion}
                           </div>
                         </td>
-
                         <td className="px-6 py-4 whitespace-nowrap">
                           <Link to={`modificarsubtema/${subtemaItem.id}`}>
                             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
@@ -128,8 +139,8 @@ const ListaSubtema = () => {
       </div>
       <div className="flex justify-center mb-5">
         <Link
-          to="/director/listaunidadestematicas/:id"
-          className="mb-5 w- py-2 text-blue-600 text-center hover:cursor-pointer hover:text-blue-900 transition-colors block "
+          to={"/director"} // Utilizar el ID de la unidad en el enlace de "Volver"
+          className="mb-5 py-2 text-blue-600 text-center hover:cursor-pointer hover:text-blue-900 transition-colors block"
         >
           Volver
         </Link>

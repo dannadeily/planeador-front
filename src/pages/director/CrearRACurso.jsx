@@ -21,9 +21,11 @@ const CrearRACurso = () => {
       try {
         const response = await conexionAxios.get("materia/");
         console.log(response.data);
-        if (response.data && response.data.length > 0) {
-          setMaterias(response.data);
-          setMateria_id(response.data[0].id); // Establecer el primer ID de materia como valor predeterminado
+        
+
+        setMaterias(response.data);
+        if (response.data.length > 0) {
+          setMateria_id(response.data[0].id); // Establecer la primera categoría como seleccionada por defecto
         }
       } catch (error) {
         console.error(error);

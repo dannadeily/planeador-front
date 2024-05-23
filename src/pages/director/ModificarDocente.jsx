@@ -128,24 +128,7 @@ const ModificarDocente = () => {
             <span className="block text-gray-600">{docente.departamento}</span>
           )}
         </div>
-        <div>
-          <label className="uppercase block font-bold" htmlFor="area_formacion">
-            Área de Formación:
-          </label>
-          {editing ? (
-            <input
-              type="text"
-              name="area_formacion"
-              value={docente.area_formacion}
-              onChange={handleChange}
-              className="block w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
-            />
-          ) : (
-            <span className="block text-gray-600">
-              {docente.area_formacion}
-            </span>
-          )}
-        </div>
+       
         <div>
           <label
             className="uppercase block font-bold"

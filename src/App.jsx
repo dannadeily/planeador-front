@@ -38,11 +38,15 @@ import ModificarUnidadesTematicas from "./pages/director/ModificarUnidadesTemati
 import ListaSubtema from "./pages/director/ListaSubtema";
 import CrearSubtema from "./pages/director/CrearSubtema";
 import ModificarSubtema from "./pages/director/ModificarSubtema";
+import ListaTipoEvidencia from "./pages/director/ListaTipoEvidencia";
+import CrearTipoEvidencia from "./pages/director/CrearTipoEvidencia";
 
 //Rutas Docente
 import HeaderDocente from "./components/HeaderDocente";
 import PerfilDocente from "./pages/Docente/PerfilDocente";
 import ModificarDirector from "./pages/director/ModificarDirector";
+import ModificarTipoEvidencia from "./pages/director/ModificarTipoEvidencia";
+
 
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -160,6 +164,10 @@ function App() {
                             element={<ModificarResultadoAprendizaje />}
                         />
                         <Route path="listaracurso" element={<ListaRACurso />} />
+                        <Route path="listaracurso/listatipoevidencia/:id" element={<ListaTipoEvidencia />} />
+                        <Route path="listaracurso/listatipoevidencia/:id/creartipoevidencia" element={<CrearTipoEvidencia />} />
+                        <Route path="listaracurso/listatipoevidencia/:id/modificartipoevidencia/:id" element={<ModificarTipoEvidencia />} />
+                        
                         <Route
                             path="listaracurso/crearracurso"
                             element={<CrearRACurso />}
@@ -209,6 +217,8 @@ function App() {
                             path="listaunidadestematicas/:id/listasubtema/:id/modificarsubtema/:id"
                             element={<ModificarSubtema />}
                         />
+
+
                     </Route>
                     <Route path="/docente" element={<HeaderDocente />}>
                         <Route

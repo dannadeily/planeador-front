@@ -151,7 +151,7 @@ const ModificarSubtema = () => {
       </div>
       <div className="flex justify-center mb-5">
         <Link
-          to="/director/listaunidadestematicas/:id/listasubtema/:id"
+          to="/director"
           className="mb-5 w- py-2 text-blue-600 text-center hover:cursor-pointer hover:text-blue-900 transition-colors block "
         >
           Volver

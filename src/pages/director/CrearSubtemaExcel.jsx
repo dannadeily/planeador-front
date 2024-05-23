@@ -1,8 +1,10 @@
 import React from "react";
-import conexionAxios from "../../axios/Axios";
+import { useParams } from "react-router-dom";
+import axios from "../../axios/Axios"; // Assuming 'axios' is exported as default from 'Axios'
 
+const CrearSubtemaExcel = ({ onChange }) => {
+  const { id } = useParams();
 
-const AgregarDocentes = () => {
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
 
@@ -22,11 +24,15 @@ const AgregarDocentes = () => {
     formData.append("archivo", file);
 
     try {
-      const response = await conexionAxios.post("user/createTeachers", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response = await axios.post(
+        `subtema/createSubtemas/${id}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
       console.log(response.data);
       alert("Archivo subido exitosamente.");
     } catch (error) {
@@ -39,7 +45,7 @@ const AgregarDocentes = () => {
     <div className="flex flex-col items-center justify-center">
       <div className="mb-4">
         <p className="text-center">
-          Si desea registrar varios docentes, por favor subir excel aquí
+          Si desea registrar varios subtemas, por favor subir excel aquí
         </p>
       </div>
       <div>
@@ -61,4 +67,4 @@ const AgregarDocentes = () => {
   );
 };
 
-export default AgregarDocentes;
+export default CrearSubtemaExcel;

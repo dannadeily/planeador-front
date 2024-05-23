@@ -51,14 +51,6 @@ const VisualizarDatosDocente = () => {
           <label className="block text-gray-600">{docente.departamento}</label>
         </div>
         <div>
-          <label className="uppercase block font-bold" htmlFor="area_formacion">
-            Área de Formación:
-          </label>
-          <label className="block text-gray-600">
-            {docente.area_formacion}
-          </label>
-        </div>
-        <div>
           <label
             className="uppercase block font-bold"
             htmlFor="correo_personal"

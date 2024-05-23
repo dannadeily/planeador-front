@@ -1,8 +1,6 @@
 import React from "react";
 import conexionAxios from "../../axios/Axios";
-
-
-const AgregarDocentes = () => {
+const CrearUnidadesExcel = ({ onChange }) => {
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
 
@@ -22,11 +20,15 @@ const AgregarDocentes = () => {
     formData.append("archivo", file);
 
     try {
-      const response = await conexionAxios.post("user/createTeachers", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response = await conexionAxios.post(
+        "unidad/createUnidades",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
       console.log(response.data);
       alert("Archivo subido exitosamente.");
     } catch (error) {
@@ -39,7 +41,8 @@ const AgregarDocentes = () => {
     <div className="flex flex-col items-center justify-center">
       <div className="mb-4">
         <p className="text-center">
-          Si desea registrar varios docentes, por favor subir excel aquí
+          Si desea registrar varias unidades tematicas, por favor subir excel
+          aquí
         </p>
       </div>
       <div>
@@ -61,4 +64,4 @@ const AgregarDocentes = () => {
   );
 };
 
-export default AgregarDocentes;
+export default CrearUnidadesExcel;

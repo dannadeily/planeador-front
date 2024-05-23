@@ -62,7 +62,7 @@ const ListaResultadoAprendizaje = () => {
       <div className="lg:w-4/5 md:w-3/5 sm:w-2/3 mx-auto">
         <div>
           <Link to="crearresultadoaprendizaje">
-            <button className="border border-black rounded p-2 text-white bg-blue-700 hover:bg-blue-900">
+            <button className="border border-black rounded p-2 text-white bg-red-700 hover:bg-red-900">
               Crear Resultado de Aprendizaje
             </button>
           </Link>
