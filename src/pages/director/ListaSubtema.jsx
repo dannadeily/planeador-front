@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import conexionAxios from "../../axios/Axios";
 import { Link, useParams } from "react-router-dom";
-import { FaEdit, FaEye } from "react-icons/fa";
+import { FaEdit } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
 
 const ListaSubtema = () => {
@@ -10,6 +10,8 @@ const ListaSubtema = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const { id, unidadId } = useParams();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10); // Set items per page
 
   useEffect(() => {
     const getSubtema = async () => {
@@ -28,12 +30,10 @@ const ListaSubtema = () => {
         const response = await conexionAxios.get(`unidad/materia/${unidadId}`);
         console.log(response.data);
         setUnidad(response.data);
-        setFilteredData(response.data);
       } catch (error) {
         console.error(error);
       }
     };
-    getSubtema();
     getUnidad();
   }, [id, unidadId]);
 
@@ -48,6 +48,7 @@ const ListaSubtema = () => {
     );
 
     setFilteredData(filtered);
+    setCurrentPage(1); // Reset to the first page after search
   };
 
   const handleDelete = async (id) => {
@@ -60,6 +61,17 @@ const ListaSubtema = () => {
     } catch (error) {
       console.error(error);
     }
+  };
+
+  // Pagination logic
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
   };
 
   return (
@@ -78,6 +90,15 @@ const ListaSubtema = () => {
               Agregar Subtema
             </button>
           </Link>
+        </div>
+        <div className="mt-4">
+          <input
+            type="text"
+            placeholder="Buscar..."
+            value={searchTerm}
+            onChange={search}
+            className="border p-2 w-full"
+          />
         </div>
         <div className="flex flex-col">
           <div className="py-2 mt-5 align-middle inline-block min-w-full">
@@ -101,7 +122,7 @@ const ListaSubtema = () => {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-400">
-                    {filteredData.map((subtemaItem) => (
+                    {currentItems.map((subtemaItem) => (
                       <tr key={subtemaItem.id}>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-900">
@@ -134,12 +155,29 @@ const ListaSubtema = () => {
                 </table>
               </div>
             </div>
+            <div className="mt-4 flex justify-between">
+              <button
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className="border p-2 rounded bg-gray-300 hover:bg-gray-400"
+              >
+                Anterior
+              </button>
+              <span>Página {currentPage} de {totalPages}</span>
+              <button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className="border p-2 rounded bg-gray-300 hover:bg-gray-400"
+              >
+                Siguiente
+              </button>
+            </div>
           </div>
         </div>
       </div>
       <div className="flex justify-center mb-5">
         <Link
-          to={"/director"} // Utilizar el ID de la unidad en el enlace de "Volver"
+          to={`/director`} // Utilizar el ID de la unidad en el enlace de "Volver"
           className="mb-5 py-2 text-blue-600 text-center hover:cursor-pointer hover:text-blue-900 transition-colors block"
         >
           Volver

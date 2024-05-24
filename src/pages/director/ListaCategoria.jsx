@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import conexionAxios from "../../axios/Axios";
 import { Link } from "react-router-dom";
-import { FaEdit, FaEye } from "react-icons/fa";
+import { FaEdit } from "react-icons/fa";
 
 const ListaCategoria = () => {
     const [categoria, setCategoria] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [filteredData, setFilteredData] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage] = useState(10); // Set items per page
 
     useEffect(() => {
         const getCategoria = async () => {
@@ -34,6 +36,18 @@ const ListaCategoria = () => {
         );
 
         setFilteredData(filtered);
+        setCurrentPage(1); // Reset to the first page after search
+    };
+
+    // Pagination logic
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+
+    const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
     };
 
     return (
@@ -50,6 +64,15 @@ const ListaCategoria = () => {
                             Crear Categoria
                         </button>
                     </Link>
+                </div>
+                <div className="mt-4">
+                    <input
+                        type="text"
+                        placeholder="Buscar..."
+                        value={searchTerm}
+                        onChange={search}
+                        className="border p-2 w-full"
+                    />
                 </div>
                 <div className="flex flex-col">
                     <div className="py-2 mt-5 align-middle inline-block min-w-full">
@@ -76,18 +99,16 @@ const ListaCategoria = () => {
                                             >
                                                 Competencias
                                             </th>
-
                                             <th
                                                 scope="col"
                                                 className="px-6 py-3"
                                             >
                                                 Editar
                                             </th>
-                                            
                                         </tr>
                                     </thead>
                                     <tbody className="bg-white divide-y divide-gray-400">
-                                        {filteredData.map((categoriaItem) => (
+                                        {currentItems.map((categoriaItem) => (
                                             <tr key={categoriaItem.id}>
                                                 <td className="px-6 py-4 whitespace-nowrap">
                                                     <div className="text-sm text-gray-900">
@@ -104,7 +125,6 @@ const ListaCategoria = () => {
                                                         {categoriaItem.Competencias.map(competencia => competencia.nombre).join(", ")}
                                                     </div>
                                                 </td>
-
                                                 <td className="px-6 py-4 whitespace-nowrap">
                                                     <Link
                                                         to={`modificarcategoria/${categoriaItem.id}`}
@@ -114,13 +134,28 @@ const ListaCategoria = () => {
                                                         </button>
                                                     </Link>
                                                 </td>
-                                               
-                                               
                                             </tr>
                                         ))}
                                     </tbody>
                                 </table>
                             </div>
+                        </div>
+                        <div className="mt-4 flex justify-between">
+                            <button
+                                onClick={() => handlePageChange(currentPage - 1)}
+                                disabled={currentPage === 1}
+                                className="border p-2 rounded bg-gray-300 hover:bg-gray-400"
+                            >
+                                Anterior
+                            </button>
+                            <span>Página {currentPage} de {totalPages}</span>
+                            <button
+                                onClick={() => handlePageChange(currentPage + 1)}
+                                disabled={currentPage === totalPages}
+                                className="border p-2 rounded bg-gray-300 hover:bg-gray-400"
+                            >
+                                Siguiente
+                            </button>
                         </div>
                     </div>
                 </div>

@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import conexionAxios from "../../axios/Axios";
 import { Link } from "react-router-dom";
-import { FaEdit, FaEye, FaFileArchive, FaPaste } from "react-icons/fa";
+import { FaEdit, FaFileArchive } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
 
 const ListaRACurso = () => {
   const [raCurso, setRaCurso] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredData, setFilteredData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10); // Set items per page
 
   useEffect(() => {
     const getRaCurso = async () => {
@@ -34,6 +36,7 @@ const ListaRACurso = () => {
     );
 
     setFilteredData(filtered);
+    setCurrentPage(1); // Reset to the first page after search
   };
 
   const handleDelete = async (id) => {
@@ -47,6 +50,18 @@ const ListaRACurso = () => {
       console.error(error);
     }
   };
+
+  // Pagination logic
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
   return (
     <div>
       <div className="px-10 py-5">
@@ -63,6 +78,16 @@ const ListaRACurso = () => {
               Agregar Resultado de Aprendizaje Curso
             </button>
           </Link>
+        </div>
+
+        <div className="mt-4">
+          <input
+            type="text"
+            placeholder="Buscar..."
+            value={searchTerm}
+            onChange={search}
+            className="border p-2 w-full"
+          />
         </div>
 
         <div className="flex flex-col">
@@ -84,7 +109,6 @@ const ListaRACurso = () => {
                       <th scope="col" className="px-6 py-3">
                         Estado
                       </th>
-
                       <th scope="col" className="px-6 py-3">
                         Tipo de Evidencia
                       </th>
@@ -97,7 +121,7 @@ const ListaRACurso = () => {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-400">
-                    {filteredData.map(
+                    {currentItems.map(
                       (raCursoItem) => (
                         console.log(raCursoItem.Materia),
                         (
@@ -125,11 +149,10 @@ const ListaRACurso = () => {
                             <td className="px-6 py-4 whitespace-nowrap">
                               <Link  to={`listatipoevidencia/${raCursoItem.id}`}>
                                 <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                                <FaFileArchive />
+                                  <FaFileArchive />
                                 </button>
                               </Link>
                             </td>
-
                             <td className="px-6 py-4 whitespace-nowrap">
                               <Link to={`modificarracurso/${raCursoItem.id}`}>
                                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
@@ -153,9 +176,25 @@ const ListaRACurso = () => {
                 </table>
               </div>
             </div>
+            <div className="mt-4 flex justify-between">
+              <button
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className="border p-2 rounded bg-gray-300 hover:bg-gray-400"
+              >
+                Anterior
+              </button>
+              <span>Página {currentPage} de {totalPages}</span>
+              <button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className="border p-2 rounded bg-gray-300 hover:bg-gray-400"
+              >
+                Siguiente
+              </button>
+            </div>
           </div>
         </div>
-        
       </div>
     </div>
   );

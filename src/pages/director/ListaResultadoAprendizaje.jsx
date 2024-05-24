@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
 import conexionAxios from "../../axios/Axios";
-import { Link ,useParams} from "react-router-dom";
-import { FaEdit, FaEye } from "react-icons/fa";
+import { Link, useParams } from "react-router-dom";
+import { FaEdit } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
 
 const ListaResultadoAprendizaje = () => {
   const [resultadoAprendizaje, setResultadoAprendizaje] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredData, setFilteredData] = useState([]);
-  const {id} = useParams();
+  const { id } = useParams();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10); // Set items per page
 
   useEffect(() => {
     const getResultadoAprendizaje = async () => {
@@ -48,15 +50,28 @@ const ListaResultadoAprendizaje = () => {
       )
     );
 
-    
     setFilteredData(filtered);
+    setCurrentPage(1); // Reset to the first page after search
+  };
+
+  // Pagination logic
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
   };
 
   return (
     <div>
       <div className="px-10 py-5">
         <div className="">
-        <h1 className="text-2xl  border-b-4 border-blue-700 text-left font-bold">Resultados de Aprendizaje</h1>
+          <h1 className="text-2xl border-b-4 border-blue-700 text-left font-bold">
+            Resultados de Aprendizaje
+          </h1>
         </div>
       </div>
       <div className="lg:w-4/5 md:w-3/5 sm:w-2/3 mx-auto">
@@ -66,6 +81,15 @@ const ListaResultadoAprendizaje = () => {
               Crear Resultado de Aprendizaje
             </button>
           </Link>
+        </div>
+        <div className="mt-4">
+          <input
+            type="text"
+            placeholder="Buscar..."
+            value={searchTerm}
+            onChange={search}
+            className="border p-2 w-full"
+          />
         </div>
         <div className="flex flex-col">
           <div className="py-2 mt-5 align-middle inline-block min-w-full">
@@ -83,7 +107,6 @@ const ListaResultadoAprendizaje = () => {
                       <th scope="col" className="px-6 py-3">
                         Competencia
                       </th>
-
                       <th scope="col" className="px-6 py-3">
                         Estado
                       </th>
@@ -96,7 +119,7 @@ const ListaResultadoAprendizaje = () => {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-400">
-                    {filteredData.map((resultadoAprendizajeItem) => (
+                    {currentItems.map((resultadoAprendizajeItem) => (
                       <tr key={resultadoAprendizajeItem.id}>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-900">
@@ -120,7 +143,6 @@ const ListaResultadoAprendizaje = () => {
                               : "Inactivo"}
                           </div>
                         </td>
-
                         <td className="px-6 py-4 whitespace-nowrap">
                           <Link
                             to={`modificarresultadoaprendizaje/${resultadoAprendizajeItem.id}`}
@@ -143,6 +165,23 @@ const ListaResultadoAprendizaje = () => {
                   </tbody>
                 </table>
               </div>
+            </div>
+            <div className="mt-4 flex justify-between">
+              <button
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className="border p-2 rounded bg-gray-300 hover:bg-gray-400"
+              >
+                Anterior
+              </button>
+              <span>Página {currentPage} de {totalPages}</span>
+              <button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className="border p-2 rounded bg-gray-300 hover:bg-gray-400"
+              >
+                Siguiente
+              </button>
             </div>
           </div>
         </div>

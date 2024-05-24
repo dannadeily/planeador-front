@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import conexionAxios from "../../axios/Axios";
 import { Link, useParams } from "react-router-dom";
-import { FaEdit, FaEye, FaFileArchive, FaPaste } from "react-icons/fa";
+import { FaEdit } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
 
 const ListaTipoEvidencia = () => {
@@ -9,6 +9,8 @@ const ListaTipoEvidencia = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const { id } = useParams();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10); // Set items per page
 
   useEffect(() => {
     const getTipoEvidencia = async () => {
@@ -22,7 +24,7 @@ const ListaTipoEvidencia = () => {
       }
     };
     getTipoEvidencia();
-  }, []);
+  }, [id]);
 
   const search = (event) => {
     const term = event.target.value.toLowerCase();
@@ -35,6 +37,7 @@ const ListaTipoEvidencia = () => {
     );
 
     setFilteredData(filtered);
+    setCurrentPage(1); // Reset to the first page after search
   };
 
   const handleDelete = async (id) => {
@@ -48,11 +51,23 @@ const ListaTipoEvidencia = () => {
       console.error(error);
     }
   };
+
+  // Pagination logic
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
   return (
     <div>
       <div className="px-10 py-5">
         <div className="">
-          <h1 className="text-2xl  border-b-4 border-blue-700 text-left font-bold">
+          <h1 className="text-2xl border-b-4 border-blue-700 text-left font-bold">
             Tipo de Evidencia
           </h1>
         </div>
@@ -65,7 +80,15 @@ const ListaTipoEvidencia = () => {
             </button>
           </Link>
         </div>
-
+        <div className="mt-4">
+          <input
+            type="text"
+            placeholder="Buscar..."
+            value={searchTerm}
+            onChange={search}
+            className="border p-2 w-full"
+          />
+        </div>
         <div className="flex flex-col">
           <div className="py-2 mt-5 align-middle inline-block min-w-full">
             <div className="shadow overflow-x-auto sm:overflow-x-hidden border-b border-gray-200 sm:rounded-lg">
@@ -79,7 +102,6 @@ const ListaTipoEvidencia = () => {
                       <th scope="col" className="px-6 py-3">
                         Nombre del Resultado de aprendizaje curso
                       </th>
-
                       <th scope="col" className="px-6 py-3">
                         Editar
                       </th>
@@ -89,7 +111,7 @@ const ListaTipoEvidencia = () => {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-400">
-                    {filteredData.map((tipoEvidenciaItem) => (
+                    {currentItems.map((tipoEvidenciaItem) => (
                       <tr key={tipoEvidenciaItem.id}>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-900">
@@ -101,7 +123,6 @@ const ListaTipoEvidencia = () => {
                             {tipoEvidenciaItem.Ra_Curso.nombre}
                           </div>
                         </td>
-
                         <td className="px-6 py-4 whitespace-nowrap">
                           <Link
                             to={`modificartipoevidencia/${tipoEvidenciaItem.id}`}
@@ -124,6 +145,23 @@ const ListaTipoEvidencia = () => {
                   </tbody>
                 </table>
               </div>
+            </div>
+            <div className="mt-4 flex justify-between">
+              <button
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className="border p-2 rounded bg-gray-300 hover:bg-gray-400"
+              >
+                Anterior
+              </button>
+              <span>Página {currentPage} de {totalPages}</span>
+              <button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className="border p-2 rounded bg-gray-300 hover:bg-gray-400"
+              >
+                Siguiente
+              </button>
             </div>
           </div>
         </div>
