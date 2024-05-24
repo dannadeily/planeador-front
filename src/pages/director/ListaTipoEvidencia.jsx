@@ -113,12 +113,12 @@ const ListaTipoEvidencia = () => {
                   <tbody className="bg-white divide-y divide-gray-400">
                     {currentItems.map((tipoEvidenciaItem) => (
                       <tr key={tipoEvidenciaItem.id}>
-                        <td className="px-6 py-4 whitespace-nowrap">
+                        <td className="px-6 py-4 whitespace-normal">
                           <div className="text-sm text-gray-900">
                             {tipoEvidenciaItem.nombre}
                           </div>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
+                        <td className="px-6 py-4whitespace-normal">
                           <div className="text-sm text-gray-900">
                             {tipoEvidenciaItem.Ra_Curso.nombre}
                           </div>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import AlertaError from "../../components/AlertaError";
 import AlertaExitoso from "../../components/AlertaExitoso";
 import conexionAxios from "../../axios/Axios";
+import CrearRACursoExcel from "./CrearRACursoExcel";
 
 const CrearRACurso = () => {
   const [nombre, setNombre] = useState("");
@@ -144,6 +145,7 @@ const CrearRACurso = () => {
                 </svg>
               </div>
             </div>
+           
           </div>
 
           <input
@@ -152,7 +154,11 @@ const CrearRACurso = () => {
             className="bg-blue-700 mb-5 w-full py-2 text-white uppercase font-bold rounded hover:cursor-pointer hover:bg-sky-800 transition-colors"
           />
         </form>
+        <div className="border-t border-gray-600 p-2">
+          <CrearRACursoExcel />
+        </div>
       </div>
+      
     </div>
   );
 };

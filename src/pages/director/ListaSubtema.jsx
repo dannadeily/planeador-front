@@ -124,12 +124,12 @@ const ListaSubtema = () => {
                   <tbody className="bg-white divide-y divide-gray-400">
                     {currentItems.map((subtemaItem) => (
                       <tr key={subtemaItem.id}>
-                        <td className="px-6 py-4 whitespace-nowrap">
+                        <td className="px-6 py-4 whitespace-normal">
                           <div className="text-sm text-gray-900">
                             {subtemaItem.nombre}
                           </div>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
+                        <td className="px-6 py-4 whitespace-normal">
                           <div className="text-sm text-gray-900">
                             {subtemaItem.descripcion}
                           </div>

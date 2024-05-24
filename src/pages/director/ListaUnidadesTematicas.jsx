@@ -133,17 +133,17 @@ const ListaUnidadesTematicas = () => {
                             {unidadItem.Materia.codigo}
                           </div>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
+                        <td className="px-6 py-4 whitespace-normal">
                           <div className="text-sm text-gray-900">
                             {unidadItem.Materia.nombre}
                           </div>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
+                        <td className="px-6 py-4 whitespace-normal">
                           <div className="text-sm text-gray-900">
                             {unidadItem.nombre}
                           </div>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
+                        <td className="px-6 py-4 whitespace-normal">
                           <div className="text-sm text-gray-900">
                             {unidadItem.descripcion}
                           </div>

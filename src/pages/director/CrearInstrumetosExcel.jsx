@@ -1,7 +1,7 @@
 import React from "react";
 import conexionAxios from "../../axios/Axios";
 
-const CrearMaterias = ({ onChange }) => {
+const CrearInstrumetosExcel = ({ onChange }) => {
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
 
@@ -22,7 +22,7 @@ const CrearMaterias = ({ onChange }) => {
 
     try {
       const response = await conexionAxios.post(
-        "materia/createMaterias",
+        "instrumento/createInstrumentos",
         formData,
         {
           headers: {
@@ -46,7 +46,8 @@ const CrearMaterias = ({ onChange }) => {
     <div className="flex flex-col items-center justify-center">
       <div className="mb-4">
         <p className="text-center">
-          Si desea registrar varias materias, por favor subir excel aquí
+          Si desea registrar varias unidades tematicas, por favor subir excel
+          aquí
         </p>
       </div>
       <div>
@@ -68,4 +69,4 @@ const CrearMaterias = ({ onChange }) => {
   );
 };
 
-export default CrearMaterias;
+export default CrearInstrumetosExcel;

@@ -115,12 +115,12 @@ const ListaCategoria = () => {
                                                         {categoriaItem.id}
                                                     </div>
                                                 </td>
-                                                <td className="px-6 py-4 whitespace-nowrap">
+                                                <td className="px-6 py-4 whitespace-normal">
                                                     <div className="text-sm text-gray-900">
                                                         {categoriaItem.nombre}
                                                     </div>
                                                 </td>
-                                                <td className="px-6 py-4 whitespace-nowrap">
+                                                <td className="px-6 py-4 whitespace-normal">
                                                     <div className="text-sm text-gray-900">
                                                         {categoriaItem.Competencias.map(competencia => competencia.nombre).join(", ")}
                                                     </div>

@@ -28,10 +28,14 @@ const AgregarDocentes = () => {
         },
       });
       console.log(response.data);
-      alert("Archivo subido exitosamente.");
+      if (response.data.message) {
+        alert(response.data.message);
+        onChange();
+      }
     } catch (error) {
-      console.error(error);
-      alert("Hubo un error al subir el archivo.");
+      if (error.response && error.response.data && error.response.data.error) {
+        alert(error.response.data.error);
+      }
     }
   };
 

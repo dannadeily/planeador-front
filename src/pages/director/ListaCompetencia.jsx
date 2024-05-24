@@ -93,10 +93,10 @@ const ListaCompetencia = () => {
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-900">{competenciaItem.codigo}</div>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
+                        <td className="px-6 py-4 whitespace-normal">
                           <div className="text-sm text-gray-900">{competenciaItem.nombre}</div>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
+                        <td className="px-6 py-4 whitespace-normal">
                           <div className="text-sm text-gray-900">
                             {competenciaItem.Resultados_Aprendizajes.map(
                               (resultado, index) => (

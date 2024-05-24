@@ -109,13 +109,13 @@ const ListaInstrumentosEvaluacion = () => {
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-900">{instrumentosItem.codigo}</div>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
+                        <td className="px-6 py-4 whitespace-normal">
                           <div className="text-sm text-gray-900">{instrumentosItem.nombre}</div>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
+                        <td className="px-6 py-4 whitespace-normal " >
                           <div className="text-sm text-gray-900">{instrumentosItem.descripcion}</div>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
+                        <td className="px-6 py-4 whitespace-normal">
                           <div className="text-sm text-gray-900">
                             {instrumentosItem.Tipo_Evidencias &&
                               instrumentosItem.Tipo_Evidencias.map(
