@@ -5,9 +5,10 @@ import AlertaError from "../../components/AlertaError";
 import AlertaExitoso from "../../components/AlertaExitoso";
 
 const ModificarInstrumentosEvaluacion = () => {
-  const [raCurso, setRaCurso] = useState({});
-  const [tipos, setTipos] = useState([]); // Lista de materias para el selector
-  const [editing, setEditing] = useState(true); // Establecer como true para que se cargue en modo de edición
+  const [instrumento, setInstrumento] = useState({});
+  const [tipos, setTipos] = useState([]);
+  const [selectedTipos, setSelectedTipos] = useState([]); // Add state to handle selected tipos
+  const [editing, setEditing] = useState(true);
   const [alertaError, setAlertaError] = useState({
     error: false,
     message: "",
@@ -20,62 +21,57 @@ const ModificarInstrumentosEvaluacion = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const getRaCurso = async () => {
+    const getInstrumento = async () => {
       try {
         const response = await conexionAxios.get("instrumento/" + id);
-        setRaCurso(response.data);
+        setInstrumento(response.data);
+        setSelectedTipos(response.data.tipos || []);
       } catch (error) {
         console.error(error);
       }
     };
     const getTipos = async () => {
       try {
-        const response = await conexionAxios.get("tipoEvidencia/"); // Ruta para obtener las materias
+        const response = await conexionAxios.get("tipoEvidencia/");
         setTipos(response.data);
       } catch (error) {
         console.error(error);
       }
     };
-    getRaCurso();
+    getInstrumento();
     getTipos();
   }, [id]);
 
-  // Función para manejar el cambio en los datos del formulario
-  // Función para manejar el cambio en los datos del formulario
   const handleTiposChange = (e) => {
     const selectedType = parseInt(e.target.value);
-    console.log(tipos); // Verifica el tipo de tipos
-    const tiposArray = Array.isArray(tipos) ? tipos : [];
-    if (tiposArray.includes(selectedType)) {
-      // Si el tipo ya está seleccionado, lo eliminamos
-      setTipos(tiposArray.filter((typeId) => typeId !== selectedType));
+    if (selectedTipos.includes(selectedType)) {
+      setSelectedTipos(selectedTipos.filter((typeId) => typeId !== selectedType));
     } else {
-      // Si el tipo no está seleccionado, lo agregamos
-      setTipos([...tiposArray, selectedType]);
+      setSelectedTipos([...selectedTipos, selectedType]);
     }
   };
 
   const handleChange = (e) => {
-    setRaCurso({
-      ...raCurso,
+    setInstrumento({
+      ...instrumento,
       [e.target.name]: e.target.value,
     });
   };
 
-
-  // Función para enviar los datos actualizados
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      const res = await conexionAxios.put("/instrumento/update/" + id, raCurso);
-      console.log(res);
-
+      const res = await conexionAxios.put("/instrumento/update/" + id, {
+        ...instrumento,
+        tipos: selectedTipos
+      });
       if (res.status === 200) {
-        navigate("/director/listainstrumentoevaluacion");
         setAlertaExitoso({ error: true, message: res.data.message });
         setTimeout(() => {
           setAlertaExitoso({ error: false, message: "" });
-        }, 10000);
-        setEditing(false); // Establecer editing como false después de guardar los cambios
+          navigate("/director/listainstrumentoevaluacion");
+        }, 5000);
+        setEditing(false);
       }
     } catch (error) {
       console.error(error);
@@ -89,7 +85,7 @@ const ModificarInstrumentosEvaluacion = () => {
       <div className="px-4 md:px-10 py-5">
         <div className="mb-4">
           <h1 className="text-2xl border-b-4 border-blue-700 text-left font-bold">
-            Datos Intrumentos de Evaluación
+            Datos Instrumentos de Evaluación
           </h1>
         </div>
         {alertaError.error && !alertaExitoso.error && (
@@ -99,88 +95,90 @@ const ModificarInstrumentosEvaluacion = () => {
           <AlertaExitoso message={alertaExitoso.message} />
         )}
       </div>
-      <div className="lg:mx- md:mx-40 sm:mx-20 my-2 bg-white shadow rounded-lg p-6 grid lg:grid-cols-2 gap-4">
-        
-      <div>
+      <form onSubmit={handleSubmit} className="lg:mx- md:mx-40 sm:mx-20 my-2 bg-white shadow rounded-lg p-6 grid lg:grid-cols-2 gap-4">
+        <div>
           <label className="uppercase block font-bold" htmlFor="nombre">
             Nombre:
           </label>
           <input
             type="text"
             name="nombre"
-            value={raCurso.nombre || ""}
+            value={instrumento.nombre || ""}
             onChange={handleChange}
             className="block w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
           />
         </div>
 
         <div>
-          <label className="uppercase block font-bold" htmlFor="nombre">
+          <label className="uppercase block font-bold" htmlFor="descripcion">
             Descripción:
           </label>
-          <input
+          <textarea
             type="text"
             name="descripcion"
-            value={raCurso.descripcion || ""}
+            value={instrumento.descripcion || ""}
             onChange={handleChange}
             className="block w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
           />
         </div>
 
         <div>
-          <label className="uppercase block font-bold" htmlFor="materia_id">
+          <label className="uppercase block font-bold" htmlFor="tipos">
             Tipos de evidencia:
           </label>
           <div className="relative">
-              <select
-                multiple
-                className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                onChange={handleTiposChange}
-                value={tipos}
+            <select
+              multiple
+              className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              onChange={handleTiposChange}
+              value={selectedTipos}
+            >
+              {tipos.map((t) => (
+                <option key={t.id} value={t.id}>
+                  {t.nombre}
+                </option>
+              ))}
+            </select>
+            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+              <svg
+                className="fill-current h-4 w-4"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
               >
-                {tipos.map((t,index) => (
-                  <option key={index} value={t.id}>
-                    {t.nombre}
-                  </option>
-                ))}
-              </select>
-              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                <svg
-                  className="fill-current h-4 w-4"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                >
-                  <path fillRule="evenodd" d="M6 8l4 4 4-4H6z" />
-                </svg>
-              </div>
+                <path fillRule="evenodd" d="M6 8l4 4 4-4H6z" />
+              </svg>
             </div>
+          </div>
         </div>
-      </div>
-      <div className="flex justify-center mb-5">
-        {editing ? (
-          <button
-            onClick={handleSubmit}
-            className="py-2 px-6 bg-blue-700 hover:bg-blue-900 text-white font-bold border border-black rounded-md hover:cursor-pointer transition-colors"
+
+        <div className="flex justify-center mb-5 col-span-2">
+          {editing ? (
+            <button
+              type="submit"
+              className="py-2 px-6 bg-blue-700 hover:bg-blue-900 text-white font-bold border border-black rounded-md hover:cursor-pointer transition-colors"
+            >
+              Guardar cambios
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={() => setEditing(true)}
+              className="py-2 px-6 bg-blue-700 hover:bg-blue-900 text-white font-bold border border-black rounded-md hover:cursor-pointer transition-colors"
+            >
+              Editar
+            </button>
+          )}
+        </div>
+
+        <div className="flex justify-center mb-5 col-span-2">
+          <Link
+            to="/director/listainstrumento"
+            className="mb-5 w- py-2 text-blue-600 text-center hover:cursor-pointer hover:text-blue-900 transition-colors block"
           >
-            Guardar cambios
-          </button>
-        ) : (
-          <button
-            onClick={() => setEditing(true)}
-            className="py-2 px-6 bg-blue-700 hover:bg-blue-900 text-white font-bold border border-black rounded-md hover:cursor-pointer transition-colors"
-          >
-            Editar
-          </button>
-        )}
-      </div>
-      <div className="flex justify-center mb-5">
-        <Link
-          to="/director/listaracurso"
-          className="mb-5 w- py-2 text-blue-600 text-center hover:cursor-pointer hover:text-blue-900 transition-colors block "
-        >
-          Volver
-        </Link>
-      </div>
+            Volver
+          </Link>
+        </div>
+      </form>
     </>
   );
 };

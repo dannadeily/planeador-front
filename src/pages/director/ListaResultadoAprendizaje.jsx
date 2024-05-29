@@ -96,7 +96,7 @@ const ListaResultadoAprendizaje = () => {
             <div className="shadow overflow-x-auto sm:overflow-x-hidden border-b border-gray-200 sm:rounded-lg">
               <div className="overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-400">
-                  <thead className="text-xs uppercase bg-blue-700">
+                <thead className=" uppercase bg-red-700">
                     <tr>
                       <th scope="col" className="px-6 py-3">
                         Codigo

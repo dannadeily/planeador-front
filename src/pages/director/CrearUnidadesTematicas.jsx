@@ -87,7 +87,7 @@ const CrearUnidadesTematicas = () => {
   return (
     <div>
       <div className="px-10 py-5"></div>
-      <div className="xl:mx-96 lg:mx-60 md:mx-40 sm:mx-20 bg-white shadow rounded-lg p-10">
+      <div className="xl:mx-60 lg:mx-60 md:mx-40 sm:mx-20 bg-white shadow rounded-lg p-10">
         <form onSubmit={handleSubmit}>
           <h1 className="font-bold text-2xl text-center text-gray-900 dark:text-red-600">
             Crear Unidad Tematica

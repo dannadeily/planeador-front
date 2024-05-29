@@ -3,6 +3,7 @@ import { Link, useParams,useNavigate } from "react-router-dom";
 import conexionAxios from "../../axios/Axios";
 import AlertaError from "../../components/AlertaError";
 import AlertaExitoso from "../../components/AlertaExitoso";
+import { TiDeleteOutline } from "react-icons/ti";
 const ModificarCategoria = () => {
     const [categoria, setCategoria] = useState({});
     const [editing, setEditing] = useState(true); // Establecer como true para que se cargue en modo de edición
@@ -61,6 +62,35 @@ const ModificarCategoria = () => {
         }
     };
 
+    const unlinkResultadoCompetencia = async (id) => {
+        try {
+          const res = await conexionAxios.put(`categoria/unlinkCompetencia/${id}`, {
+            competencia_id: id,
+          });
+          if (res.status === 200) {
+            setCompetencia((prev) => ({
+              ...prev,
+              Competencias: prev.Competencias.filter(
+                (resultado) => resultado.id !== id
+              ),
+            }));
+            setAlertaExitoso({ error: true, message: res.data.message });
+            setTimeout(
+              () => setAlertaExitoso({ error: false, message: "" }),
+              10000
+            );
+          }
+        } catch (error) {
+          if (error.response && error.response.data && error.response.data.error) {
+            setAlertaError({
+              error: true,
+              message: error.response.data.error,
+            });
+          }
+          setTimeout(() => setAlertaError({ error: false, message: "" }), 5000);
+        }
+      };
+
     return (
         <>
             <div className="px-4 md:px-10 py-5">
@@ -117,7 +147,77 @@ const ModificarCategoria = () => {
                         </span>
                     )}
                 </div>
+                <div>
+          <label
+            className="uppercase block font-bold"
+            htmlFor="resultadoAprendizaje"
+          >
+            Competencia:
+          </label>
+          <div className="overflow-x-auto">
+            <table className="min-w-full bg-white border">
+              <thead>
+                <tr>
+                  <th className="px-4 py-2 border-b">Código</th>
+                  <th className="px-4 py-2 border-b">Nombre</th>
+                  <th className="px-4 py-2 border-b">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {categoria.Competencias &&
+                categoria.Competencias.length > 0 ? (
+                    categoria.Competencias.map(
+                    (resultado, index) => (
+                      <tr key={index} className="text-sm text-gray-900">
+                        <td className="px-4 py-2 border-b">
+                          {resultado.codigo}
+                        </td>
+                        <td className="px-4 py-2 border-b">
+                          {resultado.nombre}
+                        </td>
+                        <td className="px-4 py-2 border-b">
+                          {editing ? (
+                            <>
+                              <button
+                                onClick={() => {
+                                    unlinkResultadoCompetencia(resultado.id);
+                                  {
+                                    console.log(resultado);
+                                  }
+                                }}
+                                className="text-red-600 hover:cursor-pointer hover:text-red-900 transition-colors"
+                              >
+                                <TiDeleteOutline />
+                              </button>
+                            </>
+                          ) : (
+                            <Link
+                              to={`/director/competencia/${id}/resultados`}
+                              className="text-blue-600 hover:cursor-pointer hover:text-blue-900 transition-colors"
+                            >
+                              Agregar
+                            </Link>
+                          )}
+                        </td>
+                      </tr>
+                    )
+                  )
+                ) : (
+                  <tr>
+                    <td
+                      className="px-4 py-2 border-b text-gray-600"
+                      colSpan="2"
+                    >
+                      Sin resultados
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
             </div>
+            
             <div className="flex justify-center mb-5">
                 {" "}
                 {/* Contenedor para centrar el botón de editar */}

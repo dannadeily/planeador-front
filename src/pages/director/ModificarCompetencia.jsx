@@ -3,6 +3,7 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import conexionAxios from "../../axios/Axios";
 import AlertaError from "../../components/AlertaError";
 import AlertaExitoso from "../../components/AlertaExitoso";
+import { TiDeleteOutline } from "react-icons/ti";
 
 const ModificarCompetencia = () => {
   const [competencia, setCompetencia] = useState({
@@ -10,6 +11,7 @@ const ModificarCompetencia = () => {
     descripcion: "",
     estado: true,
     categoria_id: "",
+    Resultados_Aprendizajes: [],
   });
   const [editing, setEditing] = useState(true); // Establecer como true para que se cargue en modo de edición
   const [alertaError, setAlertaError] = useState({
@@ -20,11 +22,9 @@ const ModificarCompetencia = () => {
     error: false,
     message: "",
   });
-  const [resultadoAprendizaje, setResultadoAprendizaje] = useState([]);
   const { id } = useParams();
   const navigate = useNavigate();
   const [categorias, setCategorias] = useState([]);
-  const [categoria_id, setCategoria_id] = useState("");
 
   useEffect(() => {
     const getCompetencia = async () => {
@@ -90,6 +90,35 @@ const ModificarCompetencia = () => {
           10000
         );
         setEditing(false);
+      }
+    } catch (error) {
+      if (error.response && error.response.data && error.response.data.error) {
+        setAlertaError({
+          error: true,
+          message: error.response.data.error,
+        });
+      }
+      setTimeout(() => setAlertaError({ error: false, message: "" }), 5000);
+    }
+  };
+
+  const unlinkResultadoAprendizaje = async (id) => {
+    try {
+      const res = await conexionAxios.put(`competencia/unlinkRA/${id}`, {
+        resultado_id: id,
+      });
+      if (res.status === 200) {
+        setCompetencia((prev) => ({
+          ...prev,
+          Resultados_Aprendizajes: prev.Resultados_Aprendizajes.filter(
+            (resultado) => resultado.id !== id
+          ),
+        }));
+        setAlertaExitoso({ error: true, message: res.data.message });
+        setTimeout(
+          () => setAlertaExitoso({ error: false, message: "" }),
+          10000
+        );
       }
     } catch (error) {
       if (error.response && error.response.data && error.response.data.error) {
@@ -196,6 +225,71 @@ const ModificarCompetencia = () => {
               }
             </span>
           )}
+        </div>
+        <div>
+          <label
+            className="uppercase block font-bold"
+            htmlFor="resultadoAprendizaje"
+          >
+            Resultados de Aprendizaje:
+          </label>
+          <div className="overflow-x-auto">
+            <table className="min-w-full bg-white border">
+              <thead>
+                <tr>
+                  <th className="px-4 py-2 border-b">Código</th>
+                  <th className="px-4 py-2 border-b">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {competencia.Resultados_Aprendizajes &&
+                competencia.Resultados_Aprendizajes.length > 0 ? (
+                  competencia.Resultados_Aprendizajes.map(
+                    (resultado, index) => (
+                      <tr key={index} className="text-sm text-gray-900">
+                        <td className="px-4 py-2 border-b">
+                          {resultado.codigo}
+                        </td>
+                        <td className="px-4 py-2 border-b">
+                          {editing ? (
+                            <>
+                              <button
+                                onClick={() => {
+                                  unlinkResultadoAprendizaje(resultado.id);
+                                  {
+                                    console.log(resultado);
+                                  }
+                                }}
+                                className="text-red-600 hover:cursor-pointer hover:text-red-900 transition-colors"
+                              >
+                                <TiDeleteOutline />
+                              </button>
+                            </>
+                          ) : (
+                            <Link
+                              to={`/director/competencia/${id}/resultados`}
+                              className="text-blue-600 hover:cursor-pointer hover:text-blue-900 transition-colors"
+                            >
+                              Agregar
+                            </Link>
+                          )}
+                        </td>
+                      </tr>
+                    )
+                  )
+                ) : (
+                  <tr>
+                    <td
+                      className="px-4 py-2 border-b text-gray-600"
+                      colSpan="2"
+                    >
+                      Sin resultados
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
       <div className="flex justify-center mb-5">
