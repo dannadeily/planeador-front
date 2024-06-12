@@ -293,7 +293,7 @@ function HeaderDirector() {
         {/* Main */}
         <main
           className={`flex-grow bg-gray-100 ${
-            sidebarOpen ? "ml-72 md:ml-72 lg:ml-48" : "ml-20 md:ml-20 lg:ml-auto "
+            sidebarOpen ? "ml-72 md:ml-72 lg:ml-72" : "ml-20 md:ml-20 lg:ml-20 "
           }`}
         >
           <div className="container   mt-10 z-40">

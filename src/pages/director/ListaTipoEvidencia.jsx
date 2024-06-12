@@ -65,14 +65,14 @@ const ListaTipoEvidencia = () => {
 
   return (
     <div>
-      <div className="px-10 py-5">
+      <div className="py-5">
         <div className="">
           <h1 className="text-2xl border-b-4 border-blue-700 text-left font-bold">
             Tipo de Evidencia
           </h1>
         </div>
       </div>
-      <div className="lg:w-4/5 md:w-3/5 sm:w-2/3 mx-auto">
+      <div className="lg:w-auto md:w-3/5 sm:w-2/3 mx-auto">
         <div>
           <Link to="creartipoevidencia">
             <button className="border border-black rounded p-2 text-white bg-red-700 hover:bg-red-900 mx-2">

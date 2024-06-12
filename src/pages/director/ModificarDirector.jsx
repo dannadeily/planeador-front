@@ -78,7 +78,7 @@ const ModificarDirector = () => {
           <AlertaExitoso message={alertaExitoso.message} />
         )}
       </div>
-      <div className="lg:mx- md:mx-40 sm:mx-20 my-2 bg-white shadow rounded-lg p-6 grid lg:grid-cols-2 gap-4">
+      <div className="lg:mx-auto md:mx-40 sm:mx-20 my-2 bg-white shadow rounded-lg p-6 grid lg:grid-cols-2 gap-4">
         <div>
           <label className="uppercase block font-bold" htmlFor="nombre">
             Nombre:
