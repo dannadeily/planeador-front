@@ -120,7 +120,7 @@ const CrearMateria = () => {
           </div>
 
           <div className="flex">
-            <div className="w-1/2">
+            <div className="w-1/2 ">
               <div className="my-5 mx-2">
                 <label
                   className="uppercase text-gray-600 block font-bold"

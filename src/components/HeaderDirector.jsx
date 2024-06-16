@@ -249,18 +249,20 @@ function HeaderDirector() {
           </div>
 
           <div className="m-4 border-b border-gray-200 p-4">
-            <button className="flex w-52 text-white ">
-              <div className="flex items-center">
-                <FaIdCardAlt />
-                <span
-                  className={`${
-                    !sidebarOpen && "hidden"
-                  } origin-left duration-200 ml-2`}
-                >
-                  Planeadores Docente
-                </span>
-              </div>
-            </button>
+            <Link to="listaplaneador">
+              <button className="flex w-52 text-white ">
+                <div className="flex items-center">
+                  <FaIdCardAlt />
+                  <span
+                    className={`${
+                      !sidebarOpen && "hidden"
+                    } origin-left duration-200 ml-2`}
+                  >
+                    Planeadores Docente
+                  </span>
+                </div>
+              </button>
+            </Link>
           </div>
           <div className="m-4 border-b border-gray-200 p-4">
             <button className="flex w-52 text-white " onClick={handleLogout}>
@@ -279,7 +281,6 @@ function HeaderDirector() {
           <div className="m-4  p-4">
             <button className="flex w-52 text-white ">
               <div className="flex items-center">
-                
                 <span
                   className={`${
                     !sidebarOpen && "hidden"

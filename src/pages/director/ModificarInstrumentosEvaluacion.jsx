@@ -45,7 +45,9 @@ const ModificarInstrumentosEvaluacion = () => {
   const handleTiposChange = (e) => {
     const selectedType = parseInt(e.target.value);
     if (selectedTipos.includes(selectedType)) {
-      setSelectedTipos(selectedTipos.filter((typeId) => typeId !== selectedType));
+      setSelectedTipos(
+        selectedTipos.filter((typeId) => typeId !== selectedType)
+      );
     } else {
       setSelectedTipos([...selectedTipos, selectedType]);
     }
@@ -63,13 +65,12 @@ const ModificarInstrumentosEvaluacion = () => {
     try {
       const res = await conexionAxios.put("/instrumento/update/" + id, {
         ...instrumento,
-        tipos: selectedTipos
+        tipos: selectedTipos,
       });
       if (res.status === 200) {
         setAlertaExitoso({ error: true, message: res.data.message });
         setTimeout(() => {
           setAlertaExitoso({ error: false, message: "" });
-          navigate("/director/listainstrumentoevaluacion");
         }, 5000);
         setEditing(false);
       }
@@ -95,7 +96,10 @@ const ModificarInstrumentosEvaluacion = () => {
           <AlertaExitoso message={alertaExitoso.message} />
         )}
       </div>
-      <form onSubmit={handleSubmit} className="lg:mx- md:mx-40 sm:mx-20 my-2 bg-white shadow rounded-lg p-6 grid lg:grid-cols-2 gap-4">
+      <form
+        onSubmit={handleSubmit}
+        className="lg:mx- md:mx-40 sm:mx-20 my-2 bg-white shadow rounded-lg p-6 grid lg:grid-cols-2 gap-4"
+      >
         <div>
           <label className="uppercase block font-bold" htmlFor="nombre">
             Nombre:
@@ -172,7 +176,7 @@ const ModificarInstrumentosEvaluacion = () => {
 
         <div className="flex justify-center mb-5 col-span-2">
           <Link
-            to="/director/listainstrumento"
+            to="/director/listainstrumentoevaluacion"
             className="mb-5 w- py-2 text-blue-600 text-center hover:cursor-pointer hover:text-blue-900 transition-colors block"
           >
             Volver
