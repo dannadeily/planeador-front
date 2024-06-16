@@ -13,7 +13,6 @@ const ModificarPlaneador = () => {
     corte_periodo: "",
     semana_actividad_desarrollada: "",
     planeador_id: "",
-    ra_id: "",
     raCursos: [],
     tipoEvidencias: [],
     instrumentos: [],
@@ -25,6 +24,7 @@ const ModificarPlaneador = () => {
   const [tipoEvidencias, setTipoEvidencias] = useState([]);
   const [instrumentos, setInstrumentos] = useState([]);
   const [unidadesTematicas, setUnidadesTematicas] = useState([]);
+  const [materias, setMaterias] = useState([]); // [1, 2, 3, 4, 5, 6, 7, 8, 9, 10
   const [alertaError, setAlertaError] = useState({ error: false, message: "" });
   const [alertaExitoso, setAlertaExitoso] = useState({
     error: false,
@@ -84,7 +84,7 @@ const ModificarPlaneador = () => {
         corte_periodo: parseInt(filas.corte_periodo),
         semana_actividad_desarrollada: filas.semana_actividad_desarrollada,
         planeador_id: parseInt(id),
-        ra_id: parseInt(filas.ra_id),
+
         materia_id: parseInt(planeador.Materia.id),
         raCursos: parseInt(filas.raCursos),
         tipoEvidencias: filas.tipoEvidencias,
@@ -132,10 +132,16 @@ const ModificarPlaneador = () => {
       );
       setTipoEvidencias(tipoEvidenciasResponse.data);
 
-      setFilas((prevFilas) => ({
-        ...prevFilas,
-        raCursos: [...prevFilas.raCursos, raCursoId], // Agregar el id al array
-      }));
+      setFilas((prevFilas) => {
+        // Ensure raCursos is initialized as an array if it doesn't exist
+        const updatedRaCursos = prevFilas.raCursos
+          ? [...prevFilas.raCursos, raCursoId]
+          : [raCursoId];
+        return {
+          ...prevFilas,
+          raCursos: updatedRaCursos,
+        };
+      });
     } catch (error) {
       console.error("Error al obtener tipos de evidencia:", error);
       setAlertaError({
