@@ -6,94 +6,108 @@ import conexionAxios from "../../axios/Axios";
 import VisualizarDatosPlaneador from "./VisualizarDatosPlaneador";
 
 const ModificarPlaneador = () => {
-  const [filas, setFilas] = useState({
-    valor_evaluacion: "",
-    estrategia_retroalimentacion: "",
-    semana_retroalimentacion: "",
-    corte_periodo: "",
-    semana_actividad_desarrollada: "",
-    planeador_id: "",
-    raCursos: [],
-    tipoEvidencias: [],
-    instrumentos: [],
-    unidadesTematicas: [],
-  });
-
-  const [planeador, setPlaneador] = useState({});
-  const [raCurso, setRaCurso] = useState([]);
+  const [valor_evaluacion, setValor_evaluacion] = useState("");
+  const [estrategia_retroalimentacion, setEstrategia_retroalimentacion] =
+    useState("");
+  const [semana_retroalimentacion, setSemana_retroalimentacion] = useState("");
+  const [corte_periodo, setCorte_periodo] = useState("");
+  const [semana_actividad_desarrollada, setSemana_actividad_desarrollada] =
+    useState("");
+  const [raCursos, setRaCursos] = useState([]);
   const [tipoEvidencias, setTipoEvidencias] = useState([]);
   const [instrumentos, setInstrumentos] = useState([]);
   const [unidadesTematicas, setUnidadesTematicas] = useState([]);
-  const [materias, setMaterias] = useState([]); // [1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+  const [planeador, setPlaneador] = useState(null);
+  const [materia, setMateria] = useState(null);
+  const [instrumento, setInstrumento] = useState(null);
+  const [tipoEvidencia, setTipoEvidencia] = useState(null);
+
   const [alertaError, setAlertaError] = useState({ error: false, message: "" });
   const [alertaExitoso, setAlertaExitoso] = useState({
     error: false,
     message: "",
   });
+
   const { id } = useParams();
 
-  const handleInputChange = (field, value) => {
-    setFilas((prevFilas) => ({ ...prevFilas, [field]: value }));
-  };
-
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchPlaneador = async () => {
       try {
-        const planeadorResponse = await conexionAxios.get(`planeador/${id}`);
-        setPlaneador(planeadorResponse.data);
-        console.log("planeador", planeadorResponse.data);
-
-        const raCursoResponse = await conexionAxios.get("raCurso/");
-        setRaCurso(raCursoResponse.data);
-
-        if (raCursoResponse.data.length > 0) {
-          const firstRaCursoId = raCursoResponse.data[0].id;
-          const tipoEvidenciasResponse = await conexionAxios.get(
-            `tipoEvidencia/raCurso/${firstRaCursoId}`
-          );
-          setTipoEvidencias(tipoEvidenciasResponse.data);
-          console.log(tipoEvidenciasResponse.data);
-        }
-
-        const instrumentosResponse = await conexionAxios.get("instrumento/");
-        setInstrumentos(instrumentosResponse.data);
-        console.log(instrumentosResponse.data);
-
-        const unidadesTematicasResponse = await conexionAxios.get("unidad/");
-        setUnidadesTematicas(unidadesTematicasResponse.data);
+        const response = await conexionAxios.get(`planeador/${id}`);
+        setPlaneador(response.data);
+        console.log(response.data);
       } catch (error) {
-        console.error("Error al obtener datos:", error);
-        setAlertaError({
-          error: true,
-          message: "Error al obtener datos del planeador.",
-        });
+        console.error("Error fetching planeador:", error);
       }
     };
 
-    fetchData();
+    fetchPlaneador();
   }, [id]);
+
+  useEffect(() => {
+    if (planeador && planeador.Materia) {
+      const fetchMateria = async () => {
+        try {
+          const response = await conexionAxios.get(
+            `materia/${planeador.Materia.id}`
+          );
+          setMateria(response.data);
+          console.log(response.data);
+        } catch (error) {
+          console.error("Error fetching materia:", error);
+        }
+      };
+
+      fetchMateria();
+    }
+  }, [planeador]);
+
+  useEffect(() => {
+    if (planeador && planeador.Materia) {
+      const fetchInstrumento = async () => {
+        try {
+          const response = await conexionAxios.get("instrumento/");
+          setInstrumento(response.data);
+          console.log(response.data);
+        } catch (error) {
+          console.error("Error fetching materia:", error);
+        }
+      };
+
+      fetchInstrumento();
+    }
+  }, [planeador]);
+
+  useEffect(() => {
+    const fechtTipoEvidencias = async () => {
+      try {
+        const response = await conexionAxios.get("tipoEvidencia/");
+        setTipoEvidencia(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.error("Error fetching tipoEvidencias:", error);
+      }
+    };
+
+    fechtTipoEvidencias();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       const res = await conexionAxios.post("planeador/fila/create", {
-        valor_evaluacion: filas.valor_evaluacion,
-        estrategia_retroalimentacion: filas.estrategia_retroalimentacion,
-        semana_retroalimentacion: filas.semana_retroalimentacion,
-        corte_periodo: parseInt(filas.corte_periodo),
-        semana_actividad_desarrollada: filas.semana_actividad_desarrollada,
+        valor_evaluacion,
+        estrategia_retroalimentacion,
+        semana_retroalimentacion,
+        corte_periodo: parseInt(corte_periodo),
+        semana_actividad_desarrollada,
         planeador_id: parseInt(id),
-
-        materia_id: parseInt(planeador.Materia.id),
-        raCursos: parseInt(filas.raCursos),
-        tipoEvidencias: filas.tipoEvidencias,
-        instrumentos: filas.instrumentos.map((instrumento) =>
-          parseInt(instrumento)
-        ),
-        unidadesTematicas: filas.unidadesTematicas.map((unidad) =>
-          parseInt(unidad)
-        ), // Convertir cada elemento a número,
+        ra_id: parseInt(id), // suponer que raCursos contiene los IDs seleccionados
+        materia_id: planeador.Materia.id,
+        raCursos,
+        tipoEvidencias,
+        instrumentos,
+        unidadesTematicas,
       });
 
       if (res.status === 200) {
@@ -102,54 +116,18 @@ const ModificarPlaneador = () => {
           () => setAlertaExitoso({ error: false, message: "" }),
           10000
         );
-        setFilas({
-          valor_evaluacion: "",
-          estrategia_retroalimentacion: "",
-          semana_retroalimentacion: "",
-          corte_periodo: "",
-          semana_actividad_desarrollada: "",
-          planeador_id: "",
-          ra_id: "",
-          raCursos: [],
-          tipoEvidencias: [],
-          instrumentos: [],
-          unidadesTematicas: [],
-        });
       }
     } catch (error) {
       if (error.response && error.response.data && error.response.data.error) {
         setAlertaError({ error: true, message: error.response.data.error });
-        setTimeout(() => setAlertaError({ error: false, message: "" }), 10000);
       }
+      setTimeout(() => setAlertaError({ error: false, message: "" }), 10000);
     }
   };
 
-  const handleRaCursoChange = async (value) => {
-    const raCursoId = value;
-    try {
-      const tipoEvidenciasResponse = await conexionAxios.get(
-        `tipoEvidencia/raCurso/${raCursoId}`
-      );
-      setTipoEvidencias(tipoEvidenciasResponse.data);
-
-      setFilas((prevFilas) => {
-        // Ensure raCursos is initialized as an array if it doesn't exist
-        const updatedRaCursos = prevFilas.raCursos
-          ? [...prevFilas.raCursos, raCursoId]
-          : [raCursoId];
-        return {
-          ...prevFilas,
-          raCursos: updatedRaCursos,
-        };
-      });
-    } catch (error) {
-      console.error("Error al obtener tipos de evidencia:", error);
-      setAlertaError({
-        error: true,
-        message: "Error al obtener tipos de evidencia.",
-      });
-    }
-  };
+  if (!planeador || !materia) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
@@ -184,12 +162,9 @@ const ModificarPlaneador = () => {
                     type="text"
                     placeholder="Estrategia de retroalimentación"
                     className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
-                    value={filas.estrategia_retroalimentacion}
+                    value={estrategia_retroalimentacion}
                     onChange={(e) =>
-                      handleInputChange(
-                        "estrategia_retroalimentacion",
-                        e.target.value
-                      )
+                      setEstrategia_retroalimentacion(e.target.value)
                     }
                   />
                 </div>
@@ -205,11 +180,10 @@ const ModificarPlaneador = () => {
                   <select
                     id="corte_periodo"
                     className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
-                    value={filas.corte_periodo}
-                    onChange={(e) =>
-                      handleInputChange("corte_periodo", e.target.value)
-                    }
+                    value={corte_periodo}
+                    onChange={(e) => setCorte_periodo(e.target.value)}
                   >
+                    <option value="">Seleccione un corte</option>
                     <option value="1">Corte 1</option>
                     <option value="2">Corte 2</option>
                     <option value="3">Corte 3</option>
@@ -228,21 +202,25 @@ const ModificarPlaneador = () => {
                   >
                     Resultado de aprendizaje del curso:
                   </label>
-                  {raCurso.length > 0 && (
-                    <select
-                      id="raCurso"
-                      className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
-                      value={filas.raCursos}
-                      onChange={(e) => handleRaCursoChange(e.target.value)}
-                    >
-                      <option value="">Seleccionar RA del curso</option>
-                      {raCurso.map((ra) => (
-                        <option key={ra.id} value={ra.id}>
-                          {ra.nombre}
-                        </option>
-                      ))}
-                    </select>
-                  )}
+                  <select
+                    id="raCurso"
+                    multiple
+                    className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
+                    value={raCursos}
+                    onChange={(e) => {
+                      const selectedRaCursos = Array.from(
+                        e.target.selectedOptions,
+                        (option) => option.value
+                      );
+                      setRaCursos(selectedRaCursos);
+                    }}
+                  >
+                    {materia.Ra_Cursos.map((raCurso) => (
+                      <option key={raCurso.id} value={raCurso.id}>
+                        {raCurso.nombre}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
               <div className="w-1/2">
@@ -258,12 +236,9 @@ const ModificarPlaneador = () => {
                     type="text"
                     placeholder="Semana de realimentación"
                     className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
-                    value={filas.semana_retroalimentacion}
+                    value={semana_retroalimentacion}
                     onChange={(e) =>
-                      handleInputChange(
-                        "semana_retroalimentacion",
-                        e.target.value
-                      )
+                      setSemana_retroalimentacion(e.target.value)
                     }
                   />
                 </div>
@@ -279,23 +254,26 @@ const ModificarPlaneador = () => {
                   >
                     Tipo de evidencia de aprendizaje:
                   </label>
-                  {tipoEvidencias.length > 0 && (
-                    <select
-                      id="tipoEvidencias"
-                      className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
-                      value={filas.tipoEvidencias}
-                      onChange={(e) =>
-                        handleInputChange("tipoEvidencias", e.target.value)
-                      }
-                    >
-                      <option value="">Seleccionar tipo de evidencia</option>
-                      {tipoEvidencias.map((tipo) => (
+                  <select
+                    id="tipoEvidencias"
+                    multiple
+                    className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
+                    value={tipoEvidencias}
+                    onChange={(e) => {
+                      const selectedEvidencias = Array.from(
+                        e.target.selectedOptions,
+                        (option) => option.value
+                      );
+                      setTipoEvidencias(selectedEvidencias);
+                    }}
+                  >
+                    {tipoEvidencia &&
+                      tipoEvidencia.map((tipo) => (
                         <option key={tipo.id} value={tipo.id}>
                           {tipo.nombre}
                         </option>
                       ))}
-                    </select>
-                  )}
+                  </select>
                 </div>
               </div>
               <div className="w-1/2">
@@ -311,12 +289,9 @@ const ModificarPlaneador = () => {
                     type="text"
                     placeholder="Semana realizada"
                     className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
-                    value={filas.semana_actividad_desarrollada}
+                    value={semana_actividad_desarrollada}
                     onChange={(e) =>
-                      handleInputChange(
-                        "semana_actividad_desarrollada",
-                        e.target.value
-                      )
+                      setSemana_actividad_desarrollada(e.target.value)
                     }
                   />
                 </div>
@@ -332,30 +307,26 @@ const ModificarPlaneador = () => {
                   >
                     Instrumentos de evaluación:
                   </label>
-                  {instrumentos.length > 0 && (
-                    <select
-                      id="instrumentos"
-                      className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
-                      multiple
-                      value={filas.instrumentos} // Debe ser un array
-                      onChange={(e) =>
-                        handleInputChange(
-                          "instrumentos",
-                          Array.from(
-                            e.target.selectedOptions,
-                            (option) => option.value
-                          ) // Obtener un array de valores seleccionados
-                        )
-                      }
-                    >
-                      <option value="">Seleccionar instrumento</option>
-                      {instrumentos.map((instrumento) => (
-                        <option key={instrumento.id} value={instrumento.id}>
-                          {instrumento.nombre}
+                  <select
+                    id="instrumentos"
+                    multiple
+                    className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
+                    value={instrumentos}
+                    onChange={(e) => {
+                      const selectedInstrumentos = Array.from(
+                        e.target.selectedOptions,
+                        (option) => option.value
+                      );
+                      setInstrumentos(selectedInstrumentos);
+                    }}
+                  >
+                    {instrumento &&
+                      instrumento.map((ins) => (
+                        <option key={ins.id} value={ins.id}>
+                          {ins.nombre}
                         </option>
                       ))}
-                    </select>
-                  )}
+                  </select>
                 </div>
               </div>
               <div className="w-1/2">
@@ -366,30 +337,25 @@ const ModificarPlaneador = () => {
                   >
                     Unidad Temática:
                   </label>
-                  {unidadesTematicas.length > 0 && (
-                    <select
-                      id="unidadesTematicas"
-                      className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
-                      multiple
-                      value={filas.unidadesTematicas} // Debe ser un array
-                      onChange={(e) =>
-                        handleInputChange(
-                          "unidadesTematicas",
-                          Array.from(
-                            e.target.selectedOptions,
-                            (option) => option.value
-                          ) // Obtener un array de valores seleccionados
-                        )
-                      }
-                    >
-                      <option value="">Seleccionar unidad temática</option>
-                      {unidadesTematicas.map((unidad) => (
-                        <option key={unidad.id} value={unidad.id}>
-                          {unidad.nombre}
-                        </option>
-                      ))}
-                    </select>
-                  )}
+                  <select
+                    id="unidadestematicas"
+                    multiple
+                    className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
+                    value={unidadesTematicas}
+                    onChange={(e) => {
+                      const selectedUnidadesTematicas = Array.from(
+                        e.target.selectedOptions,
+                        (option) => option.value
+                      );
+                      setUnidadesTematicas(selectedUnidadesTematicas);
+                    }}
+                  >
+                    {materia.Unidades_Tematicas.map((unidad) => (
+                      <option key={unidad.id} value={unidad.id}>
+                        {unidad.nombre}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
             </div>
@@ -408,10 +374,8 @@ const ModificarPlaneador = () => {
                     type="text"
                     placeholder="Valor de la evaluación"
                     className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
-                    value={filas.valor_evaluacion}
-                    onChange={(e) =>
-                      handleInputChange("valor_evaluacion", e.target.value)
-                    }
+                    value={valor_evaluacion}
+                    onChange={(e) => setValor_evaluacion(e.target.value)}
                   />
                 </div>
               </div>

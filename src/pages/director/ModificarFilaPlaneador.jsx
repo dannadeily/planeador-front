@@ -198,7 +198,7 @@ const ModificarFilaPlaneador = () => {
               </select>
             ) : (
               <span className="block text-gray-600">
-                {planeador.competencia_id}
+                
               </span>
             )}
           </div>
