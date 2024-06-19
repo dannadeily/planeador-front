@@ -36,19 +36,17 @@ const ModificarDirector = () => {
   // Función para enviar los datos actualizados del director
   const handleSubmit = async () => {
     try {
-      
       const res = await conexionAxios.put("user/admin/update", {
         id: localStorage.getItem("userId"),
         codigo: director.codigo,
         nombre: director.nombre,
         tipo_vinculacion: director.tipo_vinculacion,
         departamento: director.departamento,
-        
+
         correo_personal: director.correo_personal,
         correo_institucional: director.correo_institucional,
         celular: director.celular,
         estado: director.estado,
-        
       });
 
       if (res.status === 200) {
@@ -67,9 +65,11 @@ const ModificarDirector = () => {
 
   return (
     <>
-      <div className="px-4 md:px-10 py-5">
+      <div className="py-5">
         <div className="mb-4">
-          <h1 className="text-2xl  border-b-4 border-blue-700 text-left font-bold">Director</h1>
+          <h1 className="text-2xl  border-b-4 border-gray-300 text-left font-bold">
+            Director
+          </h1>
         </div>
         {alertaError.error && !alertaExitoso.error && (
           <AlertaError message={alertaError.message} />
@@ -132,7 +132,7 @@ const ModificarDirector = () => {
             <span className="block text-gray-600">{director.departamento}</span>
           )}
         </div>
-       
+
         <div>
           <label
             className="uppercase block font-bold"
@@ -225,7 +225,7 @@ const ModificarDirector = () => {
         ) : (
           <button
             onClick={() => setEditing(true)}
-            className="py-2 px-6 bg-blue-700 hover:bg-blue-900 text-white font-bold  border border-black rounded-md hover:cursor-pointer transition-colors"
+            className="py-2 px-6 bg-red-700 hover:bg-red-900 text-white font-bold  border border-black rounded-md hover:cursor-pointer transition-colors"
           >
             Editar
           </button>
@@ -233,7 +233,7 @@ const ModificarDirector = () => {
       </div>
       <div className="flex justify-center mb-5">
         <Link to="modificarperfil">
-          <button className="py-2 px-6 bg-blue-700 hover:bg-blue-900 text-white font-bold  border border-black rounded-md hover:cursor-pointer transition-colors">
+          <button className="py-2 px-6 bg-red-700 hover:bg-red-900 text-white font-bold  border border-black rounded-md hover:cursor-pointer transition-colors">
             Cambiar Contraseña
           </button>
         </Link>

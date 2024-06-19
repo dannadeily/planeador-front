@@ -135,7 +135,7 @@ const ModificarCompetencia = () => {
     <>
       <div className="px-4 md:px-10 py-5">
         <div className="mb-4">
-          <h1 className="text-2xl border-b-4 border-blue-700 text-left font-bold">
+          <h1 className="text-2xl border-b-4 border-gray-300 text-left font-bold">
             Datos Competencia
           </h1>
         </div>
@@ -146,86 +146,89 @@ const ModificarCompetencia = () => {
           <AlertaExitoso message={alertaExitoso.message} />
         )}
       </div>
-      <div className="lg:mx- md:mx-40 sm:mx-20 my-2 bg-white shadow rounded-lg p-6 grid lg:grid-cols-2 gap-4">
-        <div>
-          <label className="uppercase block font-bold" htmlFor="nombre">
-            Nombre:
-          </label>
-          {editing ? (
-            <input
-              type="text"
-              name="nombre"
-              value={competencia.nombre}
-              onChange={handleChange}
-              className="block w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
-            />
-          ) : (
-            <span className="block text-gray-600">{competencia.nombre}</span>
-          )}
+      <div className="2xl:w-auto xl:w-auto lg:w-auto md:w-auto sm:w-auto w-2/3 my-2 bg-white shadow rounded-lg p-6">
+        <div className=" grid lg:grid-cols-2 gap-4 p-2">
+          <div>
+            <label className="uppercase block font-bold" htmlFor="nombre">
+              Nombre:
+            </label>
+            {editing ? (
+              <input
+                type="text"
+                name="nombre"
+                value={competencia.nombre}
+                onChange={handleChange}
+                className="block w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
+              />
+            ) : (
+              <span className="block text-gray-600">{competencia.nombre}</span>
+            )}
+          </div>
+          <div>
+            <label className="uppercase block font-bold" htmlFor="descripcion">
+              Descripción:
+            </label>
+            {editing ? (
+              <textarea
+                name="descripcion"
+                value={competencia.descripcion}
+                onChange={handleChange}
+                className="block w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
+              />
+            ) : (
+              <span className="block text-gray-600">
+                {competencia.descripcion}
+              </span>
+            )}
+          </div>
+          <div>
+            <label className="uppercase block font-bold" htmlFor="estado">
+              Estado:
+            </label>
+            {editing ? (
+              <select
+                name="estado"
+                value={competencia.estado}
+                onChange={handleChange}
+                className="block w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
+              >
+                <option value={true}>Activo</option>
+                <option value={false}>Inactivo</option>
+              </select>
+            ) : (
+              <span className="block text-gray-600">
+                {competencia.estado ? "Activo" : "Inactivo"}
+              </span>
+            )}
+          </div>
+          <div>
+            <label className="uppercase block font-bold" htmlFor="categoria_id">
+              Categoría:
+            </label>
+            {editing ? (
+              <select
+                name="categoria_id"
+                value={competencia.categoria_id}
+                onChange={handleChangeCategoria}
+                className="block w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
+              >
+                {categorias.map((categoria) => (
+                  <option key={categoria.id} value={categoria.id}>
+                    {categoria.nombre}
+                  </option>
+                ))}
+              </select>
+            ) : (
+              <span className="block text-gray-600">
+                {
+                  categorias.find((cat) => cat.id === competencia.categoria_id)
+                    ?.nombre
+                }
+              </span>
+            )}
+          </div>
         </div>
-        <div>
-          <label className="uppercase block font-bold" htmlFor="descripcion">
-            Descripción:
-          </label>
-          {editing ? (
-            <textarea
-              name="descripcion"
-              value={competencia.descripcion}
-              onChange={handleChange}
-              className="block w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
-            />
-          ) : (
-            <span className="block text-gray-600">
-              {competencia.descripcion}
-            </span>
-          )}
-        </div>
-        <div>
-          <label className="uppercase block font-bold" htmlFor="estado">
-            Estado:
-          </label>
-          {editing ? (
-            <select
-              name="estado"
-              value={competencia.estado}
-              onChange={handleChange}
-              className="block w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
-            >
-              <option value={true}>Activo</option>
-              <option value={false}>Inactivo</option>
-            </select>
-          ) : (
-            <span className="block text-gray-600">
-              {competencia.estado ? "Activo" : "Inactivo"}
-            </span>
-          )}
-        </div>
-        <div>
-          <label className="uppercase block font-bold" htmlFor="categoria_id">
-            Categoría:
-          </label>
-          {editing ? (
-            <select
-              name="categoria_id"
-              value={competencia.categoria_id}
-              onChange={handleChangeCategoria}
-              className="block w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
-            >
-              {categorias.map((categoria) => (
-                <option key={categoria.id} value={categoria.id}>
-                  {categoria.nombre}
-                </option>
-              ))}
-            </select>
-          ) : (
-            <span className="block text-gray-600">
-              {
-                categorias.find((cat) => cat.id === competencia.categoria_id)
-                  ?.nombre
-              }
-            </span>
-          )}
-        </div>
+
         <div>
           <label
             className="uppercase block font-bold"
@@ -268,7 +271,7 @@ const ModificarCompetencia = () => {
                           ) : (
                             <Link
                               to={`/director/competencia/${id}/resultados`}
-                              className="text-blue-600 hover:cursor-pointer hover:text-blue-900 transition-colors"
+                              className="py-2 px-6 bg-red-700 hover:bg-red-900 text-white font-bold  border border-black rounded-md hover:cursor-pointer transition-colors"
                             >
                               Agregar
                             </Link>
@@ -296,14 +299,14 @@ const ModificarCompetencia = () => {
         {editing ? (
           <button
             onClick={handleSubmit}
-            className="py-2 px-6 bg-blue-700 hover:bg-blue-900 text-white font-bold border border-black rounded-md hover:cursor-pointer transition-colors"
+            className="py-2 px-6 bg-red-700 hover:bg-red-900 text-white font-bold  border border-black rounded-md hover:cursor-pointer transition-colors"
           >
             Guardar cambios
           </button>
         ) : (
           <button
             onClick={() => setEditing(true)}
-            className="py-2 px-6 bg-blue-700 hover:bg-blue-900 text-white font-bold border border-black rounded-md hover:cursor-pointer transition-colors"
+            className="py-2 px-6 bg-red-700 hover:bg-red-900 text-white font-bold  border border-black rounded-md hover:cursor-pointer transition-colors"
           >
             Editar
           </button>
@@ -312,7 +315,7 @@ const ModificarCompetencia = () => {
       <div className="flex justify-center mb-5">
         <Link
           to="/director/listacompetencia"
-          className="mb-5 w- py-2 text-blue-600 text-center hover:cursor-pointer hover:text-blue-900 transition-colors block"
+          className="mb-5 w- py-2 text-gray-600 text-center hover:cursor-pointer hover:text-gray-900 transition-colors block"
         >
           Volver
         </Link>

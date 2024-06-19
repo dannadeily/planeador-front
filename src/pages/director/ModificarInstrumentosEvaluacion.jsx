@@ -83,9 +83,9 @@ const ModificarInstrumentosEvaluacion = () => {
 
   return (
     <>
-      <div className="px-4 md:px-10 py-5">
+      <div className="py-5">
         <div className="mb-4">
-          <h1 className="text-2xl border-b-4 border-blue-700 text-left font-bold">
+          <h1 className="text-2xl border-b-4 border-gray-300 text-left font-bold">
             Datos Instrumentos de Evaluación
           </h1>
         </div>
@@ -98,10 +98,10 @@ const ModificarInstrumentosEvaluacion = () => {
       </div>
       <form
         onSubmit={handleSubmit}
-        className="lg:mx- md:mx-40 sm:mx-20 my-2 bg-white shadow rounded-lg p-6 grid lg:grid-cols-2 gap-4"
+        className="2xl:w-auto xl:w-auto lg:w-auto md:w-auto sm:w-auto w-2/3 my-2 bg-white shadow rounded-lg p-6 "
       >
         <div>
-          <label className="uppercase block font-bold" htmlFor="nombre">
+          <label className="uppercase block font-bold p-2" htmlFor="nombre">
             Nombre:
           </label>
           <input
@@ -114,7 +114,10 @@ const ModificarInstrumentosEvaluacion = () => {
         </div>
 
         <div>
-          <label className="uppercase block font-bold" htmlFor="descripcion">
+          <label
+            className="uppercase block font-bold p-2"
+            htmlFor="descripcion"
+          >
             Descripción:
           </label>
           <textarea
@@ -127,7 +130,7 @@ const ModificarInstrumentosEvaluacion = () => {
         </div>
 
         <div>
-          <label className="uppercase block font-bold" htmlFor="tipos">
+          <label className="uppercase block font-bold p-2" htmlFor="tipos">
             Tipos de evidencia:
           </label>
           <div className="relative">
@@ -155,11 +158,11 @@ const ModificarInstrumentosEvaluacion = () => {
           </div>
         </div>
 
-        <div className="flex justify-center mb-5 col-span-2">
+        <div className="flex justify-center mb-5 col-span-2 p-6">
           {editing ? (
             <button
               type="submit"
-              className="py-2 px-6 bg-blue-700 hover:bg-blue-900 text-white font-bold border border-black rounded-md hover:cursor-pointer transition-colors"
+              className="py-2 px-6 bg-red-700 hover:bg-red-900 text-white font-bold  border border-black rounded-md hover:cursor-pointer transition-colors"
             >
               Guardar cambios
             </button>
@@ -167,7 +170,7 @@ const ModificarInstrumentosEvaluacion = () => {
             <button
               type="button"
               onClick={() => setEditing(true)}
-              className="py-2 px-6 bg-blue-700 hover:bg-blue-900 text-white font-bold border border-black rounded-md hover:cursor-pointer transition-colors"
+              className="py-2 px-6 bg-red-700 hover:bg-red-900 text-white font-bold  border border-black rounded-md hover:cursor-pointer transition-colors"
             >
               Editar
             </button>

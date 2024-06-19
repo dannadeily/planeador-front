@@ -93,9 +93,9 @@ const ModificarDatosPlaneador = () => {
 
   return (
     <>
-      <div className="px-4 md:px-10 py-5">
+      <div className="py-5">
         <div className="mb-4">
-          <h1 className="text-2xl border-b-4 border-blue-700 text-left font-bold">
+          <h1 className="text-2xl border-b-4 border-gray-700 text-left font-bold">
             Datos Planeador
           </h1>
         </div>
@@ -106,9 +106,9 @@ const ModificarDatosPlaneador = () => {
           <AlertaExitoso message={alertaExitoso.message} />
         )}
       </div>
-      <div className="lg:mx- md:mx-40 sm:mx-20 my-2 bg-white shadow rounded-lg p-6 grid lg:grid-cols-2 gap-4">
+      <div className="2xl:w-auto xl:w-auto lg:w-auto md:w-auto sm:w-auto w-2/3 my-2 bg-white shadow rounded-lg p-2 ">
         <div>
-          <label className="uppercase block font-bold" htmlFor="user_id">
+          <label className="uppercase block font-bold p-4" htmlFor="user_id">
             Docente:
           </label>
           <select
@@ -126,7 +126,10 @@ const ModificarDatosPlaneador = () => {
           </select>
         </div>
         <div>
-          <label className="uppercase block font-bold" htmlFor="area_formacion">
+          <label
+            className="uppercase block font-bold p-4"
+            htmlFor="area_formacion"
+          >
             Area de Formación:
           </label>
           <input
@@ -139,7 +142,7 @@ const ModificarDatosPlaneador = () => {
         </div>
 
         <div>
-          <label className="uppercase block font-bold" htmlFor="materia_id">
+          <label className="uppercase block font-bold p-4" htmlFor="materia_id">
             Materia:
           </label>
           <select
@@ -161,14 +164,14 @@ const ModificarDatosPlaneador = () => {
         {editing ? (
           <button
             onClick={handleSubmit}
-            className="py-2 px-6 bg-blue-700 hover:bg-blue-900 text-white font-bold border border-black rounded-md hover:cursor-pointer transition-colors"
+            className="py-2 px-6 bg-red-700 hover:bg-red-900 text-white font-bold  border border-black rounded-md hover:cursor-pointer transition-colors"
           >
             Guardar cambios
           </button>
         ) : (
           <button
             onClick={() => setEditing(true)}
-            className="py-2 px-6 bg-blue-700 hover:bg-blue-900 text-white font-bold border border-black rounded-md hover:cursor-pointer transition-colors"
+            className="py-2 px-6 bg-red-700 hover:bg-red-900 text-white font-bold  border border-black rounded-md hover:cursor-pointer transition-colors"
           >
             Editar
           </button>
@@ -176,7 +179,7 @@ const ModificarDatosPlaneador = () => {
 
         <div>
           <Link to={`modificarplaneador/${id}`}>
-            <button className="mx-2 py-2 px-6 bg-blue-700 hover:bg-blue-900 text-white font-bold border border-black rounded-md hover:cursor-pointer transition-colors">
+            <button className="mx-2 py-2 px-6 bg-red-700 hover:bg-red-900 text-white font-bold  border border-black rounded-md hover:cursor-pointer transition-colors">
               Siguiente
             </button>
           </Link>
@@ -186,7 +189,7 @@ const ModificarDatosPlaneador = () => {
       <div className="flex justify-center mb-5">
         <Link
           to="/director/listaplaneador"
-          className="mb-5 w- py-2 text-blue-600 text-center hover:cursor-pointer hover:text-blue-900 transition-colors block "
+          className="mb-5 w- py-2 text-gray-600 text-center hover:cursor-pointer hover:text-gray-900 transition-colors block "
         >
           Volver
         </Link>

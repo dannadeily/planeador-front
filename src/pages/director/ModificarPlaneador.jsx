@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import AlertaError from "../../components/AlertaError";
 import AlertaExitoso from "../../components/AlertaExitoso";
@@ -13,6 +13,7 @@ const ModificarPlaneador = () => {
   const [corte_periodo, setCorte_periodo] = useState("");
   const [semana_actividad_desarrollada, setSemana_actividad_desarrollada] =
     useState("");
+  const [ra_id, setResultadoAprendizaje] = useState([]);
   const [raCursos, setRaCursos] = useState([]);
   const [tipoEvidencias, setTipoEvidencias] = useState([]);
   const [instrumentos, setInstrumentos] = useState([]);
@@ -94,6 +95,7 @@ const ModificarPlaneador = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const resultadoAprendizajeId = parseInt(ra_id, 10);
     try {
       const res = await conexionAxios.post("planeador/fila/create", {
         valor_evaluacion,
@@ -102,7 +104,8 @@ const ModificarPlaneador = () => {
         corte_periodo: parseInt(corte_periodo),
         semana_actividad_desarrollada,
         planeador_id: parseInt(id),
-        ra_id: parseInt(id), // suponer que raCursos contiene los IDs seleccionados
+        // ra_id: parseInt(id), // suponer que raCursos contiene los IDs seleccionados
+        ra_id: resultadoAprendizajeId,
         materia_id: planeador.Materia.id,
         raCursos,
         tipoEvidencias,
@@ -192,7 +195,29 @@ const ModificarPlaneador = () => {
                 </div>
               </div>
             </div>
-
+            <div className="w">
+              <div className="my-5 mx-2">
+                <label
+                  className="uppercase text-gray-600 block font-bold"
+                  htmlFor="resultadoAprendizaje"
+                >
+                  Resultado de aprendizaje:
+                </label>
+                <select
+                  id="resultadoAprendizaje"
+                  className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
+                  value={ra_id}
+                  onChange={(e) => setResultadoAprendizaje(e.target.value)}
+                >
+                  <option value="">Seleccione un resultado</option>
+                  {materia.resultadosAprendizaje.map((ra) => (
+                    <option key={ra.id} value={ra.id}>
+                      {ra.descripcion}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
             <div className="flex">
               <div className="w-1/2">
                 <div className="my-5 mx-2">
@@ -223,6 +248,7 @@ const ModificarPlaneador = () => {
                   </select>
                 </div>
               </div>
+
               <div className="w-1/2">
                 <div className="my-5 mx-2">
                   <label

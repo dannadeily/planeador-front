@@ -67,12 +67,12 @@ const ListaTipoEvidencia = () => {
     <div>
       <div className="py-5">
         <div className="">
-          <h1 className="text-2xl border-b-4 border-blue-700 text-left font-bold">
+          <h1 className="text-2xl border-b-4 border-gray-300 text-left font-bold">
             Tipo de Evidencia
           </h1>
         </div>
       </div>
-      <div className="lg:w-auto md:w-3/5 sm:w-2/3 mx-auto">
+      <div className="2xl:w-auto xl:w-auto lg:w-auto md:w-auto sm:w-auto w-2/3">
         <div>
           <Link to="creartipoevidencia">
             <button className="border border-black rounded p-2 text-white bg-red-700 hover:bg-red-900 mx-2">
@@ -94,7 +94,7 @@ const ListaTipoEvidencia = () => {
             <div className="shadow overflow-x-auto sm:overflow-x-hidden border-b border-gray-200 sm:rounded-lg">
               <div className="overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-400">
-                <thead className=" uppercase bg-red-700">
+                <thead className=" uppercase bg-red-500">
                     <tr>
                       <th scope="col" className="px-6 py-3">
                         Nombre del tipo de evidencia
@@ -127,14 +127,14 @@ const ListaTipoEvidencia = () => {
                           <Link
                             to={`modificartipoevidencia/${tipoEvidenciaItem.id}`}
                           >
-                            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            <button className=" text-gray-500 font-bold hover:text-gray-800 py-2 px-4 rounded text-2xl">
                               <FaEdit />
                             </button>
                           </Link>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <button
-                            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                            className=" text-red-500 font-bold hover:text-red-900 py-2 px-4 rounded text-2xl"
                             onClick={() => handleDelete(tipoEvidenciaItem.id)}
                           >
                             <MdDeleteForever />

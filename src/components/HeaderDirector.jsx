@@ -90,7 +90,7 @@ function HeaderDirector() {
   return (
     <div className="flex flex-col h-screen">
       {/* Header */}
-      <header className="bg-red-500 p-5 fixed top-0 left-0 w-full z-50 flex justify-between items-center">
+      <header className="bg-red-600 p-5 fixed top-0 left-0 w-full z-50 flex justify-between items-center">
         <div
           className={` cursor-pointer w-16 text-white  ${
             !sidebarOpen && "rotate-180"
@@ -109,7 +109,7 @@ function HeaderDirector() {
         <div
           className={`h-screen ${
             sidebarOpen ? "w-72" : "w-20"
-          } fixed top-16 left-0  bg-red-500 overflow-y-scroll z-50`}
+          } fixed top-16 left-0  bg-red-600 overflow-y-scroll z-50`}
         >
           <div className="m-4 border-b border-gray-200 p-4">
             {filteredData.map((directorItem) => (
@@ -293,13 +293,13 @@ function HeaderDirector() {
 
         {/* Main */}
         <main
-          className={`flex-grow bg-gray-100 ${
-            sidebarOpen ? "ml-72 md:ml-72 lg:ml-72" : "ml-20 md:ml-20 lg:ml-20 "
+          className={`flex-grow bg-gray-100 my-10 z-40${
+            sidebarOpen ? "ml-72 md:ml-72 lg:ml-72 2xl:ml-20" : "ml-20 md:ml-20 lg:ml-20  "
           }`}
         >
-          <div className="container   mt-10 z-40">
+          
             <Outlet />
-          </div>
+         
         </main>
       </div>
     </div>
