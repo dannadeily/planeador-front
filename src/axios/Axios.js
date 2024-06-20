@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const conexionAxios = axios.create({
-  baseURL: "http://localhost:3000/api/",
+  baseURL: "https://planeador.onrender.com/api/",
 });
 
 conexionAxios.interceptors.request.use((config) => {
