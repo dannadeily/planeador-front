@@ -95,7 +95,7 @@ const ModificarDatosPlaneador = () => {
     <>
       <div className="py-5">
         <div className="mb-4">
-          <h1 className="text-2xl border-b-4 border-gray-700 text-left font-bold">
+          <h1 className="text-2xl  border-b-4 border-gray-300 text-left font-bold">
             Datos Planeador
           </h1>
         </div>
@@ -106,7 +106,7 @@ const ModificarDatosPlaneador = () => {
           <AlertaExitoso message={alertaExitoso.message} />
         )}
       </div>
-      <div className="2xl:w-auto xl:w-auto lg:w-auto md:w-auto sm:w-auto w-2/3 my-2 bg-white shadow rounded-lg p-2 ">
+      <div className="2xl:w-auto xl:w-auto lg:w-auto md:w-auto sm:w-auto w-2/3 bg-white shadow rounded-lg p-6 my-5">
         <div>
           <label className="uppercase block font-bold p-4" htmlFor="user_id">
             Docente:

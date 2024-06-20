@@ -35,7 +35,7 @@ const AgregarDocente = () => {
       });
       setTimeout(() => setAlertaError({ error: false, message: "" }), 7000); // limpiar la alerta después de 5 segundos
     }
-     const tipoVinculacion = tipo_vinculacion.toUpperCase();
+    const tipoVinculacion = tipo_vinculacion.toUpperCase();
     try {
       const res = await conexionAxios.post("user/createTeacher", {
         nombre,
@@ -76,9 +76,9 @@ const AgregarDocente = () => {
   return (
     <div>
       <div className=" px-10 py-5 "></div>
-      <div className=" xl:mx-60 lg:mx-60 md:mx-40 sm:mx-20  bg-white shadow rounded-lg p-10">
+      <div className=" 2xl:mx-48 xl:mx-52 lg:mx-32 md:mx-10 sm:mx-10 mx-10  bg-white shadow rounded-lg p-10 ">
         <form onSubmit={handleSubmit}>
-          <h1 className=" font-bold text-2xl text-center text-gray-900 dark:text-red-600 ">
+          <h1 className=" font-bold text-2xl text-center text-gray-900 border-b-2 border-gray-300">
             Registrar Docente
           </h1>
 
@@ -147,7 +147,7 @@ const AgregarDocente = () => {
               onChange={(e) => setCorreo_institucional(e.target.value)}
             />
           </div>
-          
+
           <div className="my-5">
             <label
               className="uppercase text-gray-600 block  font-bold"
@@ -237,7 +237,7 @@ const AgregarDocente = () => {
           <input
             type="submit"
             value="registrar"
-            className="bg-blue-700 mb-5 w-full py-2 text-white uppercase font-bold rounded hover:cursor-pointer hover:bg-sky-800 transition-colors"
+            className="bg-red-700 mb-5 w-full py-2 text-white uppercase font-bold rounded hover:cursor-pointer hover:bg-red-900 transition-colors"
           />
         </form>
         <div className="border-t border-gray-600 p-2">

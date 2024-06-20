@@ -5,51 +5,138 @@ import AlertaError from "../../components/AlertaError";
 import AlertaExitoso from "../../components/AlertaExitoso";
 
 const ModificarFilaPlaneador = () => {
-  const [planeador, setPlaneador] = useState({
+  const [planeadorFila, setPlaneadorFila] = useState({
     estrategia_retroalimentacion: "",
     corte_periodo: "",
     semana_retroalimentacion: "",
     semana_actividad_desarrollada: "",
-    competencia_id: "",
-    tipo_evidencia: "",
-    instrumento_evaluacion: "",
+    tipo_evidencia: [],
+    Ra_Cursos: [],
+    instrumento_evaluacion: [],
     Unidades_Tematicas: [],
     valor_evaluacion: "",
   });
+  const [valor_evaluacion, setValor_evaluacion] = useState("");
+  const [estrategia_retroalimentacion, setEstrategia_retroalimentacion] =
+    useState("");
+  const [semana_retroalimentacion, setSemana_retroalimentacion] = useState("");
+  const [corte_periodo, setCorte_periodo] = useState("");
+  const [semana_actividad_desarrollada, setSemana_actividad_desarrollada] =
+    useState("");
+  const [ra_id, setResultadoAprendizaje] = useState([]);
+  const [raCursos, setRaCursos] = useState([]);
+  const [tipoEvidencias, setTipoEvidencias] = useState([]);
+  const [instrumentos, setInstrumentos] = useState([]);
+  const [unidadesTematicas, setUnidadesTematicas] = useState([]);
+  const [planeador, setPlaneador] = useState([{}]);
   const [editing, setEditing] = useState(false);
+  const [materia, setMateria] = useState(null);
+  const [instrumento, setInstrumento] = useState([]);
+  const [tipoEvidencia, setTipoEvidencia] = useState([]);
   const [alertaError, setAlertaError] = useState({ error: false, message: "" });
   const [alertaExitoso, setAlertaExitoso] = useState({
     error: false,
     message: "",
   });
-  const { id } = useParams();
-  const navigate = useNavigate();
+
+  const { id, planeador_id } = useParams();
 
   useEffect(() => {
-    const getPlaneador = async () => {
+    const getPlaneadorfila = async () => {
       try {
-        const response = await conexionAxios.get("planeador/fila/" + id);
-        setPlaneador(response.data);
-        console.log(response.data);
+        const response = await conexionAxios.get(`planeador/fila/${id}`);
+        setPlaneadorFila(response.data);
+        console.log("filar", response.data);
       } catch (error) {
         console.error(error);
       }
     };
 
-    getPlaneador();
+    getPlaneadorfila();
   }, [id]);
+
+  useEffect(() => {
+    const fetchPlaneador = async () => {
+      try {
+        const response = await conexionAxios.get(
+          `planeador/${planeadorFila.planeador_id}`
+        );
+        setPlaneador(response.data);
+        console.log("planeador".response.data);
+      } catch (error) {
+        console.error("Error fetching planeador:", error);
+      }
+    };
+
+    fetchPlaneador();
+  }, [id]);
+
+  useEffect(() => {
+    if (planeadorFila && planeadorFila.Materia) {
+      const fetchMateria = async () => {
+        try {
+          const response = await conexionAxios.get(
+            `materia/${planeador.Materia.id}`
+          );
+          setMateria(response.data);
+          console.log(response.data);
+        } catch (error) {
+          console.error("Error fetching materia:", error);
+        }
+      };
+
+      fetchMateria();
+    }
+  }, [planeadorFila]);
+
+  useEffect(() => {
+    const fetchInstrumento = async () => {
+      try {
+        const response = await conexionAxios.get("instrumento/");
+        setInstrumento(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.error("Error fetching instrumentos:", error);
+      }
+    };
+
+    fetchInstrumento();
+  }, []);
+
+  useEffect(() => {
+    const fetchTipoEvidencias = async () => {
+      try {
+        const response = await conexionAxios.get("tipoEvidencia/");
+        setTipoEvidencia(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.error("Error fetching tipoEvidencias:", error);
+      }
+    };
+
+    fetchTipoEvidencias();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setPlaneador({ ...planeador, [name]: value });
+    setPlaneadorFila({ ...planeadorFila, [name]: value });
+    setEditing(true);
+  };
+
+  const handleMultiSelectChange = (e, stateSetter) => {
+    const selectedValues = Array.from(
+      e.target.selectedOptions,
+      (option) => option.value
+    );
+    stateSetter(selectedValues);
     setEditing(true);
   };
 
   const handleSubmit = async () => {
     try {
       const res = await conexionAxios.put(
-        `planeador/fila/update/${id}`,
-        planeador
+        `planeadorFila/fila/update/${id}`,
+        planeadorFila
       );
 
       if (res.status === 200) {
@@ -83,7 +170,7 @@ const ModificarFilaPlaneador = () => {
           <AlertaExitoso message={alertaExitoso.message} />
         )}
       </div>
-      <div className="2xl:w-auto xl:w-auto lg:w-auto md:w-auto sm:w-auto w-2/3 my-2 bg-white shadow rounded-lg p-6 grid lg:grid-cols-2 gap-4">
+      <div className="2xl:w-auto xl:w-auto lg:w-auto md:w-auto sm:w-auto w-2/3 bg-white shadow rounded-lg p-6 my-5">
         <div className="flex flex-col">
           <div>
             <label
@@ -96,13 +183,13 @@ const ModificarFilaPlaneador = () => {
               <input
                 type="text"
                 name="estrategia_retroalimentacion"
-                value={planeador.estrategia_retroalimentacion || ""}
+                value={planeadorFila.estrategia_retroalimentacion || ""}
                 onChange={handleChange}
                 className="block w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
               />
             ) : (
               <span className="block text-gray-600">
-                {planeador.estrategia_retroalimentacion}
+                {planeadorFila.estrategia_retroalimentacion}
               </span>
             )}
           </div>
@@ -114,16 +201,21 @@ const ModificarFilaPlaneador = () => {
               Corte del periodo:
             </label>
             {editing ? (
-              <input
-                type="text"
-                name="corte_periodo"
-                value={planeador.corte_periodo || ""}
+              <select
+                id="corte_periodo"
+                className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
+                value={planeadorFila.corte_periodo}
                 onChange={handleChange}
-                className="block w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
-              />
+              >
+                <option value="">Seleccione un corte</option>
+                <option value="1">Corte 1</option>
+                <option value="2">Corte 2</option>
+                <option value="3">Corte 3</option>
+                <option value="4">Corte 4</option>
+              </select>
             ) : (
               <span className="block text-gray-600">
-                {planeador.corte_periodo}
+                {planeadorFila.corte_periodo}
               </span>
             )}
           </div>
@@ -141,13 +233,13 @@ const ModificarFilaPlaneador = () => {
               <input
                 type="text"
                 name="semana_retroalimentacion"
-                value={planeador.semana_retroalimentacion || ""}
+                value={planeadorFila.semana_retroalimentacion || ""}
                 onChange={handleChange}
                 className="block w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
               />
             ) : (
               <span className="block text-gray-600">
-                {planeador.semana_retroalimentacion}
+                {planeadorFila.semana_retroalimentacion}
               </span>
             )}
           </div>
@@ -163,41 +255,51 @@ const ModificarFilaPlaneador = () => {
               <input
                 type="text"
                 name="semana_actividad_desarrollada"
-                value={planeador.semana_actividad_desarrollada || ""}
+                value={planeadorFila.semana_actividad_desarrollada || ""}
                 onChange={handleChange}
                 className="block w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
               />
             ) : (
               <span className="block text-gray-600">
-                {planeador.semana_actividad_desarrollada}
+                {planeadorFila.semana_actividad_desarrollada}
               </span>
             )}
           </div>
         </div>
+
         <div className="flex flex-col">
           <div>
-            <label
-              className="uppercase block font-bold"
-              htmlFor="competencia_id"
-            >
+            <label className="uppercase block font-bold" htmlFor="ra_curso">
               Resultado de aprendizaje del curso:
             </label>
             {editing ? (
               <select
-                name="competencia_id"
-                value={planeador.competencia_id || ""}
-                onChange={handleChange}
-                className="block w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
+                id="raCurso"
+                multiple
+                className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
+                value={planeadorFila.Ra_Cursos}
+                onChange={(e) => {
+                  const selectedRaCursos = Array.from(
+                    e.target.selectedOptions,
+                    (option) => option.value
+                  );
+                  setRaCursos(selectedRaCursos);
+                }}
               >
-                <option value="">Seleccionar Competencia</option>
-                {competencias.map((competencia) => (
-                  <option key={competencia.id} value={competencia.id}>
-                    {competencia.nombre}
-                  </option>
-                ))}
+                {materia &&
+                  materia.Ra_Cursos.map((raCurso) => (
+                    <option key={raCurso.id} value={raCurso.id}>
+                      {raCurso.nombre}
+                    </option>
+                  ))}
               </select>
             ) : (
-              <span className="block text-gray-600"></span>
+              <span className="block text-gray-600">
+                {planeadorFila.Ra_Cursos &&
+                  planeadorFila.Ra_Cursos.map((resultado) => (
+                    <li key={resultado.nombre}>{resultado.nombre}</li>
+                  ))}
+              </span>
             )}
           </div>
           <div>
@@ -209,21 +311,36 @@ const ModificarFilaPlaneador = () => {
             </label>
             {editing ? (
               <select
-                name="tipo_evidencia"
-                value={planeador.tipo_evidencia || ""}
-                onChange={handleChange}
-                className="block w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
+                id="tipoEvidencias"
+                multiple
+                className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
+                value={planeadorFila.tipo_evidencia}
+                onChange={(e) =>
+                  handleMultiSelectChange(e, (values) =>
+                    setPlaneadorFila({
+                      ...planeadorFila,
+                      tipo_evidencia: values,
+                    })
+                  )
+                }
               >
-                <option value="">Seleccionar Evidencia</option>
-                {competencias.map((competencia) => (
-                  <option key={competencia.id} value={competencia.id}>
-                    {competencia.nombre}
-                  </option>
-                ))}
+                {tipoEvidencia &&
+                  tipoEvidencia.map((tipo) => (
+                    <option key={tipo.id} value={tipo.id}>
+                      {tipo.nombre}
+                    </option>
+                  ))}
               </select>
             ) : (
               <span className="block text-gray-600">
-                {planeador.tipo_evidencia}
+                {planeadorFila.Ra_Cursos &&
+                  planeadorFila.Ra_Cursos.map(
+                    (tipo) =>
+                      tipo.Tipo_Evidencias &&
+                      tipo.Tipo_Evidencias.map((evidencia) => (
+                        <li key={evidencia.id}>{evidencia.nombre}</li>
+                      ))
+                  )}
               </span>
             )}
           </div>
@@ -238,21 +355,32 @@ const ModificarFilaPlaneador = () => {
             </label>
             {editing ? (
               <select
-                name="instrumento_evaluacion"
-                value={planeador.instrumento_evaluacion || ""}
-                onChange={handleChange}
-                className="block w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
+                id="instrumentos"
+                multiple
+                className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
+                value={planeadorFila.instrumento_evaluacion}
+                onChange={(e) =>
+                  handleMultiSelectChange(e, (values) =>
+                    setPlaneadorFila({
+                      ...planeadorFila,
+                      instrumento_evaluacion: values,
+                    })
+                  )
+                }
               >
-                <option value="">Seleccionar Instrumento</option>
-                {competencias.map((competencia) => (
-                  <option key={competencia.id} value={competencia.id}>
-                    {competencia.nombre}
-                  </option>
-                ))}
+                {instrumento &&
+                  instrumento.map((ins) => (
+                    <option key={ins.id} value={ins.id}>
+                      {ins.nombre}
+                    </option>
+                  ))}
               </select>
             ) : (
               <span className="block text-gray-600">
-                {planeador.instrumento_evaluacion}
+                {planeadorFila.instrumento_evaluacion &&
+                  planeadorFila.instrumento_evaluacion.map((ins) => (
+                    <li key={ins.id}>{ins.nombre}</li>
+                  ))}
               </span>
             )}
           </div>
@@ -265,23 +393,31 @@ const ModificarFilaPlaneador = () => {
             </label>
             {editing ? (
               <select
-                name="unidad_tematica"
-                value={planeador.unidad_tematica || ""}
-                onChange={handleChange}
-                className="block w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
+                id="unidadestematicas"
+                multiple
+                className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
+                value={planeadorFila.Unidades_Tematicas}
+                onChange={(e) =>
+                  handleMultiSelectChange(e, (values) =>
+                    setPlaneadorFila({
+                      ...planeadorFila,
+                      unidad_tematica: values,
+                    })
+                  )
+                }
               >
-                <option value="">Seleccionar Unidad</option>
-                {competencias.map((competencia) => (
-                  <option key={competencia.id} value={competencia.id}>
-                    {competencia.nombre}
-                  </option>
-                ))}
+                {materia &&
+                  materia.Unidades_Tematicas.map((unidad) => (
+                    <option key={unidad.id} value={unidad.id}>
+                      {unidad.nombre}
+                    </option>
+                  ))}
               </select>
             ) : (
               <span className="block text-gray-600">
-                {planeador.Unidades_Tematicas &&
-                  planeador.Unidades_Tematicas.map((resultado) => (
-                    <li key={resultado.nombre}>{resultado.nombre}</li>
+                {planeadorFila.Unidades_Tematicas &&
+                  planeadorFila.Unidades_Tematicas.map((unidad) => (
+                    <li key={unidad.id}>{unidad.nombre}</li>
                   ))}
               </span>
             )}
@@ -300,34 +436,42 @@ const ModificarFilaPlaneador = () => {
               <input
                 type="text"
                 name="valor_evaluacion"
-                value={planeador.valor_evaluacion || ""}
+                value={planeadorFila.valor_evaluacion || ""}
                 onChange={handleChange}
                 className="block w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
               />
             ) : (
               <span className="block text-gray-600">
-                {planeador.valor_evaluacion}
+                {planeadorFila.valor_evaluacion}
               </span>
             )}
           </div>
         </div>
       </div>
-      <div className="flex justify-center mb-5">
+      {/* <div className="flex justify-center mb-5">
         {editing ? (
           <button
             onClick={handleSubmit}
-            className="py-2 px-6 bg-blue-700 hover:bg-blue-900 text-white font-bold border border-black rounded-md hover:cursor-pointer transition-colors"
+            className="py-2 px-6 bg-red-700 hover:bg-red-900 text-white font-bold border border-black rounded-md hover:cursor-pointer transition-colors"
           >
             Guardar cambios
           </button>
         ) : (
           <button
             onClick={() => setEditing(true)}
-            className="py-2 px-6 bg-blue-700 hover:bg-blue-900 text-white font-bold border border-black rounded-md hover:cursor-pointer transition-colors"
+            className="py-2 px-6 bg-red-700 hover:bg-red-900 text-white font-bold border border-black rounded-md hover:cursor-pointer transition-colors"
           >
             Editar
           </button>
         )}
+      </div> */}
+      <div className="flex justify-center mb-5">
+        <Link
+          to="/director/listaplaneador/"
+          className="mb-5 w- py-2 text-blue-600 text-center hover:cursor-pointer hover:text-blue-900 transition-colors block "
+        >
+          Volver
+        </Link>
       </div>
     </>
   );

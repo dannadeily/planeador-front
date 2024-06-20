@@ -74,9 +74,9 @@ const ModificarRACurso = () => {
 
   return (
     <>
-      <div className="px-4 md:px-10 py-5">
+      <div className="py-5">
         <div className="mb-4">
-          <h1 className="text-2xl border-b-4 border-blue-700 text-left font-bold">
+          <h1 className="text-2xl  border-b-4 border-gray-300 text-left font-bold">
             Datos RA Curso
           </h1>
         </div>
@@ -87,7 +87,7 @@ const ModificarRACurso = () => {
           <AlertaExitoso message={alertaExitoso.message} />
         )}
       </div>
-      <div className="lg:mx- md:mx-40 sm:mx-20 my-2 bg-white shadow rounded-lg p-6 grid lg:grid-cols-2 gap-4">
+      <div className="2xl:w-auto xl:w-auto lg:w-auto md:w-auto sm:w-auto w-2/3 bg-white shadow rounded-lg p-6 my-5">
         <div>
           <label className="uppercase block font-bold" htmlFor="nombre">
             Nombre:
@@ -100,7 +100,7 @@ const ModificarRACurso = () => {
             className="block w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
           />
         </div>
-       
+
         <div>
           <label className="uppercase block font-bold" htmlFor="materia_id">
             Materia:

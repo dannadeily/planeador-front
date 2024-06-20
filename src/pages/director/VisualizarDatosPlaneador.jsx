@@ -36,8 +36,8 @@ const VisualizarDatosPlaneador = () => {
 
   return (
     <>
-      <div className="px-4 md:px-10 py-5"></div>
-      <div className="lg:mx-auto md:mx-auto sm:mx-20 my-2 bg-white shadow rounded-lg p-6 grid lg:grid-cols-2 gap-4">
+      <div className=" py-5"></div>
+      <div className="2xl:w-auto xl:w-auto lg:w-auto md:w-auto sm:w-auto w-2/3 my-2 bg-white shadow rounded-lg p-6 grid lg:grid-cols-2 gap-4">
         <div>
           <label className="uppercase block font-bold" htmlFor="nombre">
             Nombre:
@@ -58,29 +58,46 @@ const VisualizarDatosPlaneador = () => {
               <label className="uppercase block font-bold" htmlFor="codigo">
                 Código Docente:
               </label>
-              <span className="block text-gray-600">{planeador.Usuario.codigo}</span>
+              <span className="block text-gray-600">
+                {planeador.Usuario.codigo}
+              </span>
             </div>
             <div>
-              <label className="uppercase block font-bold" htmlFor="nombre_docente">
+              <label
+                className="uppercase block font-bold"
+                htmlFor="nombre_docente"
+              >
                 Nombre Docente:
               </label>
-              <span className="block text-gray-600">{planeador.Usuario.nombre}</span>
+              <span className="block text-gray-600">
+                {planeador.Usuario.nombre}
+              </span>
             </div>
           </>
         )}
         {planeador.Materia && (
           <>
             <div>
-              <label className="uppercase block font-bold" htmlFor="codigo_materia">
+              <label
+                className="uppercase block font-bold"
+                htmlFor="codigo_materia"
+              >
                 Código Materia:
               </label>
-              <span className="block text-gray-600">{planeador.Materia.codigo}</span>
+              <span className="block text-gray-600">
+                {planeador.Materia.codigo}
+              </span>
             </div>
             <div>
-              <label className="uppercase block font-bold" htmlFor="nombre_materia">
+              <label
+                className="uppercase block font-bold"
+                htmlFor="nombre_materia"
+              >
                 Nombre Materia:
               </label>
-              <span className="block text-gray-600">{planeador.Materia.nombre}</span>
+              <span className="block text-gray-600">
+                {planeador.Materia.nombre}
+              </span>
             </div>
           </>
         )}

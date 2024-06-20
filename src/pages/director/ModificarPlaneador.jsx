@@ -138,8 +138,8 @@ const ModificarPlaneador = () => {
         <VisualizarDatosPlaneador />
       </div>
 
-      <div className="px-10 py-5">
-        <div className="xl:mx-auto lg:mx-auto md:mx-auto sm:mx-20 bg-white shadow rounded-lg p-10">
+      <div className="py-5">
+        <div className="2xl:w-auto xl:w-auto lg:w-auto md:w-auto sm:w-auto w-2/3 bg-white shadow rounded-lg p-6 my-5">
           <form onSubmit={handleSubmit}>
             <h1 className="font-bold text-left">Crear Fila Planeador</h1>
 

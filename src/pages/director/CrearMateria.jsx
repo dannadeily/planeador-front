@@ -51,8 +51,6 @@ const CrearMateria = () => {
     }
   };
 
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -89,9 +87,9 @@ const CrearMateria = () => {
   return (
     <div>
       <div className="px-10 py-5"></div>
-      <div className="xl:mx-60 lg:mx-60 md:mx-40 sm:mx-20 bg-white shadow rounded-lg p-10">
+      <div className=" 2xl:mx-48 xl:mx-52 lg:mx-32 md:mx-10 sm:mx-10 mx-10  bg-white shadow rounded-lg p-10 ">
         <form onSubmit={handleSubmit}>
-          <h1 className="font-bold text-2xl text-center text-gray-900 dark:text-red-600">
+          <h1 className="font-bold text-2xl text-center text-gray-900 border-b-2 border-gray-300 ">
             Crear Materia
           </h1>
 
@@ -207,7 +205,7 @@ const CrearMateria = () => {
             >
               Competencias:
             </label>
-            <div>
+            <div className="grid lg:grid-cols-2 gap-4 border border-gray-400 rounded">
               {competencias.map((competencia) => (
                 <div key={competencia.id}>
                   <input
@@ -226,7 +224,7 @@ const CrearMateria = () => {
           <input
             type="submit"
             value="Registrar"
-            className="bg-blue-700 mb-5 w-full py-2 text-white uppercase font-bold rounded hover:cursor-pointer hover:bg-s
+            className="bg-red-700 hover:bg-red-900 mb-5 w-full py-2 text-white uppercase font-bold rounded hover:cursor-pointer hover:bg-s
             ky-800 transition-colors"
           />
         </form>

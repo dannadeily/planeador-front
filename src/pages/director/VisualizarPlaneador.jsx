@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import conexionAxios from "../../axios/Axios";
 import { Link } from "react-router-dom";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaEye } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
 
 const VisualizarPlaneador = () => {
@@ -19,7 +19,7 @@ const VisualizarPlaneador = () => {
         const response = await conexionAxios.get(
           `planeador/filasPlaneador/${id}`
         );
-        console.log("planeador",response.data);
+        console.log("planeador", response.data);
         setPlaneador(response.data);
         setFilteredData(response.data);
       } catch (error) {
@@ -68,9 +68,16 @@ const VisualizarPlaneador = () => {
 
   return (
     <>
+      <div className="py-5">
+        <div className="">
+          <h1 className="text-2xl border-b-4 border-gray-300 text-left font-bold">
+            Planeador
+          </h1>
+        </div>
+      </div>
       {planeador && ( // Mostrar solo cuando planeador tiene datos
         <div>
-          <div className="lg:w-auto md:w-3/5 sm:w-2/3 mx-auto">
+          <div className="2xl:w-auto xl:w-auto lg:w-auto md:w-auto sm:w-auto w-2/3">
             <div className="mt-4">
               <input
                 type="text"
@@ -102,11 +109,9 @@ const VisualizarPlaneador = () => {
                           <th scope="col" className="px-6 py-3">
                             Semana Actividad desarrollada
                           </th>
+                        
                           <th scope="col" className="px-6 py-3">
-                            Racurso
-                          </th>
-                          <th scope="col" className="px-6 py-3">
-                            Editar
+                            Visualizar
                           </th>
                           <th scope="col" className="px-6 py-3">
                             Eliminar
@@ -141,53 +146,19 @@ const VisualizarPlaneador = () => {
                                 {planeadorItem.semana_actividad_desarrollada}
                               </div>
                             </td>
-                            <td className="px-6 py-4 whitespace-normal">
-                              <div className="text-sm text-gray-900">
-                                {planeadorItem.RaCurso &&
-                                  planeadorItem.RaCurso.map((raCurso) => (
-                                    <div key={raCurso.id}>
-                                      <div>
-                                        {raCurso.id} - {raCurso.nombre}
-                                      </div>
-                                      {raCurso.TipoEvidencia &&
-                                        raCurso.TipoEvidencia.map(
-                                          (tipoEvidencia) => (
-                                            <div key={tipoEvidencia.id}>
-                                              <div>
-                                                {tipoEvidencia.id} -{" "}
-                                                {tipoEvidencia.nombre}
-                                              </div>
-                                              {tipoEvidencia.Instrumento &&
-                                                tipoEvidencia.Instrumento.map(
-                                                  (instrumento) => (
-                                                    <div key={instrumento.id}>
-                                                      <div>
-                                                        {instrumento.id} -{" "}
-                                                        {instrumento.codigo} -{" "}
-                                                        {instrumento.nombre}
-                                                      </div>
-                                                    </div>
-                                                  )
-                                                )}
-                                            </div>
-                                          )
-                                        )}
-                                    </div>
-                                  ))}
-                              </div>
-                            </td>
+                            
                             <td className="px-6 py-4 whitespace-nowrap">
                               <Link
                                 to={`modificarfilaplaneador/${planeadorItem.id}`}
                               >
-                                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                  <FaEdit />
+                                <button className=" text-gray-500 font-bold hover:text-gray-800 py-2 px-4 rounded text-2xl">
+                                  <FaEye />
                                 </button>
                               </Link>
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap">
                               <button
-                                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                                className=" text-red-500 font-bold hover:text-red-900 py-2 px-4 rounded text-2xl"
                                 onClick={() => handleDelete(planeadorItem.id)}
                               >
                                 <MdDeleteForever />

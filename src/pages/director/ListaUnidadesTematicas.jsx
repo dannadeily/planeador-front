@@ -100,7 +100,7 @@ const ListaUnidadesTematicas = () => {
             <div className="shadow overflow-x-auto sm:overflow-x-hidden border-b border-gray-200 sm:rounded-lg">
               <div className="overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-400">
-                <thead className=" uppercase bg-red-500">
+                  <thead className=" uppercase bg-red-500">
                     <tr>
                       <th scope="col" className="px-6 py-3">
                         Codigo de la materia
@@ -156,7 +156,9 @@ const ListaUnidadesTematicas = () => {
                           </Link>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <Link to={`modificarunidadestematicas/${unidadItem.id}`}>
+                          <Link
+                            to={`modificarunidadestematicas/${unidadItem.id}`}
+                          >
                             <button className=" text-gray-500 font-bold hover:text-gray-800 py-2 px-4 rounded text-2xl">
                               <FaEdit />
                             </button>
@@ -184,7 +186,9 @@ const ListaUnidadesTematicas = () => {
               >
                 Anterior
               </button>
-              <span>Página {currentPage} de {totalPages}</span>
+              <span>
+                Página {currentPage} de {totalPages}
+              </span>
               <button
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}

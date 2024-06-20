@@ -117,7 +117,7 @@ const ModificarMateria = () => {
           <AlertaExitoso message={alertaExitoso.message} />
         )}
       </div>
-      <div className="2xl:w-auto xl:w-auto lg:w-auto md:w-auto sm:w-auto w-2/3 my-2 bg-white shadow rounded-lg p-6">
+      <div className="2xl:w-auto xl:w-auto lg:w-auto md:w-auto sm:w-auto w-2/3 bg-white shadow rounded-lg p-6 my-5">
         <div className=" grid lg:grid-cols-2 gap-4">
           <div>
             <label className="uppercase block font-bold" htmlFor="nombre">
@@ -224,11 +224,14 @@ const ModificarMateria = () => {
 
         {competencias.length > 0 && ( // Verificar si hay competencias antes de mostrar el select
           <div>
-            <label className="uppercase block font-bold p-2" htmlFor="competencia">
+            <label
+              className="uppercase block font-bold p-2"
+              htmlFor="competencia"
+            >
               Competencia:
             </label>
             {editing ? (
-              <div className="grid lg:grid-cols-2 gap-4 border border-gray-400">
+              <div className="grid lg:grid-cols-2 gap-4 border border-gray-400 rounded">
                 {competencias.map((competencia) => (
                   <div key={competencia.id}>
                     <input
@@ -262,7 +265,6 @@ const ModificarMateria = () => {
           <button
             onClick={handleSubmit}
             className="py-2 px-6 bg-red-700 hover:bg-red-900 text-white font-bold  border border-black rounded-md hover:cursor-pointer transition-colors"
-
           >
             Guardar cambios
           </button>
@@ -270,7 +272,6 @@ const ModificarMateria = () => {
           <button
             onClick={() => setEditing(true)}
             className="py-2 px-6 bg-red-700 hover:bg-red-900 text-white font-bold  border border-black rounded-md hover:cursor-pointer transition-colors"
-
           >
             Editar
           </button>

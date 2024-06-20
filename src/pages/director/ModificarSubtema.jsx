@@ -40,7 +40,6 @@ const ModificarSubtema = () => {
     getUnidades();
   }, [id]);
 
-
   // Función para manejar el cambio en los datos del formulario
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -74,9 +73,9 @@ const ModificarSubtema = () => {
 
   return (
     <>
-      <div className="px-4 md:px-10 py-5">
+      <div className="py-5">
         <div className="mb-4">
-          <h1 className="text-2xl border-b-4 border-blue-700 text-left font-bold">
+          <h1 className="text-2xl  border-b-4 border-gray-300 text-left font-bold">
             Datos Subtema
           </h1>
         </div>
@@ -87,7 +86,7 @@ const ModificarSubtema = () => {
           <AlertaExitoso message={alertaExitoso.message} />
         )}
       </div>
-      <div className="lg:mx- md:mx-40 sm:mx-20 my-2 bg-white shadow rounded-lg p-6 grid lg:grid-cols-2 gap-4">
+      <div className="2xl:w-auto xl:w-auto lg:w-auto md:w-auto sm:w-auto w-2/3 bg-white shadow rounded-lg p-6 my-5">
         <div>
           <label className="uppercase block font-bold" htmlFor="nombre">
             Nombre:
@@ -112,7 +111,10 @@ const ModificarSubtema = () => {
           />
         </div>
         <div>
-          <label className="uppercase block font-bold" htmlFor="unidad_tematica_id">
+          <label
+            className="uppercase block font-bold"
+            htmlFor="unidad_tematica_id"
+          >
             Unidad Temática:
           </label>
           <select
@@ -123,9 +125,7 @@ const ModificarSubtema = () => {
           >
             <option value="">Seleccionar unidad</option>
             {subtemas.map((sub) => (
-             
               <option key={sub.id} value={sub.id}>
-                
                 {sub.nombre}
               </option>
             ))}
@@ -159,6 +159,6 @@ const ModificarSubtema = () => {
       </div>
     </>
   );
-}
+};
 
-export default ModificarSubtema
+export default ModificarSubtema;

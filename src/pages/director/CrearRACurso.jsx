@@ -22,7 +22,6 @@ const CrearRACurso = () => {
       try {
         const response = await conexionAxios.get("materia/");
         console.log(response.data);
-        
 
         setMaterias(response.data);
         if (response.data.length > 0) {
@@ -84,9 +83,9 @@ const CrearRACurso = () => {
   return (
     <div>
       <div className="px-10 py-5"></div>
-      <div className="xl:mx-60 lg:mx-60 md:mx-40 sm:mx-20 bg-white shadow rounded-lg p-10">
+      <div className=" 2xl:mx-48 xl:mx-52 lg:mx-32 md:mx-10 sm:mx-10 mx-10  bg-white shadow rounded-lg p-10 ">
         <form onSubmit={handleSubmit}>
-          <h1 className="font-bold text-2xl text-center text-gray-900 dark:text-red-600">
+          <h1 className="font-bold text-2xl text-center text-gray-900 border-b-2 border-gray-300 ">
             Crear RA Curso
           </h1>
 
@@ -145,20 +144,18 @@ const CrearRACurso = () => {
                 </svg>
               </div>
             </div>
-           
           </div>
 
           <input
             type="submit"
             value="Crear"
-            className="bg-blue-700 mb-5 w-full py-2 text-white uppercase font-bold rounded hover:cursor-pointer hover:bg-sky-800 transition-colors"
+            className="bg-red-700 hover:bg-red-900 mb-5 w-full py-2 text-white uppercase font-bold rounded hover:cursor-pointer transition-colors"
           />
         </form>
         <div className="border-t border-gray-600 p-2">
           <CrearRACursoExcel />
         </div>
       </div>
-      
     </div>
   );
 };
